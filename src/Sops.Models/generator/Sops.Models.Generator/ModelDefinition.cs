@@ -75,7 +75,17 @@ public sealed class PropertyDefinition
 
         if (IsArray)
         {
-            type = $"IReadOnlyList<{ArrayItemType ?? "string"}>";
+            var itemType = ArrayItemType switch
+            {
+                "integer" => "long",
+                "number" => "decimal",
+                "boolean" => "bool",
+                "string" => "string",
+                "object" => "object",
+                null => "string",
+                _ => ArrayItemType
+            };
+            type = $"IReadOnlyList<{itemType}>";
         }
 
         if (!IsRequired || IsNullable)
@@ -120,7 +130,16 @@ public sealed class PropertyDefinition
 
         if (IsArray)
         {
-            type = $"{ArrayItemType ?? "string"}[]";
+            var itemType = ArrayItemType switch
+            {
+                "integer" or "number" => "number",
+                "boolean" => "boolean",
+                "string" => "string",
+                "object" => "Record<string, unknown>",
+                null => "string",
+                _ => ArrayItemType
+            };
+            type = $"{itemType}[]";
         }
 
         if (!IsRequired || IsNullable)
@@ -155,7 +174,17 @@ public sealed class PropertyDefinition
 
         if (IsArray)
         {
-            type = $"List<{ArrayItemType ?? "String"}>";
+            var itemType = ArrayItemType switch
+            {
+                "integer" => "int",
+                "number" => "double",
+                "boolean" => "bool",
+                "string" => "String",
+                "object" => "Map<String, dynamic>",
+                null => "String",
+                _ => ArrayItemType == "string" ? "String" : (ArrayItemType == "object" ? "Map<String, dynamic>" : ArrayItemType)
+            };
+            type = $"List<{itemType}>";
         }
 
         if (!IsRequired || IsNullable)

@@ -98,7 +98,7 @@ class RoleDefinition {
   final String roleId;
   final String name;
   final String? description;
-  final List<string> permissions;
+  final List<String> permissions;
 
   const RoleDefinition({
     required this.roleId,
@@ -111,7 +111,7 @@ class RoleDefinition {
     roleId: json['role_id'] as String,
     name: json['name'] as String,
     description: json['description'] as String?,
-    permissions: json['permissions'] as List<string>,
+    permissions: json['permissions'] as List<String>,
   );
 
   Map<String, dynamic> toJson() => {
@@ -309,7 +309,7 @@ class Drug {
   final bool requiresPrescription;
   final String storageType;
   final List<DrugPackage> packages;
-  final List<object>? activeIngredients;
+  final List<Map<String, dynamic>>? activeIngredients;
   final String status;
   final int catalogRevision;
 
@@ -346,7 +346,7 @@ class Drug {
     requiresPrescription: json['requires_prescription'] as bool,
     storageType: json['storage_type'] as String,
     packages: json['packages'] as List<DrugPackage>,
-    activeIngredients: json['active_ingredients'] as List<object>?,
+    activeIngredients: json['active_ingredients'] as List<Map<String, dynamic>>?,
     status: json['status'] as String,
     catalogRevision: json['catalog_revision'] as int,
   );
@@ -1399,7 +1399,7 @@ class LicenseClaims {
   final String expiresAtUtc;
   final int maxBranches;
   final int maxSeatsPerBranch;
-  final List<string> enabledFeatures;
+  final List<String> enabledFeatures;
 
   const LicenseClaims({
     required this.licenseId,
@@ -1420,7 +1420,7 @@ class LicenseClaims {
     expiresAtUtc: json['expires_at_utc'] as String,
     maxBranches: json['max_branches'] as int,
     maxSeatsPerBranch: json['max_seats_per_branch'] as int,
-    enabledFeatures: json['enabled_features'] as List<string>,
+    enabledFeatures: json['enabled_features'] as List<String>,
   );
 
   Map<String, dynamic> toJson() => {
@@ -1545,8 +1545,8 @@ class Patient {
   final String? dateOfBirth;
   final String gender;
   final String? bloodGroup;
-  final List<string>? chronicConditions;
-  final List<string>? allergies;
+  final List<String>? chronicConditions;
+  final List<String>? allergies;
   final String createdAtUtc;
 
   const Patient({
@@ -1570,8 +1570,8 @@ class Patient {
     dateOfBirth: json['date_of_birth'] as String?,
     gender: json['gender'] as String,
     bloodGroup: json['blood_group'] as String?,
-    chronicConditions: json['chronic_conditions'] as List<string>?,
-    allergies: json['allergies'] as List<string>?,
+    chronicConditions: json['chronic_conditions'] as List<String>?,
+    allergies: json['allergies'] as List<String>?,
     createdAtUtc: json['created_at_utc'] as String,
   );
 

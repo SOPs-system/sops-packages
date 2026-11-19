@@ -494,3 +494,6 @@ $RECYCLE.BIN/
 *.bak
 *.before-auth-fix.bak
 *.before-source-fix.bak
+
+# Generator tool temporary outputs
+src/Sops.Models/generated/
