@@ -418,4 +418,7 @@
 
     <Style x:Key="Sop.Calendar" TargetType="{x:Type Calendar}" BasedOn="{StaticResource {x:Type Calendar}}" />
 
+    <!-- Default style for custom ui:Calendar -->
+    <Style TargetType="{x:Type ui:Calendar}" BasedOn="{StaticResource {x:Type Calendar}}" />
+
 </ResourceDictionary>

@@ -7,6 +7,10 @@
          screen names explicitly lives here and is merged into
          Application.Resources by Theme.Initialize. -->
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Calendar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <!-- The drag-to-resize affordance: a thin bar centred inside a wider,
          invisible hit band that tints on hover and stays tinted while dragging.
          Shared by the table's column handles and the detail panel's edge. -->

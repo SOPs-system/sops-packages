@@ -482,9 +482,9 @@
                         <!-- Standalone Beta Styled Calendar (Month Navigation & Two-Click Range) -->
                         <StackPanel Style="{StaticResource Cell}" VerticalAlignment="Top">
                             <TextBlock Style="{StaticResource SectionTitle}" Text="SOP CALENDAR (AUTHENTIC BETA STYLE — TWO-CLICK RANGE)" />
-                            <Calendar x:Name="DemoCalendar"
-                                      ui:CalendarAssist.EnableTwoClickRange="True"
-                                      HorizontalAlignment="Left" />
+                            <ui:Calendar x:Name="DemoCalendar"
+                                         ui:CalendarAssist.EnableTwoClickRange="True"
+                                         HorizontalAlignment="Left" />
                         </StackPanel>
 
                         <!-- BarcodeInput & BarcodeView Card -->
