@@ -72,6 +72,28 @@ namespace Sop.Gallery
             if (DemoShortcutOverlay != null) DemoShortcutOverlay.IsOpen = true;
         }
 
+        private async void OnSyncNowClicked(object sender, RoutedEventArgs e)
+        {
+            if (sender is SyncStatus status)
+            {
+                status.State = SyncState.Syncing;
+                await System.Threading.Tasks.Task.Delay(800);
+                status.State = SyncState.Synced;
+                status.PendingCount = 0;
+                status.LastSyncedText = "Just now";
+            }
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+            if (e.Key == Key.F1)
+            {
+                OpenShortcutOverlay(this, new RoutedEventArgs());
+                e.Handled = true;
+            }
+        }
+
         private void SyncToggles()
         {
             DarkToggle.Content = Theme.Mode == ThemeMode.Dark ? "Light" : "Dark";

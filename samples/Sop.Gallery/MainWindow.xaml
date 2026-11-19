@@ -535,17 +535,17 @@
                     <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 05C: POS &amp; WORKFLOW TOOLS (P1 PARITY)" />
                     <WrapPanel>
                         <!-- NumericKeypad Card -->
-                        <ui:Card Style="{StaticResource Cell}" Width="310">
+                        <ui:Card Style="{StaticResource Cell}" Width="320">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource SectionTitle}" Text="NUMERIC KEYPAD (POS CASHIER)" />
                                 <TextBlock Text="Target Tender Input:" Foreground="{DynamicResource Brush.InkSubtle}" FontSize="{DynamicResource Text.Xs}" Margin="0,0,0,4" />
-                                <TextBox x:Name="KeypadTargetBox" Text="45.00" Height="36" FontSize="{DynamicResource Text.Lg}" FontWeight="Bold" Margin="0,0,0,8" Padding="6,4" />
+                                <ui:Input x:Name="KeypadTargetBox" Text="45.00" Height="36" FontSize="{DynamicResource Text.Lg}" FontWeight="Bold" Margin="0,0,0,8" />
                                 <ui:NumericKeypad TargetInput="{Binding ElementName=KeypadTargetBox}" ShowQuickCash="True" HorizontalAlignment="Center" />
                             </StackPanel>
                         </ui:Card>
 
                         <!-- TableToolbar Card -->
-                        <ui:Card Style="{StaticResource Cell}" Width="660">
+                        <ui:Card Style="{StaticResource Cell}" Width="760">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource SectionTitle}" Text="TABLE TOOLBAR (SEARCH, FILTER &amp; ACTIONS)" />
                                 <ui:TableToolbar Margin="0,4,0,8"
@@ -554,7 +554,7 @@
                                                  FilterBadgeCount="2"
                                                  ActiveSortLabel="Price (Low to High)">
                                     <ui:TableToolbar.ActionsSlot>
-                                        <Button Content="+ New Batch" Height="32" Padding="8,4" Background="{DynamicResource Brush.Primary}" Foreground="{DynamicResource Brush.OnPrimary}" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand" />
+                                        <ui:Button Variant="Primary" Size="Sm">+ New Batch</ui:Button>
                                     </ui:TableToolbar.ActionsSlot>
                                 </ui:TableToolbar>
 
@@ -564,12 +564,12 @@
                                 <TextBlock Style="{StaticResource SectionTitle}" Text="SYNC STATUS (OFFLINE-FIRST POS)" Margin="0,16,0,8" />
                                 <StackPanel Orientation="Vertical">
                                     <ui:SyncStatus State="Synced" LastSyncedText="Just now" Margin="0,0,0,8" />
-                                    <ui:SyncStatus State="Pending" PendingCount="7" LastSyncedText="3m ago" Margin="0,0,0,8" />
+                                    <ui:SyncStatus x:Name="DemoPendingSync" State="Pending" PendingCount="7" LastSyncedText="3m ago" Margin="0,0,0,8" SyncNowClicked="OnSyncNowClicked" />
                                     <ui:SyncStatus State="Conflict" ConflictCount="1" LastSyncedText="12m ago" Margin="0,0,0,8" />
                                 </StackPanel>
 
                                 <TextBlock Style="{StaticResource SectionTitle}" Text="SHORTCUT OVERLAY (F1-F12 HOTKEYS)" Margin="0,16,0,8" />
-                                <Button Content="Preview Shortcut Overlay (Press F1)" Height="36" Padding="12,6" Click="OpenShortcutOverlay" Cursor="Hand" />
+                                <ui:Button Variant="Secondary" Size="Sm" Click="OpenShortcutOverlay" HorizontalAlignment="Left">Preview Shortcut Sheet (F1)</ui:Button>
                             </StackPanel>
                         </ui:Card>
                     </WrapPanel>

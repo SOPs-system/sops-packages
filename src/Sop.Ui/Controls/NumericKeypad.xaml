@@ -90,7 +90,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource Radius.Lg}"
                             Padding="{TemplateBinding Padding}">
-                        <StackPanel>
+                        <StackPanel FlowDirection="LeftToRight">
                             <!-- Quick Cash Denomination Buttons (+10, +20, +50, +100) -->
                             <Grid Margin="0,0,0,4" Visibility="{Binding ShowQuickCash, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
                                 <Grid.ColumnDefinitions>

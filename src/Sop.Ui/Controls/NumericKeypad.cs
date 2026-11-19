@@ -170,6 +170,31 @@ namespace Sop.Ui.Controls
                     target.SelectionStart = target.Text.Length;
                 }
             }
+            else if (key == ".")
+            {
+                if (target.Text.Contains(".")) return;
+                if (string.IsNullOrEmpty(target.Text))
+                {
+                    target.Text = "0.";
+                    target.SelectionStart = 2;
+                    return;
+                }
+                int start = target.SelectionStart;
+                target.Text = target.Text.Substring(0, start) + "." + target.Text.Substring(start + target.SelectionLength);
+                target.SelectionStart = start + 1;
+            }
+            else if (key == "00")
+            {
+                if (string.IsNullOrEmpty(target.Text) || target.Text == "0")
+                {
+                    target.Text = "0";
+                    target.SelectionStart = 1;
+                    return;
+                }
+                int start = target.SelectionStart;
+                target.Text = target.Text.Substring(0, start) + "00" + target.Text.Substring(start + target.SelectionLength);
+                target.SelectionStart = start + 2;
+            }
             else
             {
                 int start = target.SelectionStart;

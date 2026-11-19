@@ -66,6 +66,7 @@
                                                  Foreground="{DynamicResource Brush.InkSubtle}"
                                                  Margin="0,0,6,0" VerticalAlignment="Center" />
                                         <TextBox Grid.Column="1"
+                                                 x:Name="PART_FilterBox"
                                                  Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                  Background="Transparent"
                                                  BorderThickness="0"

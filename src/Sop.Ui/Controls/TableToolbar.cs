@@ -85,6 +85,12 @@ namespace Sop.Ui.Controls
             EventManager.RegisterRoutedEvent(nameof(RefreshClick), RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler), typeof(TableToolbar));
 
+        public static readonly RoutedEvent SearchSubmittedEvent =
+            EventManager.RegisterRoutedEvent(nameof(SearchSubmitted), RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler), typeof(TableToolbar));
+
+        private TextBox? _searchBox;
+
         public string SearchText
         {
             get => (string)GetValue(SearchTextProperty);
@@ -187,6 +193,35 @@ namespace Sop.Ui.Controls
             remove => RemoveHandler(RefreshClickEvent, value);
         }
 
+        public event RoutedEventHandler SearchSubmitted
+        {
+            add => AddHandler(SearchSubmittedEvent, value);
+            remove => RemoveHandler(SearchSubmittedEvent, value);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            if (_searchBox != null)
+            {
+                _searchBox.KeyDown -= OnSearchBoxKeyDown;
+            }
+            _searchBox = GetTemplateChild("PART_SearchBox") as TextBox;
+            if (_searchBox != null)
+            {
+                _searchBox.KeyDown += OnSearchBoxKeyDown;
+            }
+        }
+
+        private void OnSearchBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                RaiseEvent(new RoutedEventArgs(SearchSubmittedEvent));
+                e.Handled = true;
+            }
+        }
+
         public TableToolbar()
         {
             AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(OnToolbarButtonClick));
@@ -220,6 +255,7 @@ namespace Sop.Ui.Controls
                         break;
                     case "CLEAR_SEARCH":
                         SearchText = string.Empty;
+                        _searchBox?.Focus();
                         e.Handled = true;
                         break;
                 }

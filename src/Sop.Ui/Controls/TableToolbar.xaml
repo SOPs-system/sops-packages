@@ -53,86 +53,110 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}">
                         <StackPanel>
-                            <!-- Top row: Search, Filter, Sort, Columns, Actions -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <!-- Search input box -->
-                                    <ColumnDefinition Width="Auto" MinWidth="220" MaxWidth="320" />
-                                    <!-- Filter and Sort buttons -->
-                                    <ColumnDefinition Width="Auto" />
-                                    <!-- Item count -->
-                                    <ColumnDefinition Width="Auto" />
-                                    <!-- Spacer -->
-                                    <ColumnDefinition Width="*" />
-                                    <!-- Custom Actions Slot & Tools (Columns, Export, Refresh) -->
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <!-- Top bar: DockPanel with Right-docked tools and Left-docked search/filter -->
+                            <DockPanel LastChildFill="True">
+                                <!-- Right Tools & Actions (Docked Right so they never get clipped) -->
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <!-- Item Count Display -->
+                                    <TextBlock Text="{TemplateBinding ItemCountText}"
+                                               Foreground="{DynamicResource Brush.InkSubtle}"
+                                               FontSize="{DynamicResource Text.Sm}"
+                                               VerticalAlignment="Center"
+                                               Margin="24,0,12,0" />
 
-                                <!-- Search Box -->
-                                <Border Grid.Column="0"
-                                        Background="{DynamicResource Brush.SurfaceSunken}"
-                                        BorderBrush="{DynamicResource Brush.Line}"
-                                        BorderThickness="1"
-                                        CornerRadius="{DynamicResource Radius.Md}"
-                                        Height="32"
-                                        Padding="8,0">
-                                    <Grid VerticalAlignment="Center">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
+                                    <!-- Custom User Actions Slot -->
+                                    <ContentPresenter Content="{TemplateBinding ActionsSlot}" Margin="0,0,4,0" VerticalAlignment="Center" />
 
-                                        <ui:Icon Grid.Column="0" Glyph="Search" Size="14"
-                                                 Foreground="{DynamicResource Brush.InkSubtle}"
-                                                 Margin="0,0,6,0" VerticalAlignment="Center" />
+                                    <!-- Columns Visibility Button -->
+                                    <Button Tag="COLUMNS"
+                                            Style="{StaticResource TableToolbar.ActionButton}"
+                                            ToolTip="Column visibility"
+                                            Visibility="{Binding ShowColumns, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
+                                        <ui:Icon Glyph="PanelLeft" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                    </Button>
 
-                                        <!-- Placeholder when empty -->
-                                        <TextBlock Grid.Column="1"
-                                                   Text="{TemplateBinding SearchPlaceholder}"
-                                                   Foreground="{DynamicResource Brush.InkMuted}"
-                                                   FontSize="{DynamicResource Text.Sm}"
-                                                   VerticalAlignment="Center"
-                                                   IsHitTestVisible="False">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                    <!-- Export Button -->
+                                    <Button Tag="EXPORT"
+                                            Style="{StaticResource TableToolbar.ActionButton}"
+                                            ToolTip="Export data"
+                                            Visibility="{Binding ShowExport, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
+                                        <ui:Icon Glyph="Download" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                    </Button>
 
-                                        <!-- Actual Search TextBox -->
-                                        <TextBox Grid.Column="1"
-                                                 x:Name="PART_SearchBox"
-                                                 Text="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                                 Background="Transparent"
-                                                 BorderThickness="0"
-                                                 Foreground="{DynamicResource Brush.Ink}"
-                                                 FontSize="{DynamicResource Text.Sm}"
-                                                 VerticalAlignment="Center" />
+                                    <!-- Refresh Button -->
+                                    <Button Tag="REFRESH"
+                                            Style="{StaticResource TableToolbar.ActionButton}"
+                                            ToolTip="Refresh">
+                                        <ui:Icon Glyph="RotateCcw" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                    </Button>
+                                </StackPanel>
 
-                                        <!-- Clear Button -->
-                                        <Button Grid.Column="2"
-                                                Tag="CLEAR_SEARCH"
-                                                Style="{StaticResource TableToolbar.ActionButton}"
-                                                Height="20" Width="20"
-                                                Padding="0" Margin="4,0,0,0"
-                                                BorderThickness="0" Background="Transparent"
-                                                Visibility="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:PresentToVisibilityConverter.Instance}}">
-                                            <ui:Icon Glyph="Close" Size="10" Foreground="{DynamicResource Brush.InkSubtle}" />
-                                        </Button>
-                                    </Grid>
-                                </Border>
+                                <!-- Left Side: Search Box + Filters + Sort -->
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <!-- Search Box -->
+                                    <Border Width="160"
+                                            Background="{DynamicResource Brush.SurfaceSunken}"
+                                            BorderBrush="{DynamicResource Brush.Line}"
+                                            BorderThickness="1"
+                                            CornerRadius="{DynamicResource Radius.Md}"
+                                            Height="32"
+                                            Padding="8,0">
+                                        <Grid VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
 
-                                <!-- Filter and Sort Buttons -->
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0">
+                                            <ui:Icon Grid.Column="0" Glyph="Search" Size="14"
+                                                     Foreground="{DynamicResource Brush.InkSubtle}"
+                                                     Margin="0,0,6,0" VerticalAlignment="Center" />
+
+                                            <!-- Placeholder when empty -->
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{TemplateBinding SearchPlaceholder}"
+                                                       Foreground="{DynamicResource Brush.InkMuted}"
+                                                       FontSize="{DynamicResource Text.Sm}"
+                                                       VerticalAlignment="Center"
+                                                       IsHitTestVisible="False">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}}" Value="">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <!-- Actual Search TextBox -->
+                                            <TextBox Grid.Column="1"
+                                                     x:Name="PART_SearchBox"
+                                                     Text="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="Transparent"
+                                                     BorderThickness="0"
+                                                     Foreground="{DynamicResource Brush.Ink}"
+                                                     FontSize="{DynamicResource Text.Sm}"
+                                                     VerticalAlignment="Center" />
+
+                                            <!-- Clear Button -->
+                                            <Button Grid.Column="2"
+                                                    Tag="CLEAR_SEARCH"
+                                                    Style="{StaticResource TableToolbar.ActionButton}"
+                                                    Height="20" Width="20"
+                                                    Padding="0" Margin="4,0,0,0"
+                                                    BorderThickness="0" Background="Transparent"
+                                                    Visibility="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:PresentToVisibilityConverter.Instance}}">
+                                                <ui:Icon Glyph="Close" Size="10" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+
                                     <!-- Filter Button -->
                                     <Button Tag="FILTER"
+                                            Margin="8,0,0,0"
                                             Style="{StaticResource TableToolbar.ActionButton}"
                                             Visibility="{Binding ShowFilter, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
                                         <StackPanel Orientation="Horizontal">
@@ -163,55 +187,18 @@
 
                                     <!-- Sort Button -->
                                     <Button Tag="SORT"
+                                            Margin="4,0,0,0"
+                                            ToolTip="{Binding ActiveSortLabel, RelativeSource={RelativeSource TemplatedParent}}"
                                             Style="{StaticResource TableToolbar.ActionButton}"
                                             Visibility="{Binding ShowSort, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
                                         <StackPanel Orientation="Horizontal">
                                             <ui:Icon Glyph="Sort" Size="13" Foreground="{DynamicResource Brush.InkSubtle}" Margin="0,0,4,0" VerticalAlignment="Center" />
                                             <TextBlock Text="Sort" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding ActiveSortLabel, RelativeSource={RelativeSource TemplatedParent}}"
-                                                       Foreground="{DynamicResource Brush.InkSubtle}"
-                                                       Margin="4,0,0,0" VerticalAlignment="Center" />
+                                            <ui:Icon Glyph="ChevronDown" Size="10" Foreground="{DynamicResource Brush.InkSubtle}" Margin="4,0,0,0" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
-
-                                <!-- Item Count Display -->
-                                <TextBlock Grid.Column="2"
-                                           Text="{TemplateBinding ItemCountText}"
-                                           Foreground="{DynamicResource Brush.InkSubtle}"
-                                           FontSize="{DynamicResource Text.Sm}"
-                                           VerticalAlignment="Center"
-                                           Margin="12,0,0,0" />
-
-                                <!-- Right side tools & actions -->
-                                <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <!-- Custom User Actions Slot -->
-                                    <ContentPresenter Content="{TemplateBinding ActionsSlot}" Margin="0,0,4,0" VerticalAlignment="Center" />
-
-                                    <!-- Columns Visibility Button -->
-                                    <Button Tag="COLUMNS"
-                                            Style="{StaticResource TableToolbar.ActionButton}"
-                                            ToolTip="Column visibility"
-                                            Visibility="{Binding ShowColumns, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
-                                        <ui:Icon Glyph="PanelLeft" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
-                                    </Button>
-
-                                    <!-- Export Button -->
-                                    <Button Tag="EXPORT"
-                                            Style="{StaticResource TableToolbar.ActionButton}"
-                                            ToolTip="Export data"
-                                            Visibility="{Binding ShowExport, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
-                                        <ui:Icon Glyph="Download" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
-                                    </Button>
-
-                                    <!-- Refresh Button -->
-                                    <Button Tag="REFRESH"
-                                            Style="{StaticResource TableToolbar.ActionButton}"
-                                            ToolTip="Refresh">
-                                        <ui:Icon Glyph="RotateCcw" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                            </DockPanel>
 
                             <!-- Bottom row: Active Filter Chips Slot (optional) -->
                             <ContentPresenter Content="{TemplateBinding FilterChipsSlot}" Margin="0,8,0,0" />

@@ -4,74 +4,41 @@
 
     <!-- Step indicator button/badge template -->
     <DataTemplate DataType="{x:Type ui:StepItem}">
-        <Grid Margin="0,0,16,0" VerticalAlignment="Top">
+        <Grid Margin="0,0,8,0" VerticalAlignment="Center" Cursor="Hand">
             <Grid.ColumnDefinitions>
+                <!-- 0: Circle Indicator -->
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <!-- 1: Title and Description -->
+                <ColumnDefinition Width="Auto" />
+                <!-- 2: Track Connector to next step -->
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Left: Step Circle and Connecting Track -->
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+            <!-- Circle Indicator -->
+            <Border x:Name="Bd" Grid.Column="0"
+                    Width="28" Height="28"
+                    Background="{DynamicResource Brush.SurfaceSunken}"
+                    BorderBrush="{DynamicResource Brush.Line}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource Radius.Full}"
+                    VerticalAlignment="Center">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!-- Step number text (active/pending) -->
+                    <TextBlock x:Name="NumText"
+                               Text="{Binding StepNumber}"
+                               FontSize="{DynamicResource Text.Xs}"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource Brush.InkMuted}" />
+                    <!-- Completed checkmark icon -->
+                    <ui:Icon x:Name="CheckIcon"
+                             Glyph="Tick" Size="14"
+                             Foreground="{DynamicResource Brush.OnPrimary}"
+                             Visibility="Collapsed" />
+                </Grid>
+            </Border>
 
-                <!-- Circle Indicator -->
-                <Button x:Name="StepButton"
-                        Width="28" Height="28"
-                        Background="{DynamicResource Brush.SurfaceSunken}"
-                        BorderBrush="{DynamicResource Brush.Line}"
-                        BorderThickness="1"
-                        Cursor="Hand"
-                        Focusable="False">
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border x:Name="Bd"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{DynamicResource Radius.Full}">
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <!-- Step number text (active/pending) -->
-                                    <TextBlock x:Name="NumText"
-                                               Text="{Binding StepNumber}"
-                                               FontSize="{DynamicResource Text.Xs}"
-                                               FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Brush.InkMuted}" />
-                                    <!-- Completed checkmark icon -->
-                                    <ui:Icon x:Name="CheckIcon"
-                                             Glyph="Tick" Size="14"
-                                             Foreground="{DynamicResource Brush.OnPrimary}"
-                                             Visibility="Collapsed" />
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <DataTrigger Binding="{Binding State}" Value="Active">
-                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Primary}" />
-                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
-                                    <Setter TargetName="NumText" Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
-                                    <Setter TargetName="NumText" Property="FontWeight" Value="Bold" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding State}" Value="Completed">
-                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Primary}" />
-                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
-                                    <Setter TargetName="NumText" Property="Visibility" Value="Collapsed" />
-                                    <Setter TargetName="CheckIcon" Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding State}" Value="Error">
-                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Danger}" />
-                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Danger}" />
-                                    <Setter TargetName="NumText" Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
-                                </DataTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </Grid>
-
-            <!-- Right / Beside: Title and Description -->
-            <StackPanel Grid.Column="1" Margin="8,4,12,0" VerticalAlignment="Top">
+            <!-- Title and Description -->
+            <StackPanel Grid.Column="1" Margin="8,0,10,0" VerticalAlignment="Center">
                 <TextBlock x:Name="TitleText"
                            Text="{Binding Title}"
                            FontSize="{DynamicResource Text.Sm}">
@@ -98,7 +65,38 @@
                            Margin="0,2,0,0"
                            Visibility="{Binding Description, Converter={x:Static ui:PresentToVisibilityConverter.Instance}}" />
             </StackPanel>
+
+            <!-- Track Connector Line to next step -->
+            <Border x:Name="TrackLine" Grid.Column="2"
+                    Width="24" Height="2"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource Brush.Line}" />
         </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding State}" Value="Active">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Primary}" />
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
+                <Setter TargetName="NumText" Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
+                <Setter TargetName="NumText" Property="FontWeight" Value="Bold" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Completed">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Primary}" />
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
+                <Setter TargetName="NumText" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="CheckIcon" Property="Visibility" Value="Visible" />
+                <Setter TargetName="TrackLine" Property="Background" Value="{DynamicResource Brush.Primary}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Error">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Danger}" />
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Danger}" />
+                <Setter TargetName="NumText" Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsLast}" Value="True">
+                <Setter TargetName="TrackLine" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <Style TargetType="{x:Type ui:SopsStepper}">

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Sop.Ui.Controls
 {
@@ -149,6 +150,22 @@ namespace Sop.Ui.Controls
         public SopsStepper()
         {
             AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(OnStepButtonClick));
+            AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(OnStepMouseDown));
+        }
+
+        private void OnStepMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is DependencyObject dep)
+            {
+                var el = dep as FrameworkElement;
+                if (el?.DataContext is StepItem step)
+                {
+                    int idx = step.StepNumber - 1;
+                    CurrentStep = idx;
+                    RaiseEvent(new StepSelectedEventArgs(StepSelectedEvent, idx, step));
+                    e.Handled = true;
+                }
+            }
         }
 
         private void OnStepButtonClick(object sender, RoutedEventArgs e)

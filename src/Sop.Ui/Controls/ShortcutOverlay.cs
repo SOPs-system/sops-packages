@@ -29,16 +29,20 @@ namespace Sop.Ui.Controls
     /// Modal overlay displaying categorized keyboard shortcuts (F1-F12, modifiers, navigation).
     /// Essential for cashier speed and desktop pharmacy operations.
     /// </summary>
+    [TemplatePart(Name = "PART_FilterBox", Type = typeof(TextBox))]
     public class ShortcutOverlay : Control
     {
+        private TextBox? _filterBox;
+
         static ShortcutOverlay()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ShortcutOverlay), new FrameworkPropertyMetadata(typeof(ShortcutOverlay)));
+            FocusableProperty.OverrideMetadata(typeof(ShortcutOverlay), new FrameworkPropertyMetadata(true));
         }
 
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(ShortcutOverlay),
-                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsOpenChanged));
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(ShortcutOverlay),
@@ -99,7 +103,47 @@ namespace Sop.Ui.Controls
         public ShortcutOverlay()
         {
             AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(OnButtonClick));
+            AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(OnMouseLeftButtonDown));
             Loaded += (s, e) => ApplyFilter();
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            _filterBox = GetTemplateChild("PART_FilterBox") as TextBox;
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+            if (IsOpen && e.Key == Key.Escape)
+            {
+                Close();
+                e.Handled = true;
+            }
+        }
+
+        private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ShortcutOverlay overlay && (bool)e.NewValue)
+            {
+                overlay.ApplyFilter();
+                overlay.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    overlay.Focus();
+                    overlay._filterBox?.Focus();
+                    overlay._filterBox?.SelectAll();
+                }), System.Windows.Threading.DispatcherPriority.Input);
+            }
+        }
+
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is FrameworkElement el && (string)el.Tag == "CLOSE")
+            {
+                Close();
+                e.Handled = true;
+            }
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)
