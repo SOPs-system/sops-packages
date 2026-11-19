@@ -479,15 +479,13 @@
                             </StackPanel>
                         </ui:Card>
 
-                        <!-- Interactive Standalone Calendar Card with Two-Click Range -->
-                        <ui:Card Style="{StaticResource Cell}" Width="340">
-                            <StackPanel>
-                                <TextBlock Style="{StaticResource SectionTitle}" Text="CALENDAR (TWO-CLICK RANGE SELECTION)" />
-                                <TextBlock Text="Click a start day, then an end day to select a range. Mid-range days get brand tint."
-                                           Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
-                                <Calendar ui:CalendarAssist.EnableTwoClickRange="True" HorizontalAlignment="Center" />
-                            </StackPanel>
-                        </ui:Card>
+                        <!-- Standalone Beta Styled Calendar (Month Navigation & Two-Click Range) -->
+                        <StackPanel Style="{StaticResource Cell}" VerticalAlignment="Top">
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="SOP CALENDAR (AUTHENTIC BETA STYLE — TWO-CLICK RANGE)" />
+                            <Calendar x:Name="DemoCalendar"
+                                      ui:CalendarAssist.EnableTwoClickRange="True"
+                                      HorizontalAlignment="Left" />
+                        </StackPanel>
 
                         <!-- BarcodeInput & BarcodeView Card -->
                         <ui:Card Style="{StaticResource Cell}" Width="380">
