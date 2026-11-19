@@ -47,6 +47,11 @@
         <ResourceDictionary Source="/Sop.Ui;component/Controls/BarcodeInput.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/EmptyState.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/AsyncLookup.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/NumericKeypad.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/TableToolbar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/ShortcutOverlay.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SyncStatus.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsStepper.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

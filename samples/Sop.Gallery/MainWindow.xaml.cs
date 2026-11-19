@@ -37,8 +37,39 @@ namespace Sop.Gallery
             GalleryTabs.TabItems!.Add(new TabItem("week", "This week"));
             GalleryTabs.TabItems!.Add(new TabItem("all", "All time"));
 
+            if (DemoStepper != null)
+            {
+                DemoStepper.StepsSource = new List<StepItem>
+                {
+                    new StepItem("Order Created", "Prescription received"),
+                    new StepItem("Verification", "Pharmacist review"),
+                    new StepItem("Dispensing", "Pack and label"),
+                    new StepItem("Tender & Pay", "Cashier checkout")
+                };
+            }
+
+            if (DemoShortcutOverlay != null)
+            {
+                DemoShortcutOverlay.ShortcutsSource = new List<ShortcutEntry>
+                {
+                    new ShortcutEntry("F1", "Help & Shortcut Sheet", "General"),
+                    new ShortcutEntry("F2", "New Cash Sale", "POS / Cashier"),
+                    new ShortcutEntry("F3", "Search Drug Catalog", "POS / Cashier"),
+                    new ShortcutEntry("F9", "Quick Pay / Tender", "POS / Cashier"),
+                    new ShortcutEntry("F12", "Park / Hold Cart", "POS / Cashier"),
+                    new ShortcutEntry("Ctrl+P", "Print Last Receipt", "Printing"),
+                    new ShortcutEntry("Ctrl+N", "New Patient Record", "Patients"),
+                    new ShortcutEntry("Esc", "Close Dialog / Cancel", "General")
+                };
+            }
+
             Theme.Changed += (_, __) => SyncToggles();
             SyncToggles();
+        }
+
+        private void OpenShortcutOverlay(object sender, RoutedEventArgs e)
+        {
+            if (DemoShortcutOverlay != null) DemoShortcutOverlay.IsOpen = true;
         }
 
         private void SyncToggles()

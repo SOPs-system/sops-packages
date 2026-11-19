@@ -530,6 +530,51 @@
                     </WrapPanel>
                 </StackPanel>
 
+                <!-- ========== ELEMENT 05C: POS & WORKFLOW TOOLS (P1 PARITY) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 05C: POS &amp; WORKFLOW TOOLS (P1 PARITY)" />
+                    <WrapPanel>
+                        <!-- NumericKeypad Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="310">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="NUMERIC KEYPAD (POS CASHIER)" />
+                                <TextBlock Text="Target Tender Input:" Foreground="{DynamicResource Brush.InkSubtle}" FontSize="{DynamicResource Text.Xs}" Margin="0,0,0,4" />
+                                <TextBox x:Name="KeypadTargetBox" Text="45.00" Height="36" FontSize="{DynamicResource Text.Lg}" FontWeight="Bold" Margin="0,0,0,8" Padding="6,4" />
+                                <ui:NumericKeypad TargetInput="{Binding ElementName=KeypadTargetBox}" ShowQuickCash="True" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- TableToolbar Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="660">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="TABLE TOOLBAR (SEARCH, FILTER &amp; ACTIONS)" />
+                                <ui:TableToolbar Margin="0,4,0,8"
+                                                 SearchPlaceholder="Search drug batches, SKUs..."
+                                                 ItemCountText="Showing 25 of 142 items"
+                                                 FilterBadgeCount="2"
+                                                 ActiveSortLabel="Price (Low to High)">
+                                    <ui:TableToolbar.ActionsSlot>
+                                        <Button Content="+ New Batch" Height="32" Padding="8,4" Background="{DynamicResource Brush.Primary}" Foreground="{DynamicResource Brush.OnPrimary}" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand" />
+                                    </ui:TableToolbar.ActionsSlot>
+                                </ui:TableToolbar>
+
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="WORKFLOW STEPPER / TIMELINE" Margin="0,16,0,8" />
+                                <ui:SopsStepper x:Name="DemoStepper" CurrentStep="1" Margin="0,4,0,8" />
+
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="SYNC STATUS (OFFLINE-FIRST POS)" Margin="0,16,0,8" />
+                                <StackPanel Orientation="Vertical">
+                                    <ui:SyncStatus State="Synced" LastSyncedText="Just now" Margin="0,0,0,8" />
+                                    <ui:SyncStatus State="Pending" PendingCount="7" LastSyncedText="3m ago" Margin="0,0,0,8" />
+                                    <ui:SyncStatus State="Conflict" ConflictCount="1" LastSyncedText="12m ago" Margin="0,0,0,8" />
+                                </StackPanel>
+
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="SHORTCUT OVERLAY (F1-F12 HOTKEYS)" Margin="0,16,0,8" />
+                                <Button Content="Preview Shortcut Overlay (Press F1)" Height="36" Padding="12,6" Click="OpenShortcutOverlay" Cursor="Hand" />
+                            </StackPanel>
+                        </ui:Card>
+                    </WrapPanel>
+                </StackPanel>
+
                 <!-- ========== ELEMENT 06: TOGGLES & BINARY SELECTORS (CHECKBOX & SWITCH) ========== -->
                 <StackPanel Style="{StaticResource Section}">
                     <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 06: TOGGLES &amp; BINARY SELECTORS (CHECKBOX &amp; SWITCH)" />
@@ -800,5 +845,6 @@
 
         <!-- Modals present here, over everything. -->
         <ui:ModalHost x:Name="Modals" />
+        <ui:ShortcutOverlay x:Name="DemoShortcutOverlay" />
     </Grid>
 </Window>
