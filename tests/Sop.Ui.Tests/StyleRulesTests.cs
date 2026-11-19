@@ -21,6 +21,7 @@ namespace Sop.Ui.Tests
             "src/Sop.Features/Transactions/ReceiptTicket.cs",
             "src/Sop.Features/Common/LabelSheet.cs",
             "src/Sop.Features/Common/BarcodeView.cs",
+            "src/Sop.Ui/Controls/BarcodeView.cs",
             // The purchase order is a printed A5 page — paper, not a theme.
             "src/Sop.Features/Inventory/PurchaseOrderSheet.cs",
         };

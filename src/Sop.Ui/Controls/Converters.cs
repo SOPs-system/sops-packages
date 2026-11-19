@@ -40,6 +40,18 @@ namespace Sop.Ui.Controls
             throw new NotSupportedException();
     }
 
+    /// <summary>null / empty string → Visible; anything else → Collapsed.</summary>
+    public sealed class EmptyToVisibilityConverter : IValueConverter
+    {
+        public static readonly EmptyToVisibilityConverter Instance = new EmptyToVisibilityConverter();
+
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+            value == null || (value is string s && s.Length == 0) ? Visibility.Visible : Visibility.Collapsed;
+
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+            throw new NotSupportedException();
+    }
+
     /// <summary>
     /// Computes a circular pill corner radius (radius = height / 2).
     /// In WPF, setting CornerRadius to 9999 scales rx and ry separately to width/2 and height/2,

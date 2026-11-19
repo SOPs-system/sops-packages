@@ -488,6 +488,47 @@
                                 <Calendar ui:CalendarAssist.EnableTwoClickRange="True" HorizontalAlignment="Center" />
                             </StackPanel>
                         </ui:Card>
+
+                        <!-- BarcodeInput & BarcodeView Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="380">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="BARCODE INPUT &amp; VECTOR PREVIEW (P0)" />
+                                
+                                <ui:Field Label="Scanner Entry Point" Hint="Hardware scanner burst detection &amp; Enter trigger" Margin="0,0,0,12">
+                                    <ui:BarcodeInput x:Name="DemoBarcodeInput" Text="6223000000015" Placeholder="Scan or type barcode..." />
+                                </ui:Field>
+
+                                <TextBlock Text="Generated Label Barcode (EAN-13 / Code 128):" Style="{StaticResource Muted}" Margin="0,0,0,6" />
+                                <Border Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Line}" BorderThickness="1" CornerRadius="{DynamicResource Radius.Sm}" Padding="12" HorizontalAlignment="Center">
+                                    <ui:BarcodeView Value="{Binding Text, ElementName=DemoBarcodeInput}" WidthMm="45" HeightMm="18" />
+                                </Border>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- AsyncLookup Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="380">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="ASYNC LOOKUP (CATALOG SEARCH — P0)" />
+
+                                <ui:Field Label="Catalog Drug Search" Hint="250ms debounced search with spinner &amp; clear" Margin="0,0,0,12">
+                                    <ui:AsyncLookup Placeholder="Search drugs, patients, suppliers..." Query="Panadol" />
+                                </ui:Field>
+
+                                <TextBlock Text="Selected Catalog Item:" Style="{StaticResource Muted}" Margin="0,0,0,4" />
+                                <ui:Badge Variant="Primary">Panadol Extra 500mg (Stock: 124 units)</ui:Badge>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- EmptyState Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="340">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="EMPTY STATE / ZERO-RESULTS (P0)" />
+                                <ui:EmptyState IconGlyph="Package"
+                                               Title="No Batches Found"
+                                               Description="No stock matches the selected filter. Try adjusting your query or clear filters."
+                                               ActionText="Reset Filters" />
+                            </StackPanel>
+                        </ui:Card>
                     </WrapPanel>
                 </StackPanel>
 
