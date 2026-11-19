@@ -1,0 +1,195 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- ==================== FilterChip Style ==================== -->
+    <Style TargetType="{x:Type ui:FilterChip}">
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="10,4,8,4" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:FilterChip}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource Radius.Badge}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <!-- Optional Leading Icon -->
+                            <ContentPresenter x:Name="IconHost"
+                                              Content="{TemplateBinding Icon}"
+                                              Margin="0,0,6,0"
+                                              VerticalAlignment="Center"
+                                              Visibility="Collapsed" />
+
+                            <!-- Optional Category / Field Label (e.g. "Category:") -->
+                            <TextBlock x:Name="LabelHost"
+                                       Text="{TemplateBinding Label}"
+                                       Foreground="{DynamicResource Brush.InkSubtle}"
+                                       FontWeight="Medium"
+                                       Margin="0,0,4,0"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed" />
+
+                            <!-- Chip Value / Content -->
+                            <ContentPresenter x:Name="ContentHost"
+                                              ContentSource="Content"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                            <!-- Optional Result Count Badge (e.g. "14") -->
+                            <Border x:Name="CountHost"
+                                    Margin="6,0,0,0"
+                                    Background="{DynamicResource Brush.SurfaceSunken}"
+                                    CornerRadius="{DynamicResource Radius.Badge}"
+                                    Padding="6,1"
+                                    VerticalAlignment="Center"
+                                    Visibility="Collapsed">
+                                <TextBlock Text="{Binding Count, RelativeSource={RelativeSource TemplatedParent}}"
+                                           FontSize="{DynamicResource Text.2Xs}"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource Brush.InkSubtle}" />
+                            </Border>
+
+                            <!-- Close / Remove Button -->
+                            <Button x:Name="PART_RemoveButton"
+                                    Margin="6,0,0,0"
+                                    Width="18" Height="18"
+                                    Focusable="False"
+                                    Cursor="Hand"
+                                    Visibility="{Binding IsRemovable, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="BtnBd"
+                                                Background="Transparent"
+                                                CornerRadius="{DynamicResource Radius.Badge}">
+                                            <ui:Icon x:Name="Ico"
+                                                     Glyph="Close"
+                                                     Size="9"
+                                                     Foreground="{DynamicResource Brush.InkSubtle}"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="BtnBd" Property="Background" Value="{DynamicResource Brush.DangerSoft}" />
+                                                <Setter TargetName="Ico" Property="Foreground" Value="{DynamicResource Brush.Danger}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Has Icon -->
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="IconHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <!-- Has Label -->
+                        <Trigger Property="Label" Value="">
+                            <Setter TargetName="LabelHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Label" Value="{x:Null}">
+                            <Setter TargetName="LabelHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <!-- Has Count -->
+                        <Trigger Property="Count" Value="{x:Null}">
+                            <Setter TargetName="CountHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+
+                        <!-- Mouse Over (when unselected) -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.LineSubtle}" />
+                        </MultiTrigger>
+
+                        <!-- Selected State -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.PrimarySoft}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Primary}" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                        </Trigger>
+
+                        <!-- Selected + Mouse Over -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.PrimarySoftHover}" />
+                        </MultiTrigger>
+
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ==================== FilterChips Container Style ==================== -->
+    <Style TargetType="{x:Type ui:FilterChips}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:FilterChips}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <ItemsPresenter />
+
+                        <!-- Optional "Clear All" Button -->
+                        <Button x:Name="PART_ClearAllButton"
+                                Margin="8,0,0,0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Visibility="{Binding HasClearAll, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:BooleanToVisibilityConverter.Instance}}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <TextBlock x:Name="ClearTxt"
+                                               Text="{Binding ClearAllText, RelativeSource={RelativeSource AncestorType=ui:FilterChips}}"
+                                               FontSize="{DynamicResource Text.Sm}"
+                                               Foreground="{DynamicResource Brush.InkSubtle}"
+                                               VerticalAlignment="Center" />
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="ClearTxt" Property="Foreground" Value="{DynamicResource Brush.Danger}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

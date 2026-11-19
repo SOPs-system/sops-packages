@@ -52,6 +52,10 @@
         <ResourceDictionary Source="/Sop.Ui;component/Controls/ShortcutOverlay.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/SyncStatus.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsStepper.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Breadcrumbs.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/FilterChips.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SplitButton.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/CalendarRangePicker.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

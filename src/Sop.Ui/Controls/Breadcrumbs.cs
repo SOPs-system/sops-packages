@@ -61,7 +61,7 @@ namespace Sop.Ui.Controls
             nameof(ItemClickCommand), typeof(ICommand), typeof(Breadcrumbs), new FrameworkPropertyMetadata(null));
 
         public static readonly RoutedEvent ItemClickEvent = EventManager.RegisterRoutedEvent(
-            nameof(ItemClick), RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object>), typeof(Breadcrumbs));
+            nameof(ItemClick), RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object?>), typeof(Breadcrumbs));
 
         public ICommand? ItemClickCommand
         {
@@ -69,7 +69,7 @@ namespace Sop.Ui.Controls
             set => SetValue(ItemClickCommandProperty, value);
         }
 
-        public event RoutedPropertyChangedEventHandler<object> ItemClick
+        public event RoutedPropertyChangedEventHandler<object?> ItemClick
         {
             add => AddHandler(ItemClickEvent, value);
             remove => RemoveHandler(ItemClickEvent, value);
@@ -131,7 +131,7 @@ namespace Sop.Ui.Controls
             {
                 var item = ItemContainerGenerator.ItemFromContainer(container);
                 ItemClickCommand?.Execute(item);
-                RaiseEvent(new RoutedPropertyChangedEventArgs<object>(null, item, ItemClickEvent));
+                RaiseEvent(new RoutedPropertyChangedEventArgs<object?>(null, item, ItemClickEvent));
             }
         }
     }

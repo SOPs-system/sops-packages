@@ -576,6 +576,93 @@
                     </WrapPanel>
                 </StackPanel>
 
+                <!-- ========== ELEMENT 05D: NAVIGATION, CHIPS, ACTIONS & REPORTING (P2 PARITY) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 05D: NAVIGATION, CHIPS, ACTIONS &amp; REPORTING (P2 PARITY)" />
+                    <WrapPanel>
+                        <!-- Breadcrumbs & FilterChips Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="540">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="BREADCRUMBS NAVIGATION (NESTED SCREENS)" />
+                                <ui:Breadcrumbs Margin="0,4,0,12">
+                                    <ui:BreadcrumbItem Content="Inventory" />
+                                    <ui:BreadcrumbItem Content="Antibiotics" />
+                                    <ui:BreadcrumbItem Content="Amoxicillin 500mg" />
+                                    <ui:BreadcrumbItem Content="Batch #4092" IsCurrent="True" />
+                                </ui:Breadcrumbs>
+
+                                <ui:Breadcrumbs Margin="0,0,0,16">
+                                    <ui:BreadcrumbItem Content="Sales">
+                                        <ui:BreadcrumbItem.Icon>
+                                            <ui:Icon Glyph="Cart" Size="13" />
+                                        </ui:BreadcrumbItem.Icon>
+                                    </ui:BreadcrumbItem>
+                                    <ui:BreadcrumbItem Content="Prescriptions">
+                                        <ui:BreadcrumbItem.Icon>
+                                            <ui:Icon Glyph="Pill" Size="13" />
+                                        </ui:BreadcrumbItem.Icon>
+                                    </ui:BreadcrumbItem>
+                                    <ui:BreadcrumbItem Content="Rx #1084" IsCurrent="True" />
+                                </ui:Breadcrumbs>
+
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="FILTER CHIPS (QUICK REMOVAL &amp; SELECTION)" Margin="0,8,0,8" />
+                                <ui:FilterChips HasClearAll="True" Margin="0,4,0,8">
+                                    <ui:FilterChip Label="Category:" Content="Antibiotics" IsSelected="True" />
+                                    <ui:FilterChip Label="Status:" Content="In Stock" Count="42" />
+                                    <ui:FilterChip Content="Expiring &lt; 30 Days" Count="5" />
+                                    <ui:FilterChip Content="Prescription Required" IsRemovable="False" />
+                                </ui:FilterChips>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- SplitButton & CalendarRangePicker Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="540">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="SPLIT BUTTON (PRIMARY &amp; ALTERNATIVE ACTIONS)" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,16">
+                                    <ui:SplitButton Content="Complete Sale" Variant="Primary" Margin="0,0,12,0">
+                                        <ui:SplitButton.Icon>
+                                            <ui:Icon Glyph="Tick" Size="14" />
+                                        </ui:SplitButton.Icon>
+                                        <ui:SplitButton.DropDownContent>
+                                            <StackPanel Width="160">
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Hold Sale (F12)" />
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Print Pro-Forma" />
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Split Payment" />
+                                            </StackPanel>
+                                        </ui:SplitButton.DropDownContent>
+                                    </ui:SplitButton>
+
+                                    <ui:SplitButton Content="Export" Variant="Secondary" Margin="0,0,12,0">
+                                        <ui:SplitButton.Icon>
+                                            <ui:Icon Glyph="Download" Size="14" />
+                                        </ui:SplitButton.Icon>
+                                        <ui:SplitButton.DropDownContent>
+                                            <StackPanel Width="150">
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Export to CSV" />
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Export to PDF" />
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Export to Excel" />
+                                            </StackPanel>
+                                        </ui:SplitButton.DropDownContent>
+                                    </ui:SplitButton>
+
+                                    <ui:SplitButton Content="Void" Variant="Danger">
+                                        <ui:SplitButton.DropDownContent>
+                                            <StackPanel Width="160">
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Void &amp; Return Stock" />
+                                                <Button Style="{StaticResource Cell}" HorizontalContentAlignment="Left" Padding="8,6" Background="Transparent" BorderThickness="0" Content="Mark as Waste" />
+                                            </StackPanel>
+                                        </ui:SplitButton.DropDownContent>
+                                    </ui:SplitButton>
+                                </StackPanel>
+
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="CALENDAR RANGE PICKER (SALES &amp; TRANSACTION AUDITING)" Margin="0,8,0,8" />
+                                <ui:CalendarRangePicker SelectedPreset="Last30Days" Width="360" HorizontalAlignment="Left" Margin="0,4,0,8" />
+                            </StackPanel>
+                        </ui:Card>
+                    </WrapPanel>
+                </StackPanel>
+
                 <!-- ========== ELEMENT 06: TOGGLES & BINARY SELECTORS (CHECKBOX & SWITCH) ========== -->
                 <StackPanel Style="{StaticResource Section}">
                     <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 06: TOGGLES &amp; BINARY SELECTORS (CHECKBOX &amp; SWITCH)" />

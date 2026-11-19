@@ -1131,5 +1131,145 @@ namespace Sop.Ui.Tests
                 window.Close();
             }
         }
+
+        [WpfFact]
+        public void Breadcrumbs_updates_item_current_state_and_raises_click()
+        {
+            EnsureApp();
+            var breadcrumbs = new Breadcrumbs
+            {
+                ItemsSource = new[] { "Inventory", "Antibiotics", "Amoxicillin 500mg" }
+            };
+            object? clicked = null;
+            breadcrumbs.ItemClick += (_, e) => clicked = e.NewValue;
+
+            var window = Show(breadcrumbs);
+            try
+            {
+                window.UpdateLayout();
+                breadcrumbs.UpdateItemStates();
+
+                var item0 = (BreadcrumbItem)breadcrumbs.ItemContainerGenerator.ContainerFromIndex(0);
+                var item1 = (BreadcrumbItem)breadcrumbs.ItemContainerGenerator.ContainerFromIndex(1);
+                var item2 = (BreadcrumbItem)breadcrumbs.ItemContainerGenerator.ContainerFromIndex(2);
+
+                Assert.NotNull(item0);
+                Assert.NotNull(item2);
+                Assert.False(item0.IsCurrent);
+                Assert.True(item0.HasSeparator);
+                Assert.True(item0.IsEnabled);
+
+                Assert.False(item1.IsCurrent);
+                Assert.True(item1.HasSeparator);
+
+                Assert.True(item2.IsCurrent);
+                Assert.False(item2.HasSeparator);
+                Assert.False(item2.IsEnabled);
+
+                item0.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                Assert.Equal("Inventory", clicked);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [WpfFact]
+        public void FilterChip_toggles_and_removes()
+        {
+            EnsureApp();
+            var chip = new FilterChip
+            {
+                Label = "Category:",
+                Content = "Antibiotics",
+                Count = 5,
+                IsRemovable = true
+            };
+            var removed = false;
+            chip.Removed += (_, __) => removed = true;
+
+            var window = Show(chip);
+            try
+            {
+                window.UpdateLayout();
+                Assert.False(chip.IsSelected);
+
+                // Body click toggles selected
+                chip.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left)
+                {
+                    RoutedEvent = Mouse.MouseDownEvent
+                });
+                Assert.True(chip.IsSelected);
+
+                var removeBtn = (System.Windows.Controls.Button)chip.Template.FindName("PART_RemoveButton", chip);
+                Assert.NotNull(removeBtn);
+                removeBtn.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                Assert.True(removed);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [WpfFact]
+        public void SplitButton_primary_action_and_dropdown()
+        {
+            EnsureApp();
+            var splitButton = new SplitButton
+            {
+                Content = "Complete Sale",
+                Variant = ButtonVariant.Primary
+            };
+            var clicked = false;
+            var opened = false;
+            splitButton.Click += (_, __) => clicked = true;
+            splitButton.DropDownOpened += (_, __) => opened = true;
+
+            var window = Show(splitButton);
+            try
+            {
+                window.UpdateLayout();
+                var primaryBtn = (System.Windows.Controls.Button)splitButton.Template.FindName("PART_PrimaryButton", splitButton);
+                Assert.NotNull(primaryBtn);
+
+                primaryBtn.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                Assert.True(clicked);
+
+                splitButton.IsOpen = true;
+                Assert.True(opened);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [WpfFact]
+        public void CalendarRangePicker_presets_and_formatting()
+        {
+            EnsureApp();
+            var picker = new CalendarRangePicker();
+            var window = Show(picker);
+            try
+            {
+                window.UpdateLayout();
+                Assert.Equal("Select date range", picker.DisplayText);
+
+                picker.ApplyPreset(CalendarRangePreset.Last30Days);
+                Assert.NotNull(picker.StartDate);
+                Assert.NotNull(picker.EndDate);
+                Assert.Equal(DateTime.Today, picker.EndDate.Value.Date);
+                Assert.Equal(DateTime.Today.AddDays(-29), picker.StartDate.Value.Date);
+
+                Assert.Contains(picker.StartDate.Value.ToString("yyyy-MM-dd"), picker.DisplayText);
+                Assert.Contains(picker.EndDate.Value.ToString("yyyy-MM-dd"), picker.DisplayText);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
     }
 }
