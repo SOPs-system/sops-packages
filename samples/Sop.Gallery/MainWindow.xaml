@@ -437,6 +437,60 @@
                     </Grid>
                 </StackPanel>
 
+                <!-- ========== ELEMENT 05B: SPECIALIZED INPUTS (NUMERICINPUT, DATEINPUT, CALENDAR) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 05B: SPECIALIZED INPUTS (NUMERICINPUT, DATEINPUT, CALENDAR — P0 PARITY)" />
+                    <WrapPanel>
+                        <!-- NumericInput Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="380">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="NUMERIC INPUT (PRICE, QUANTITY, STEPPERS)" />
+                                
+                                <ui:Field Label="Drug Unit Price" Hint="Tabular mono numerals, min E£ 0.00" Margin="0,0,0,12">
+                                    <ui:NumericInput Value="210.50" Minimum="0" Maximum="10000" Step="0.50" Decimals="2" Prefix="E£ " />
+                                </ui:Field>
+
+                                <ui:Field Label="Pack Stock Quantity" Hint="Integer steps, min 1 unit" Margin="0,0,0,12">
+                                    <ui:NumericInput Value="48" Minimum="1" Maximum="5000" Step="1" Decimals="0" Suffix=" units" />
+                                </ui:Field>
+
+                                <ui:Field Label="Commercial Discount" Hint="Clamped between 0% and 100%">
+                                    <ui:NumericInput Value="12.5" Minimum="0" Maximum="100" Step="0.5" Decimals="1" Suffix="%" />
+                                </ui:Field>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- DateInput Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="380">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="DATE INPUT (FAST KEYBOARD ENTRY + POPUP)" />
+
+                                <ui:Field Label="Batch Expiry Date" Hint="Auto-advancing YYYY-MM-DD or popup calendar" Margin="0,0,0,12">
+                                    <ui:DateInput SelectedDate="2027-08-31" />
+                                </ui:Field>
+
+                                <ui:Field Label="Purchase Invoice Date" Hint="Use Up/Down arrows to step segments" Margin="0,0,0,12">
+                                    <ui:DateInput SelectedDate="2026-11-19" />
+                                </ui:Field>
+
+                                <ui:Field Label="Manufacture Date (Empty Prompt)" Hint="Shows YYYY / MM / DD placeholders">
+                                    <ui:DateInput />
+                                </ui:Field>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- Interactive Standalone Calendar Card with Two-Click Range -->
+                        <ui:Card Style="{StaticResource Cell}" Width="340">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="CALENDAR (TWO-CLICK RANGE SELECTION)" />
+                                <TextBlock Text="Click a start day, then an end day to select a range. Mid-range days get brand tint."
+                                           Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
+                                <Calendar ui:CalendarAssist.EnableTwoClickRange="True" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </ui:Card>
+                    </WrapPanel>
+                </StackPanel>
+
                 <!-- ========== ELEMENT 06: TOGGLES & BINARY SELECTORS (CHECKBOX & SWITCH) ========== -->
                 <StackPanel Style="{StaticResource Section}">
                     <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 06: TOGGLES &amp; BINARY SELECTORS (CHECKBOX &amp; SWITCH)" />
