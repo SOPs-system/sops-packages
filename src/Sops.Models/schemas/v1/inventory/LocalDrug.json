@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/inventory/LocalDrug.json",
+  "title": "LocalDrug",
+  "description": "Branch-specific operational profile, local purchasing cost, and inventory limits for a catalogue drug.",
+  "type": "object",
+  "required": [
+    "id",
+    "global_drug_id",
+    "pharmacy_id",
+    "local_cost_price",
+    "minimum_stock_threshold",
+    "maximum_stock_threshold",
+    "is_active_locally"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "global_drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "local_cost_price": {
+      "$ref": "../common/Money.json"
+    },
+    "custom_selling_price": {
+      "$ref": "../common/Money.json"
+    },
+    "storage_location_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "minimum_stock_threshold": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "maximum_stock_threshold": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "is_active_locally": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}

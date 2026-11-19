@@ -1,0 +1,167 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+    xmlns:w="clr-namespace:System.Windows;assembly=PresentationFramework"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- A caption button: square, flat, and only coloured under the pointer.
+         Close goes red there, the way every Windows app does it. -->
+    <Style x:Key="Sop.Caption.Button" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="{DynamicResource Size.CaptionButton}" />
+        <Setter Property="Height" Value="{DynamicResource Size.TitleBar}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.InkMuted}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Fill" Background="{TemplateBinding Background}">
+                        <Path x:Name="Glyph"
+                              Width="10" Height="10"
+                              Data="{TemplateBinding Tag}"
+                              Stretch="Uniform"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Stroke="{TemplateBinding Foreground}"
+                              StrokeThickness="1.4"
+                              StrokeStartLineCap="Round"
+                              StrokeEndLineCap="Round" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{DynamicResource Brush.SurfaceSunken}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Close is the one destructive caption button, so it is the one that
+         takes a colour under the pointer. -->
+    <Style x:Key="Sop.Caption.Close" TargetType="{x:Type Button}" BasedOn="{StaticResource Sop.Caption.Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Fill" Background="{TemplateBinding Background}">
+                        <Path x:Name="Glyph"
+                              Width="10" Height="10"
+                              Data="{TemplateBinding Tag}"
+                              Stretch="Uniform"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Stroke="{TemplateBinding Foreground}"
+                              StrokeThickness="1.4"
+                              StrokeStartLineCap="Round"
+                              StrokeEndLineCap="Round" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{DynamicResource Brush.Danger}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.InkInverse}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ui:AppWindow}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Bg}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:AppWindow}">
+                    <!-- Margin is set from AppWindow.OnApplyTemplate and each
+                         time the window is maximised, moved or rescaled: it is
+                         how far outside the screen Windows has put the window,
+                         measured. A {Binding … TemplatedParent} here did not
+                         attach to this root at all — see AppWindow._frame. -->
+                    <Border x:Name="Frame"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{DynamicResource Brush.Line}"
+                            BorderThickness="1">
+                        <DockPanel>
+                            <Border x:Name="TitleBar"
+                                    DockPanel.Dock="Top"
+                                    Height="{DynamicResource Size.TitleBar}"
+                                    Background="{DynamicResource Brush.Surface}"
+                                    BorderBrush="{DynamicResource Brush.Line}"
+                                    BorderThickness="0,0,0,1">
+                                <!-- Pinned LeftToRight so the caption buttons
+                                     keep the corner Windows puts them in. The
+                                     bar mirrors with the language otherwise,
+                                     and close moves under the pointer that was
+                                     reaching for it. The bar itself carries no
+                                     mark and no title now: the app names itself
+                                     everywhere else on screen, and the system
+                                     menu is where it always was, on a
+                                     right-click. -->
+                                <Grid FlowDirection="LeftToRight">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Margin="10,0"
+                                               Visibility="Collapsed"
+                                               VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis"
+                                               FontSize="{DynamicResource Text.Sm}"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource Brush.Ink}"
+                                               Text="{TemplateBinding Title}" />
+
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button x:Name="Minimise"
+                                                Style="{StaticResource Sop.Caption.Button}"
+                                                Tag="{DynamicResource Icon.CaptionMinimise}"
+                                                AutomationProperties.Name="Minimise"
+                                                Command="{x:Static w:SystemCommands.MinimizeWindowCommand}" />
+                                        <Button x:Name="Maximise"
+                                                Style="{StaticResource Sop.Caption.Button}"
+                                                Tag="{DynamicResource Icon.CaptionMaximise}"
+                                                AutomationProperties.Name="Maximise"
+                                                Command="{x:Static w:SystemCommands.MaximizeWindowCommand}" />
+                                        <Button x:Name="Restore"
+                                                Style="{StaticResource Sop.Caption.Button}"
+                                                Tag="{DynamicResource Icon.CaptionRestore}"
+                                                Visibility="Collapsed"
+                                                AutomationProperties.Name="Restore"
+                                                Command="{x:Static w:SystemCommands.RestoreWindowCommand}" />
+                                        <Button x:Name="Close"
+                                                Style="{StaticResource Sop.Caption.Close}"
+                                                Tag="{DynamicResource Icon.CaptionClose}"
+                                                AutomationProperties.Name="Close"
+                                                Command="{x:Static w:SystemCommands.CloseWindowCommand}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <AdornerDecorator>
+                                <ContentPresenter />
+                            </AdornerDecorator>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="Maximise" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Restore" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <!-- The system is drawing the caption (see
+                             AppWindow.UsesOwnChrome): ours would be a second
+                             bar under it, and the frame a line inside the
+                             system's own. -->
+                        <Trigger Property="UsesOwnChrome" Value="False">
+                            <Setter TargetName="TitleBar" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Frame" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

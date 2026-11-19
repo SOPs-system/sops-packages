@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <RootNamespace>Sops.Models.Generator</RootNamespace>
+    <AssemblyName>Sops.Models.Generator</AssemblyName>
+    <Description>Deterministic JSON Schema loader, validator, intermediate model compiler, and cross-language code generator for the SOPs healthcare ecosystem.</Description>
+    <PackageId>Sops.Models.Generator</PackageId>
+    <Version>0.1.0</Version>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+
+</Project>

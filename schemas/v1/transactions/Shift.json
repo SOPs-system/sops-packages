@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/transactions/Shift.json",
+  "title": "Shift",
+  "description": "Cashier shift session tracking physical cash reconciliation.",
+  "type": "object",
+  "required": [
+    "id",
+    "shift_number",
+    "pharmacy_id",
+    "terminal_id",
+    "cashier_user_id",
+    "opening_cash",
+    "status",
+    "opened_at_utc"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "shift_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "terminal_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "cashier_user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "opening_cash": {
+      "$ref": "../common/Money.json"
+    },
+    "closing_cash": {
+      "$ref": "../common/Money.json"
+    },
+    "expected_cash": {
+      "$ref": "../common/Money.json"
+    },
+    "cash_difference": {
+      "$ref": "../common/Money.json"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "Closed",
+        "Reconciled"
+      ],
+      "default": "Open"
+    },
+    "opened_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "closed_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

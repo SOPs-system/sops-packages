@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Design-system tests:
+      StyleRulesTests  — no raw colours / font sizes outside the token files
+      TokenTests       — light and dark define the same keys; every resource
+                         reference resolves
+      ControlTests     — every primitive templates, re-themes, and behaves
+                         (WPF dispatcher tests)
+      VisualTests      — the gallery renders pixel-identical to the approved
+                         baselines in light/dark/LTR/RTL
+  -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>Sop.Ui.Tests</RootNamespace>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <PackageReference Include="Xunit.StaFact" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Sop.Ui\Sop.Ui.csproj" />
+    <ProjectReference Include="..\..\samples\Sop.Gallery\Sop.Gallery.csproj" />
+  </ItemGroup>
+
+</Project>

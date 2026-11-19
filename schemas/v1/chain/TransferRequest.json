@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/chain/TransferRequest.json",
+  "title": "TransferRequest",
+  "description": "Multi-stage inter-branch inventory transfer workflow.",
+  "type": "object",
+  "required": [
+    "id",
+    "transfer_number",
+    "tenant_id",
+    "source_branch_id",
+    "destination_branch_id",
+    "status",
+    "lines",
+    "created_at_utc"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "transfer_number": {
+      "type": "string"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "source_branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "destination_branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Requested",
+        "Approved",
+        "Rejected",
+        "Dispatched",
+        "InTransit",
+        "Received",
+        "Completed",
+        "Cancelled"
+      ],
+      "default": "Requested"
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "$ref": "TransferLine.json"
+      },
+      "minItems": 1
+    },
+    "requested_by_user_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "approved_by_user_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "dispatched_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "received_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/billing/BillingPayment.json",
+  "title": "BillingPayment",
+  "description": "SaaS software subscription payment (license renewal, branch seat fee, Paymob gateway charge). Strictly separate from POS retail Payment.",
+  "type": "object",
+  "required": [
+    "billing_payment_id",
+    "tenant_id",
+    "invoice_number",
+    "amount",
+    "status",
+    "gateway_provider",
+    "created_at_utc"
+  ],
+  "properties": {
+    "billing_payment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "invoice_number": {
+      "type": "string"
+    },
+    "amount": {
+      "$ref": "../common/Money.json"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Authorized",
+        "Captured",
+        "Failed",
+        "Refunded"
+      ]
+    },
+    "gateway_provider": {
+      "type": "string",
+      "description": "Payment gateway (e.g., 'Paymob', 'Stripe', 'Fawry', 'BankTransfer')."
+    },
+    "gateway_transaction_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "paid_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

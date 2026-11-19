@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/patients/PatientSummary.json",
+  "title": "PatientSummary",
+  "description": "Safe, non-sensitive patient summary for POS customer selection without leaking private clinical data.",
+  "type": "object",
+  "required": [
+    "patient_id",
+    "full_name",
+    "phone_number"
+  ],
+  "properties": {
+    "patient_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "has_chronic_conditions": {
+      "type": "boolean",
+      "default": false
+    },
+    "has_allergies": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

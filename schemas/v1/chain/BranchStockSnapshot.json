@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/chain/BranchStockSnapshot.json",
+  "title": "BranchStockSnapshot",
+  "description": "Projected branch inventory level snapshot reported to chain management. Non-authoritative.",
+  "type": "object",
+  "required": [
+    "branch_id",
+    "drug_id",
+    "drug_sku",
+    "quantity_in_base_units",
+    "base_unit_name",
+    "snapshot_revision",
+    "snapshot_timestamp_utc",
+    "last_synchronized_utc"
+  ],
+  "properties": {
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_sku": {
+      "type": "string"
+    },
+    "quantity_in_base_units": {
+      "type": "integer"
+    },
+    "base_unit_name": {
+      "type": "string"
+    },
+    "snapshot_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "snapshot_timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_synchronized_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_stale": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

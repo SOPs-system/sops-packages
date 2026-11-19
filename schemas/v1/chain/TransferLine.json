@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/chain/TransferLine.json",
+  "title": "TransferLine",
+  "description": "Item line in an inter-branch inventory transfer.",
+  "type": "object",
+  "required": [
+    "line_id",
+    "drug_id",
+    "drug_name",
+    "requested_quantity"
+  ],
+  "properties": {
+    "line_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_name": {
+      "type": "string"
+    },
+    "requested_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "approved_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "dispatched_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "received_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "batch_number": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expiry_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

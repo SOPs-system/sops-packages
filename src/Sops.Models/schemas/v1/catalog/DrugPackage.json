@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/catalog/DrugPackage.json",
+  "title": "DrugPackage",
+  "description": "Value object embedded inside Drug defining package packaging levels and integer conversion factors.",
+  "type": "object",
+  "required": [
+    "tier_name",
+    "conversion_factor_to_base"
+  ],
+  "properties": {
+    "tier_name": {
+      "type": "string",
+      "description": "Packaging tier name (e.g. 'Box', 'Strip', 'Unit', 'Vial')."
+    },
+    "conversion_factor_to_base": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of base units in this package tier. Strictly positive integer."
+    },
+    "is_default_dispensing_unit": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

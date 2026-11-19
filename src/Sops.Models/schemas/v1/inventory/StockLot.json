@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/inventory/StockLot.json",
+  "title": "StockLot",
+  "description": "Locally authoritative inventory lot tracking batch number, physical expiry, and base-unit count.",
+  "type": "object",
+  "required": [
+    "id",
+    "local_drug_id",
+    "global_drug_id",
+    "batch_number",
+    "expiry_date",
+    "received_quantity",
+    "remaining_quantity",
+    "reserved_quantity",
+    "purchase_price",
+    "received_date_utc"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "local_drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "global_drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "batch_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "received_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "remaining_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "reserved_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "purchase_price": {
+      "$ref": "../common/Money.json"
+    },
+    "distributor_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "received_date_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

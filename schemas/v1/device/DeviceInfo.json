@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/device/DeviceInfo.json",
+  "title": "DeviceInfo",
+  "description": "High-level workstation environment and hardware metrics.",
+  "type": "object",
+  "required": [
+    "machine_name",
+    "operating_system",
+    "platform",
+    "processor_count"
+  ],
+  "properties": {
+    "machine_name": {
+      "type": "string"
+    },
+    "operating_system": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "Windows",
+        "Linux",
+        "OSX",
+        "Android",
+        "iOS",
+        "Unknown"
+      ]
+    },
+    "processor_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "total_memory_mb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

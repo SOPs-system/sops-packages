@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/inventory/StorageLocation.json",
+  "title": "StorageLocation",
+  "description": "Physical pharmacy location (aisle, shelf, drawer, refrigerator).",
+  "type": "object",
+  "required": [
+    "id",
+    "pharmacy_id",
+    "name",
+    "zone"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string",
+      "description": "Identifier label (e.g. 'Aisle 3 - Shelf B')."
+    },
+    "zone": {
+      "type": "string",
+      "description": "Zone classification (e.g. 'Front Counter', 'Refrigerated Storage', 'Controlled Safe')."
+    },
+    "is_temperature_controlled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/common/Money.json",
+  "title": "Money",
+  "description": "Represents an immutable monetary amount in integer minor units with explicit ISO 4217 currency. Supports both canonical camelCase ('amountInMinorUnits') and legacy snake_case ('amount_minor_units'), plus 'decimalString' for lossless serialization beyond JavaScript's safe integer boundary.",
+  "type": "object",
+  "required": [
+    "currency"
+  ],
+  "anyOf": [
+    {
+      "required": ["amountInMinorUnits"]
+    },
+    {
+      "required": ["amount_minor_units"]
+    }
+  ],
+  "properties": {
+    "amountInMinorUnits": {
+      "type": "integer",
+      "description": "Canonical amount in the currency's smallest subunit (e.g., 100.50 EGP is 10050 piasters)."
+    },
+    "amount_minor_units": {
+      "type": "integer",
+      "description": "Legacy snake_case alias for amountInMinorUnits."
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Three-letter ISO 4217 currency code (e.g. 'EGP', 'SAR', 'USD')."
+    },
+    "decimalString": {
+      "type": "string",
+      "description": "Exact decimal string representation (e.g. '100.50'). Guarantees lossless transmission when amount exceeds 2^53 - 1."
+    }
+  },
+  "additionalProperties": false
+}

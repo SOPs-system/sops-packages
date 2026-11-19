@@ -1,0 +1,711 @@
+<Window x:Class="Sop.Gallery.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="https://sops.dev/ui"
+        Title="SOP UI gallery"
+        Width="1280"
+        Height="900"
+        Background="{DynamicResource Brush.Bg}"
+        FontFamily="{DynamicResource Font.App}"
+        FontSize="{DynamicResource Text.Sm}"
+        Foreground="{DynamicResource Brush.Ink}"
+        TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+
+    <Window.Resources>
+        <!-- The gap between siblings in a section row (flex-wrap gap-3). -->
+        <Style x:Key="Cell" TargetType="{x:Type FrameworkElement}">
+            <Setter Property="Margin" Value="0,0,12,12" />
+        </Style>
+        <Style x:Key="SectionTitle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="{DynamicResource Text.Xs}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource Brush.InkSubtle}" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        <Style x:Key="Section" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="0,0,0,20" />
+        </Style>
+        <Style x:Key="Muted" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource Brush.InkMuted}" />
+            <Setter Property="FontSize" Value="{DynamicResource Text.Xs}" />
+        </Style>
+        <Style x:Key="Money" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{DynamicResource Font.Mono}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+        </Style>
+        <Style x:Key="IconCell" TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="0,0,8,8" />
+            <Setter Property="Width" Value="84" />
+            <Setter Property="Height" Value="68" />
+            <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource Radius.Md}" />
+            <Setter Property="Padding" Value="4" />
+        </Style>
+        <x:Array x:Key="Categories" Type="{x:Type ui:SelectOption}">
+            <ui:SelectOption Value="analgesics" Label="Analgesics" />
+            <ui:SelectOption Value="antibiotics" Label="Antibiotics" />
+            <ui:SelectOption Value="nsaids" Label="NSAIDs" />
+            <ui:SelectOption Value="discontinued" Label="Discontinued" Disabled="True" />
+        </x:Array>
+    </Window.Resources>
+
+    <Grid>
+        <ScrollViewer x:Name="Page" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="PageBody" Margin="32" Background="{DynamicResource Brush.Bg}">
+
+                <!-- ========== header ========== -->
+                <Grid Margin="0,0,0,32">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="UI gallery" FontSize="{DynamicResource Text.2Xl}" FontWeight="Bold" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Margin="12,0,0,0" Text="pos-wpf — phase 1 proving ground" Foreground="{DynamicResource Brush.InkSubtle}" VerticalAlignment="Center" />
+                    <StackPanel Grid.Column="3" Orientation="Horizontal">
+                        <ui:Button x:Name="DarkToggle" Variant="Secondary" Size="Sm" Click="ToggleDark" Margin="0,0,8,0">Dark</ui:Button>
+                        <ui:Button x:Name="RtlToggle" Variant="Secondary" Size="Sm" Click="ToggleRtl">RTL — عربي</ui:Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ========== ELEMENT 01: BUILT-IN SCREEN SECTIONS (HEADER, 2 SIDE HEADERS, BOTTOM STATUS BAR) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 01: BUILT-IN SCREEN SECTIONS (HEADER, 2 SIDE HEADERS, BOTTOM STATUS BAR — SOPS-BACKUP/WPF-BETA PARITY)" />
+                    
+                    <!-- Direct Standalone TopBar Header -->
+                    <ui:Card Padding="0" ClipContent="True" MaxWidth="1100" HorizontalAlignment="Left" Margin="0,0,0,16">
+                        <ui:SopsTopBar x:Name="DemoTopBar"
+                                       StoreName="Smart Operating Pharmacy"
+                                       StoreBranch="Branch #104 — Downtown Cairo"
+                                       OnlineText="Online — Cloud Synced"
+                                       NotificationsCount="3"
+                                       UserName="Ahmed M."
+                                       UserRole="Head Cashier"
+                                       UserInitials="AM"
+                                       ToggleSidePanelClick="ToggleShellSidePanel" />
+                    </ui:Card>
+
+                    <!-- Composite Integrated Application Shell (SopsAppShell) -->
+                    <ui:Card Padding="0" ClipContent="True" MaxWidth="1100" Height="420" HorizontalAlignment="Left" Margin="0,0,0,12">
+                        <ui:SopsAppShell x:Name="InteractiveShell">
+                            <!-- Section 1: Header (TopBar) -->
+                            <ui:SopsAppShell.TopBar>
+                                <ui:SopsTopBar StoreName="SOPs Pharmacy Express"
+                                               StoreBranch="Terminal POS #03"
+                                               OnlineText="Online (Postgres)"
+                                               NotificationsCount="5"
+                                               UserName="Sarah K."
+                                               UserRole="Pharmacist"
+                                               UserInitials="SK"
+                                               ToggleSidePanelClick="ToggleShellSidePanel" />
+                            </ui:SopsAppShell.TopBar>
+
+                            <!-- Section 2: Left Side Header (Sidebar / Navigation Rail) -->
+                            <ui:SopsAppShell.Sidebar>
+                                <ui:SopsSidebar x:Name="ShellSidebar" IsExpanded="True">
+                                    <StackPanel>
+                                        <ui:SopsSidebarItem Icon="Scan" Text="Dispense &amp; POS" IsSelected="True" />
+                                        <ui:SopsSidebarItem Icon="Boxes" Text="Inventory &amp; Stock" Badge="12" />
+                                        <ui:SopsSidebarItem Icon="Users" Text="Customers &amp; Rx" />
+                                        <ui:SopsSidebarItem Icon="Receipt" Text="Sales Transactions" />
+                                        <ui:SopsSidebarItem Icon="Settings" Text="System Settings" />
+                                    </StackPanel>
+                                </ui:SopsSidebar>
+                            </ui:SopsAppShell.Sidebar>
+
+                            <!-- Section 3: Right Side Header (SidePanel / Drawer) -->
+                            <ui:SopsAppShell.RightPanel>
+                                <ui:SopsSidePanel x:Name="ShellSidePanel" Title="Alerts &amp; Shift Stream" Badge="3 new" Width="300"
+                                                  CloseClick="CloseShellSidePanel">
+                                    <StackPanel Margin="12">
+                                        <ui:Alert Variant="Warning" Title="Low Stock Alert" Margin="0,0,0,8">Panadol 500mg below 15 units.</ui:Alert>
+                                        <ui:Alert Variant="Info" Title="Prescription Ready" Margin="0,0,0,8">Rx #49102 ready for pickup.</ui:Alert>
+                                        <ui:Alert Variant="Success" Title="Sync Finished">Branch sales reconciled.</ui:Alert>
+                                    </StackPanel>
+                                </ui:SopsSidePanel>
+                            </ui:SopsAppShell.RightPanel>
+
+                            <!-- Section 4: Bottom Status Bar -->
+                            <ui:SopsAppShell.StatusBar>
+                                <ui:SopsStatusBar StorageEngine="Cloud PostgreSQL (v16.2)"
+                                                  ShiftName="Morning Shift 104"
+                                                  SessionDuration="04:15:22"
+                                                  ShortcutsHint="Shortcuts" />
+                            </ui:SopsAppShell.StatusBar>
+
+                            <!-- Center: Application Content Workspace -->
+                            <Grid Background="{DynamicResource Brush.Bg}" Margin="16">
+                                <StackPanel>
+                                    <TextBlock Text="Center Workspace Content (Active Screen Area)" FontWeight="Bold" FontSize="{DynamicResource Text.Md}" Margin="0,0,0,8" />
+                                    <TextBlock Text="The 4 built-in sections (Header, 2 Side Headers, Status Bar) frame the application workspace with authentic SOPs architecture. Hover and drag the left edge of the Right Side Panel to resize it smoothly."
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,16" />
+                                    <WrapPanel>
+                                        <ui:Card Width="220" Margin="0,0,12,12">
+                                            <StackPanel>
+                                                <TextBlock Text="Today's Sales" Style="{StaticResource Muted}" />
+                                                <TextBlock Text="E£ 14,250.00" FontWeight="Bold" FontSize="{DynamicResource Text.Lg}" Margin="0,4,0,0" />
+                                            </StackPanel>
+                                        </ui:Card>
+                                        <ui:Card Width="220" Margin="0,0,12,12">
+                                            <StackPanel>
+                                                <TextBlock Text="Prescriptions Filled" Style="{StaticResource Muted}" />
+                                                <TextBlock Text="84 Patient Orders" FontWeight="Bold" FontSize="{DynamicResource Text.Lg}" Margin="0,4,0,0" />
+                                            </StackPanel>
+                                        </ui:Card>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Grid>
+                        </ui:SopsAppShell>
+                    </ui:Card>
+
+                    <!-- Interactive Shell Controls Toolbar -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <ui:Button Size="Sm" Variant="Secondary" Click="ToggleSidebarWidth" Margin="0,0,8,0">Toggle Left Sidebar (64px Rail ⇄ 224px)</ui:Button>
+                        <ui:Button Size="Sm" Variant="Secondary" Click="ToggleShellSidePanel" Margin="0,0,8,0">Toggle Right Side Panel</ui:Button>
+                        <ui:Button Size="Sm" Variant="Ghost" Click="WidenRightPanel" Margin="0,0,8,0">Widen Right Panel (+50px)</ui:Button>
+                        <ui:Button Size="Sm" Variant="Ghost" Click="ResetRightPanel" Margin="0,0,8,0">Reset Right Panel</ui:Button>
+                        <ui:Button Size="Sm" Variant="Ghost" Click="ToggleTopBarOnline" Margin="0,0,8,0">Toggle Online Status</ui:Button>
+                        <ui:Button Size="Sm" Variant="Ghost" Click="AddNotification">Simulate Notification (+1)</ui:Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 02: APP STATES & STATUS INDICATORS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 02: APP STATES &amp; STATUS INDICATORS (8PX GAP STYLE — HTML SPEC SECTION 07)" />
+                    <WrapPanel>
+                        <!-- Method 1: Canonical Sop.IndicatorDot Style with exact 8px trailing gap -->
+                        <ui:Card Style="{StaticResource Cell}" Width="310">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="DIRECT STYLE: SOP.INDICATORDOT" />
+                                <StackPanel Style="{StaticResource Sop.StateRow}" Margin="0,0,0,10">
+                                    <Ellipse Style="{StaticResource Sop.IndicatorDot}" Fill="{DynamicResource Brush.Success}" />
+                                    <TextBlock Text="Online" FontWeight="Medium" />
+                                </StackPanel>
+                                <StackPanel Style="{StaticResource Sop.StateRow}" Margin="0,0,0,10">
+                                    <Ellipse Style="{StaticResource Sop.IndicatorDot}" Fill="{DynamicResource Brush.Warning}" />
+                                    <TextBlock Text="Syncing (12 ops)" FontWeight="Medium" />
+                                </StackPanel>
+                                <StackPanel Style="{StaticResource Sop.StateRow}">
+                                    <Ellipse Style="{StaticResource Sop.IndicatorDot}" Fill="{DynamicResource Brush.Danger}" />
+                                    <TextBlock Text="Offline — Local mode" FontWeight="Medium" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- Method 2: Encapsulated <ui:StatusIndicator> Primitive -->
+                        <ui:Card Style="{StaticResource Cell}" Width="310">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="PRIMITIVE: UI:STATUSINDICATOR" />
+                                <ui:StatusIndicator Variant="Success" Text="Online (Cloud Connected)" Margin="0,0,0,10" />
+                                <ui:StatusIndicator Variant="Warning" Text="Syncing (Reconciling 12 sales)" Margin="0,0,0,10" />
+                                <ui:StatusIndicator Variant="Danger" Text="Offline (Local cache active)" Margin="0,0,0,10" />
+                                <ui:StatusIndicator Variant="Info" Text="Audit — Shift log active" />
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- HTML Spec Parity Note Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="400">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="HTML GAP SPEC PARITY" />
+                                <TextBlock TextWrapping="Wrap" Style="{StaticResource Muted}" Margin="0,0,0,12"
+                                           Text="In HTML: .state-row { display: flex; align-items: center; gap: 8px; }&#x0a;In WPF: StackPanel has no CSS gap property. Sop.IndicatorDot applies Margin='0,0,8,0' (Space.2 token) to the 8px dot (Size.ToastDot), matching HTML flex gap: 8px precisely." />
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Badge Variant="Success" Margin="0,0,8,0">Space.2 = 8px</ui:Badge>
+                                    <ui:Badge Variant="Primary">Size.ToastDot = 8px</ui:Badge>
+                                </StackPanel>
+                            </StackPanel>
+                        </ui:Card>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 03: CAPSULE SEGMENTED PROGRESS & SPINNERS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 03: CAPSULE SEGMENTED PROGRESS &amp; MATERIAL 3 CIRCULAR SPINNERS" />
+                    <WrapPanel>
+                        <!-- Horizontal Capsule Segmented Progress -->
+                        <ui:Card Style="{StaticResource Cell}" Width="360">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="HORIZONTAL CAPSULE SEGMENTS (4PX GAP)" />
+                                
+                                <TextBlock Text="Checkout Progress (35%)" Style="{StaticResource Muted}" Margin="0,0,0,6" />
+                                <ui:SopsSegmentedProgressBar Value="35" Maximum="100" BarHeight="8" SegmentGap="4" Margin="0,0,0,16" />
+
+                                <TextBlock Text="Sync Reconciliation (70% — Success Theme)" Style="{StaticResource Muted}" Margin="0,0,0,6" />
+                                <ui:SopsSegmentedProgressBar Value="70" Maximum="100" BarHeight="10" SegmentGap="4" CompletedBrush="{DynamicResource Brush.Success}" Margin="0,0,0,16" />
+
+                                <TextBlock Text="Prescription Batch Validation (With Percentage Label)" Style="{StaticResource Muted}" Margin="0,0,0,6" />
+                                <ui:SopsSegmentedProgressBar Value="85" Maximum="100" BarHeight="8" SegmentGap="4" ShowPercentage="True" Margin="0,0,0,16" />
+
+                                <TextBlock Text="Warning Threshold (50% — Warning Theme)" Style="{StaticResource Muted}" Margin="0,0,0,6" />
+                                <ui:SopsSegmentedProgressBar Value="50" Maximum="100" BarHeight="8" SegmentGap="4" CompletedBrush="{DynamicResource Brush.Warning}" />
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- Material 3 SopsCircularProgress Spinner -->
+                        <ui:Card Style="{StaticResource Cell}" Width="380">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="MATERIAL 3 CIRCULAR PROGRESS (UI:SOPSCIRCULARPROGRESS)" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,6,0,16">
+                                    <!-- Indeterminate Spinning with 8° Double Gap -->
+                                    <StackPanel HorizontalAlignment="Center" Margin="0,0,20,0">
+                                        <ui:SopsCircularProgress IsIndeterminate="True" Size="42" StrokeThickness="4" TrackGapAngle="8" Margin="0,0,0,8" />
+                                        <TextBlock Text="Indeterminate" Style="{StaticResource Muted}" HorizontalAlignment="Center" />
+                                    </StackPanel>
+
+                                    <!-- Determinate Progress 65% with 2 visible 8° gaps -->
+                                    <StackPanel HorizontalAlignment="Center" Margin="0,0,20,0">
+                                        <ui:SopsCircularProgress Value="65" Maximum="100" Size="42" StrokeThickness="4" TrackGapAngle="8" ShowPercentage="True" Margin="0,0,0,8" />
+                                        <TextBlock Text="Progress (65%)" Style="{StaticResource Muted}" HorizontalAlignment="Center" />
+                                    </StackPanel>
+
+                                    <!-- Determinate Success Variant 85% -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <ui:SopsCircularProgress Value="85" Maximum="100" Size="42" StrokeThickness="4" TrackGapAngle="8" ActiveBrush="{DynamicResource Brush.Success}" ShowPercentage="True" Margin="0,0,0,8" />
+                                        <TextBlock Text="Rx Done (85%)" Style="{StaticResource Muted}" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <TextBlock Text="Material 3 specifications: round stroke caps, 4px stroke thickness, and two equal 8° gaps separating active and track arcs (track never extends underneath)." 
+                                           TextWrapping="Wrap" Style="{StaticResource Muted}" />
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- Specifications & Parity Card -->
+                        <ui:Card Style="{StaticResource Cell}" Width="360">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="MATERIAL 3 SPINNER SPECIFICATIONS" />
+                                <TextBlock TextWrapping="Wrap" Style="{StaticResource Muted}" Margin="0,0,0,10"
+                                           Text="• Shape: Circular progress indicator with round end caps.&#x0a;• Stroke: 4px thickness by default (configurable).&#x0a;• Gaps: Two visible 8° angular gaps at each end of the active arc.&#x0a;• Track: Neutral track does not extend underneath active arc.&#x0a;• Indeterminate: Smooth 1200ms clockwise rotation and sweep.&#x0a;• Edges: 0% shows track only, 100% shows full active circle without gaps." />
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:Badge Variant="Success" Margin="0,0,8,0">TrackGap = 8°</ui:Badge>
+                                    <ui:Badge Variant="Primary" Margin="0,0,8,0">Round Caps</ui:Badge>
+                                    <ui:Badge Variant="Info">1200ms Smooth</ui:Badge>
+                                </StackPanel>
+                            </StackPanel>
+                        </ui:Card>
+
+                        <!-- Interactive Resizable ScrollBar & Arrows Showcase -->
+                        <ui:Card Style="{StaticResource Cell}" Width="440">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitle}" Text="RESIZABLE SCROLLBAR &amp; ARROW CONTROLS" />
+                                <TextBlock Text="Dynamically resize scrollbar thickness, arrow buttons, and chevrons via ui:ScrollBarAssist properties:" TextWrapping="Wrap" Style="{StaticResource Muted}" Margin="0,0,0,10" />
+                                
+                                <!-- Slider Controls -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="135" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="42" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Gutter Size -->
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Gutter Thickness:" VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                    <Slider x:Name="GutterSlider" Grid.Row="0" Grid.Column="1" Minimum="10" Maximum="32" Value="16" SmallChange="1" LargeChange="2" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Value, ElementName=GutterSlider, StringFormat={}{0:0}px}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" />
+
+                                    <!-- Arrow Length -->
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Arrow Button Size:" VerticalAlignment="Center" Style="{StaticResource Muted}" Margin="0,6,0,0" />
+                                    <Slider x:Name="ArrowSlider" Grid.Row="1" Grid.Column="1" Minimum="10" Maximum="32" Value="16" SmallChange="1" LargeChange="2" VerticalAlignment="Center" Margin="0,6,0,0" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Value, ElementName=ArrowSlider, StringFormat={}{0:0}px}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,6,0,0" />
+
+                                    <!-- Arrow Glyph Size -->
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Chevron Icon Size:" VerticalAlignment="Center" Style="{StaticResource Muted}" Margin="0,6,0,0" />
+                                    <Slider x:Name="GlyphSlider" Grid.Row="2" Grid.Column="1" Minimum="5" Maximum="18" Value="8" SmallChange="1" LargeChange="2" VerticalAlignment="Center" Margin="0,6,0,0" />
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Value, ElementName=GlyphSlider, StringFormat={}{0:0}px}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,6,0,0" />
+                                </Grid>
+
+                                <!-- Live Interactive Resizing Preview Box -->
+                                <Border BorderBrush="{DynamicResource Brush.Line}" BorderThickness="1" CornerRadius="{DynamicResource Radius.Md}" Background="{DynamicResource Brush.SurfaceSunken}" Padding="8" Margin="0,0,0,10">
+                                    <Grid Height="120">
+                                        <ScrollViewer VerticalScrollBarVisibility="Visible"
+                                                      HorizontalScrollBarVisibility="Visible"
+                                                      ui:ScrollBarAssist.GutterSize="{Binding Value, ElementName=GutterSlider}"
+                                                      ui:ScrollBarAssist.ArrowSize="{Binding Value, ElementName=ArrowSlider}"
+                                                      ui:ScrollBarAssist.ArrowGlyphSize="{Binding Value, ElementName=GlyphSlider}">
+                                            <StackPanel Margin="8" Width="360">
+                                                <TextBlock Text="Scroll this box horizontally &amp; vertically!" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                                <TextBlock Text="Drug inventory stream with real-time reactive scrollbar sizing." Style="{StaticResource Muted}" />
+                                                <TextBlock Text="• Panadol Extra 500mg (Batch #98124)" Margin="0,4,0,0" />
+                                                <TextBlock Text="• Amoxicillin 250mg Suspension (Batch #88721)" />
+                                                <TextBlock Text="• Ibuprofen 400mg Film-coated (Batch #77312)" />
+                                                <TextBlock Text="• Cetirizine 10mg Tablets (Batch #66411)" />
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Size="Sm" Variant="Secondary" Click="ApplyToPageScrollbar">Apply To Page Scrollbar</ui:Button>
+                                    <ui:Button Size="Sm" Variant="Ghost" Click="ResetScrollbarSize" Margin="8,0,0,0">Reset</ui:Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </ui:Card>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 04: BUTTONS & ACTION CONTROLS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 04: BUTTONS &amp; ACTION CONTROLS (VARIANTS &amp; TOUCH SIZES)" />
+                    <WrapPanel>
+                        <ui:Button Style="{StaticResource Cell}">Checkout</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Secondary">Cancel</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Soft">Print labels</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Ghost">Skip</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Success">Complete sale</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Danger">Void sale</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="DangerSoft">Refund</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Warning">Restore</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="WarningSoft">Expiring</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" IsEnabled="False">Disabled</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Loading="True">Saving</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Secondary">
+                            <ui:Button.Icon>
+                                <Path Width="14" Height="14" Data="{DynamicResource Icon.Plus}" Stretch="Uniform" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                      Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ui:Button}}}" />
+                            </ui:Button.Icon>
+                            With icon
+                        </ui:Button>
+                        <ui:IconButton Style="{StaticResource Cell}" AutomationProperties.Name="Settings">
+                            <Path Width="16" Height="16" Data="{DynamicResource Icon.Settings}" Stretch="Uniform" StrokeThickness="2" StrokeLineJoin="Round"
+                                  Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ui:Button}}}" />
+                        </ui:IconButton>
+                    </WrapPanel>
+
+                    <!-- Touch sizes inside Element 04 -->
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="TOUCH TARGET SIZES (36 / 44 / 56PX)" Margin="0,16,0,12" />
+                    <WrapPanel>
+                        <ui:Button Style="{StaticResource Cell}" Size="Sm" Variant="Secondary">Dense row (36px)</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Size="Md">Default (44px)</ui:Button>
+                        <ui:Button Style="{StaticResource Cell}" Size="Lg">Register keypad (56px)</ui:Button>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 05: FORM INPUTS & FIELD CONTAINERS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 05: FORM INPUTS &amp; FIELD CONTAINERS" />
+                    <Grid MaxWidth="672" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ui:Field Grid.Row="0" Grid.Column="0" Margin="0,0,8,16" Label="Drug name" Required="True" Hint="English or Arabic — one is enough">
+                            <ui:Input Placeholder="Panadol Extra" />
+                        </ui:Field>
+                        <ui:Field Grid.Row="0" Grid.Column="1" Margin="8,0,0,16" Label="Price" Error="Price must be a whole number of piastres">
+                            <ui:Input Numeric="True" Placeholder="0.00">
+                                <ui:Input.Prefix>
+                                    <TextBlock Text="E£" />
+                                </ui:Input.Prefix>
+                            </ui:Input>
+                        </ui:Field>
+                        <ui:Field Grid.Row="1" Grid.Column="0" Margin="0,0,8,16" Label="Category">
+                            <ui:Select x:Name="Category" Value="analgesics" MenuLabel="Category" Options="{StaticResource Categories}" />
+                        </ui:Field>
+                        <ui:Field Grid.Row="1" Grid.Column="1" Margin="8,0,0,16" Label="Search">
+                            <ui:Input Placeholder="Name, SKU, or barcode">
+                                <ui:Input.Prefix>
+                                    <Path Width="14" Height="14" Data="{DynamicResource Icon.Search}" Stretch="Uniform" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                          Stroke="{DynamicResource Brush.InkSubtle}" />
+                                </ui:Input.Prefix>
+                                <ui:Input.Suffix>
+                                    <ui:Kbd>/</ui:Kbd>
+                                </ui:Input.Suffix>
+                            </ui:Input>
+                        </ui:Field>
+                        <ui:Field Grid.Row="2" Grid.Column="0" Margin="0,0,8,0" Label="Security PIN / Password" Hint="Click eye icon to reveal">
+                            <ui:PasswordInput Placeholder="Enter manager PIN..." />
+                        </ui:Field>
+                        <ui:Field Grid.Row="2" Grid.Column="1" Margin="8,0,0,0" Label="License / Device Key">
+                            <ui:Input Placeholder="LIC-2026-DEV-001" IsReadOnly="True" Text="LIC-2026-DEV-001" />
+                        </ui:Field>
+                    </Grid>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 06: TOGGLES & BINARY SELECTORS (CHECKBOX & SWITCH) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 06: TOGGLES &amp; BINARY SELECTORS (CHECKBOX &amp; SWITCH)" />
+                    <WrapPanel>
+                        <ui:Checkbox Style="{StaticResource Cell}" IsChecked="True">Requires prescription</ui:Checkbox>
+                        <ui:Checkbox Style="{StaticResource Cell}">Archived</ui:Checkbox>
+                        <ui:Checkbox Style="{StaticResource Cell}" IsEnabled="False">Disabled</ui:Checkbox>
+                        <ui:Switch Style="{StaticResource Cell}" IsChecked="True">Allow unit sale</ui:Switch>
+                        <ui:Switch Style="{StaticResource Cell}" IsEnabled="False">Disabled</ui:Switch>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 07: BADGES & SPINNERS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 07: BADGES &amp; SPINNERS" />
+                    <WrapPanel>
+                        <ui:Badge Style="{StaticResource Cell}">Neutral</ui:Badge>
+                        <ui:Badge Style="{StaticResource Cell}" Variant="Primary">DRG-000001</ui:Badge>
+                        <ui:Badge Style="{StaticResource Cell}" Variant="Success">In stock</ui:Badge>
+                        <ui:Badge Style="{StaticResource Cell}" Variant="Warning">Low stock</ui:Badge>
+                        <ui:Badge Style="{StaticResource Cell}" Variant="Danger">Expired</ui:Badge>
+                        <ui:Badge Style="{StaticResource Cell}" Variant="Info">Rx</ui:Badge>
+                        <ui:Spinner Style="{StaticResource Cell}" Size="Sm" VerticalAlignment="Center" />
+                        <ui:Spinner Style="{StaticResource Cell}" VerticalAlignment="Center" />
+                        <ui:Spinner Style="{StaticResource Cell}" Size="Lg" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Primary}" />
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 08: SKELETON PLACEHOLDERS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 08: SKELETON PLACEHOLDERS (LOADING WELLS)" />
+                    <ui:Card Width="360" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <ui:Skeleton Width="36" Height="36" Margin="0,0,12,0" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <ui:Skeleton Width="160" Height="14" Margin="0,0,0,6" />
+                                    <ui:Skeleton Width="100" Height="12" />
+                                </StackPanel>
+                            </StackPanel>
+                            <ui:Skeleton Width="310" Height="12" Margin="0,0,0,6" />
+                            <ui:Skeleton Width="260" Height="12" Margin="0,0,0,6" />
+                            <ui:Skeleton Width="180" Height="12" />
+                        </StackPanel>
+                    </ui:Card>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 09: CONTEXTUAL ALERTS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 09: CONTEXTUAL ALERTS" />
+                    <StackPanel MaxWidth="672" HorizontalAlignment="Left">
+                        <ui:Alert Variant="Info" Title="Shift open" Margin="0,0,0,12">Register opened at 09:00 by Ahmed.</ui:Alert>
+                        <ui:Alert Variant="Warning" Title="Low stock" Margin="0,0,0,12">7 drugs are at or below their reorder point.</ui:Alert>
+                        <ui:Alert Variant="Danger" Margin="0,0,0,12">A drug needs a name in English or Arabic.</ui:Alert>
+                        <ui:Alert Variant="Success">Import complete — 9,000 records written.</ui:Alert>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 10: CARDS & KPI SURFACES ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 10: CARDS &amp; KPI SURFACES" />
+                    <WrapPanel>
+                        <ui:Card Style="{StaticResource Cell}" Width="288">
+                            <StackPanel>
+                                <ui:CardHeader Title="Today" Subtitle="21 Aug 2026">
+                                    <ui:CardHeader.Actions>
+                                        <ui:Badge Variant="Success">Open</ui:Badge>
+                                    </ui:CardHeader.Actions>
+                                </ui:CardHeader>
+                                <TextBlock Style="{StaticResource Money}" FontSize="{DynamicResource Text.3Xl}" Text="E£12,450.00" />
+                                <ui:CardFooter>
+                                    <ui:Button Size="Sm" Variant="Secondary">Details</ui:Button>
+                                </ui:CardFooter>
+                            </StackPanel>
+                        </ui:Card>
+                        <ui:Card Style="{StaticResource Cell}" Width="176" Interactive="True" Click="OpenModal" VerticalAlignment="Top">
+                            <StackPanel>
+                                <TextBlock Text="Panadol Extra" FontWeight="SemiBold" />
+                                <TextBlock Style="{StaticResource Muted}" Margin="0,4,0,0" Text="500 mg / 65 mg" />
+                                <TextBlock Style="{StaticResource Money}" Margin="0,8,0,0" FontSize="{DynamicResource Text.Md}" Text="E£45.00" />
+                            </StackPanel>
+                        </ui:Card>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 11: DATA PRESENTATION (VIRTUALIZED TABLE IN LISTCARD) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 11: DATA PRESENTATION (VIRTUALIZED TABLE IN LISTCARD)" />
+                    <!-- Screens put tables in a ListCard: a rounded, clipping card the
+                         table fills edge to edge. -->
+                    <ui:Card Padding="0" ClipContent="True" MaxWidth="768" HorizontalAlignment="Left">
+                    <ui:Table x:Name="DrugTable" Dense="True" ColumnsKey="gallery" MaxHeight="224" BorderThickness="0">
+                        <ui:Table.Columns>
+                            <DataGridTextColumn Header="Drug" Binding="{Binding Name}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTemplateColumn Header="SKU">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ui:Badge Variant="Primary" Content="{Binding Sku}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Concentration" Binding="{Binding Concentration}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{DynamicResource Brush.InkMuted}" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" ui:Table.Numeric="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="FontFamily" Value="{DynamicResource Font.Mono}" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" ui:Table.Numeric="True" />
+                        </ui:Table.Columns>
+                    </ui:Table>
+                    </ui:Card>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 12: CONTENT SEPARATORS (DIVIDERS) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 12: CONTENT SEPARATORS (DIVIDERS)" />
+                    <StackPanel MaxWidth="448" HorizontalAlignment="Left">
+                        <TextBlock Text="Cash" />
+                        <ui:Divider Margin="0,12" />
+                        <TextBlock Text="Card" />
+                        <ui:Divider Label="or" Margin="0,12" />
+                        <TextBlock Text="Insurance" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 13: TRANSIENT NOTIFICATIONS (TOASTS) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 13: TRANSIENT NOTIFICATIONS (TOASTS)" />
+                    <WrapPanel>
+                        <ui:Toast Style="{StaticResource Cell}" Variant="Success" Title="Sale completed" Subtitle="Receipt TXN-000412 — E£245.00" Dismissable="True" />
+                        <ui:Toast Style="{StaticResource Cell}" Variant="Warning" Title="Pop-up blocked" Subtitle="Printed via fallback frame instead." Dismissable="True" />
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 14: NAVIGATION, SHORTCUTS & MENUS ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 14: NAVIGATION, SHORTCUTS &amp; MENUS (TABS, KBD, POPUP MENU, CONTEXT MENU)" />
+                    <WrapPanel>
+                        <ui:Tabs x:Name="GalleryTabs" Style="{StaticResource Cell}" SelectedKey="today" />
+                        <StackPanel Style="{StaticResource Cell}" Orientation="Horizontal" VerticalAlignment="Center">
+                            <ui:Kbd>Ctrl</ui:Kbd>
+                            <TextBlock Text="+" Margin="4,0" Foreground="{DynamicResource Brush.InkSubtle}" VerticalAlignment="Center" />
+                            <ui:Kbd>K</ui:Kbd>
+                        </StackPanel>
+                        <ui:Button x:Name="SortButton" Style="{StaticResource Cell}" Variant="Secondary" Size="Sm" PreviewMouseLeftButtonDown="SortButton_PreviewMouseDown" Click="OpenSort">Sort by</ui:Button>
+                        <ui:Menu x:Name="SortMenu" PlacementTarget="{Binding ElementName=SortButton}" Align="End" Label="Sort by">
+                            <StackPanel>
+                                <ui:MenuItem Selected="True">Name</ui:MenuItem>
+                                <ui:MenuItem>Price</ui:MenuItem>
+                                <ui:MenuItem>Expiry</ui:MenuItem>
+                                <ui:MenuSeparator />
+                                <ui:MenuItem Check="False">
+                                    Reset
+                                    <ui:MenuItem.Trailing>
+                                        <ui:Kbd>R</ui:Kbd>
+                                    </ui:MenuItem.Trailing>
+                                </ui:MenuItem>
+                            </StackPanel>
+                        </ui:Menu>
+                        <ui:Card x:Name="ContextTarget" Style="{StaticResource Cell}" Width="288" MouseRightButtonUp="OpenContext">
+                            <TextBlock Text="Right-click here for a context menu" Foreground="{DynamicResource Brush.InkMuted}" />
+                        </ui:Card>
+                        <ui:ContextMenu x:Name="RowMenu" Label="Row">
+                            <StackPanel>
+                                <ui:MenuItem Check="False">Edit</ui:MenuItem>
+                                <ui:MenuItem Check="False">Duplicate</ui:MenuItem>
+                                <ui:MenuSeparator />
+                                <ui:MenuItem Check="False" Foreground="{DynamicResource Brush.Danger}">Archive</ui:MenuItem>
+                            </StackPanel>
+                        </ui:ContextMenu>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 15: MODAL DIALOGS (MODAL & MODALHOST) ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 15: MODAL DIALOGS (MODAL &amp; MODALHOST)" />
+                    <WrapPanel>
+                        <ui:Button Style="{StaticResource Cell}" Variant="Secondary" Click="OpenModal">Open modal</ui:Button>
+                        <ui:Modal x:Name="EditModal" Title="Edit drug">
+                            <StackPanel>
+                                <ui:Field Label="Name (English)">
+                                    <ui:Input Text="Panadol Extra" />
+                                </ui:Field>
+                                <ui:Field Margin="0,16,0,0" Label="Category — the dropdown must overlay this dialog">
+                                    <ui:Select x:Name="ModalCategory" Value="analgesics" Options="{StaticResource Categories}" />
+                                </ui:Field>
+                                <ui:Checkbox Margin="0,16,0,0" IsChecked="True">Requires prescription</ui:Checkbox>
+                            </StackPanel>
+                            <ui:Modal.Footer>
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:Button Variant="Secondary" Click="CloseModal">Cancel</ui:Button>
+                                    <ui:Button Margin="8,0,0,0" Click="CloseModal">Save</ui:Button>
+                                </StackPanel>
+                            </ui:Modal.Footer>
+                        </ui:Modal>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- ========== ELEMENT 16: ICONOGRAPHY SYSTEM ========== -->
+                <StackPanel Style="{StaticResource Section}">
+                    <TextBlock Style="{StaticResource SectionTitle}" Text="ELEMENT 16: ICONOGRAPHY SYSTEM (40+ LUCIDE-STYLE 24×24 STROKE OUTLINES)" />
+                    <WrapPanel MaxWidth="1100">
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Scan" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Scan" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Cart" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Cart" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Receipt" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Receipt" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Users" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Users" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Pill" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Pill" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Boxes" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Boxes" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Warehouse" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Warehouse" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="PanelLeft" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="PanelLeft" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Building" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Building" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Bell" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Bell" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Settings" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Settings" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Search" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Search" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Plus" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Plus" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Check" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Check" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Close" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Close" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Chevron" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Chevron" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Languages" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Languages" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Sun" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Sun" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Moon" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Moon" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Trash" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Trash" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="SearchX" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="SearchX" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="UserPlus" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="UserPlus" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Wallet" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Wallet" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Percent" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Percent" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Banknote" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Banknote" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Card" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Card" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Smartphone" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Phone" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="AlertTriangle" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Alert" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Clock" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Clock" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Calendar" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Calendar" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Printer" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Printer" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="RotateCcw" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="RotateCcw" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Pencil" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Pencil" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Package" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Package" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Lock" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Lock" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Info" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Info" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Database" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Database" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Download" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Download" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Upload" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Upload" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Save" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Save" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Shield" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Shield" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Eye" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Eye" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Wifi" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Wifi" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Sparkles" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="AI" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                        <Border Style="{StaticResource IconCell}"><StackPanel VerticalAlignment="Center"><ui:Icon Glyph="Logout" Size="18" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Ink}" /><TextBlock Text="Logout" Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,4,0,0" /></StackPanel></Border>
+                    </WrapPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Modals present here, over everything. -->
+        <ui:ModalHost x:Name="Modals" />
+    </Grid>
+</Window>

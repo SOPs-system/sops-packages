@@ -1,0 +1,46 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Default styles for every primitive. One file per control, the way
+         the web design system keeps one primitive per file. Colours, fonts and
+         sizes in these files are DynamicResource lookups into the token
+         dictionaries — never literals. -->
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Icon first: the button template derives an Icon style from this one
+             (so a glyph takes the button's own colour), and BasedOn resolves
+             against what is already merged. -->
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Icon.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Button.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Spinner.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Skeleton.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Badge.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Alert.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Divider.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Card.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Field.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Input.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Checkbox.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Switch.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Kbd.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Tabs.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Table.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Toast.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Modal.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Menu.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Select.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/PasswordInput.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/StatusIndicator.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/ProgressBar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsSegmentedProgressBar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsCircularProgressBar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsCircularProgress.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/AppWindow.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsTopBar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsSidebar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsSidePanel.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsStatusBar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsAppShell.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

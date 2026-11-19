@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/identity/UserSummary.json",
+  "title": "UserSummary",
+  "description": "Safe user projection without sensitive credentials, password hashes, or secrets.",
+  "type": "object",
+  "required": [
+    "user_id",
+    "username",
+    "full_name",
+    "email",
+    "is_active"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "username": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "is_active": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

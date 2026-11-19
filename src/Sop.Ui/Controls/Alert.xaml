@@ -1,0 +1,113 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- The close control inside a banner: no chrome, just the glyph, drawn in
+         the banner's own colour so a danger alert closes in danger red. -->
+    <Style x:Key="Sop.Alert.Dismiss" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Opacity" Value="0.7" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource Radius.Sm}" Padding="{TemplateBinding Padding}">
+                        <Path Width="12" Height="12"
+                              Data="{DynamicResource Icon.Close}"
+                              Stretch="Uniform"
+                              Stroke="{TemplateBinding Foreground}"
+                              StrokeThickness="2"
+                              StrokeStartLineCap="Round"
+                              StrokeEndLineCap="Round" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Inline message banner. -->
+    <Style TargetType="{x:Type ui:Alert}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.App}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="Background" Value="{DynamicResource Brush.InfoSoft}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.InfoSoftText}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.InfoLine}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:Alert}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource Radius.Md}"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <ContentPresenter x:Name="Title"
+                                                  Content="{TemplateBinding Title}"
+                                                  TextBlock.FontWeight="SemiBold" />
+                                <ContentPresenter x:Name="Body" Margin="0,4,0,0">
+                                    <ContentPresenter.Resources>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
+                            </StackPanel>
+                            <Button x:Name="PART_Dismiss"
+                                    Grid.Column="1"
+                                    Style="{StaticResource Sop.Alert.Dismiss}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    AutomationProperties.Name="Dismiss" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Dismissable" Value="False">
+                            <Setter TargetName="PART_Dismiss" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Title" Value="{x:Null}">
+                            <Setter TargetName="Title" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Body" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="Body" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Variant" Value="Success">
+                <Setter Property="Background" Value="{DynamicResource Brush.SuccessSoft}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.SuccessSoftText}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.SuccessLine}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Warning">
+                <Setter Property="Background" Value="{DynamicResource Brush.WarningSoft}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.WarningSoftText}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.WarningLine}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Danger">
+                <Setter Property="Background" Value="{DynamicResource Brush.DangerSoft}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.DangerSoftText}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.DangerLine}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

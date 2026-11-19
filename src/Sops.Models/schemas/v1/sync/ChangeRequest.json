@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/sync/ChangeRequest.json",
+  "title": "ChangeRequest",
+  "description": "Approval request for sensitive operations requiring management authorization.",
+  "type": "object",
+  "required": [
+    "request_id",
+    "tenant_id",
+    "branch_id",
+    "requested_by_user_id",
+    "change_type",
+    "reason",
+    "status",
+    "created_at_utc"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "requested_by_user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "change_type": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Approved",
+        "Rejected",
+        "Expired"
+      ],
+      "default": "Pending"
+    },
+    "decision": {
+      "$ref": "ChangeDecision.json"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

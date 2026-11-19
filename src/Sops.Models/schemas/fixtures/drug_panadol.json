@@ -1,0 +1,48 @@
+{
+  "id": "e3b0c442-98fc-1c14-9afb-f4c8996fb924",
+  "sku": "EDA-2024-001",
+  "barcode": "6221234567890",
+  "name_en": "Panadol Extra 500mg",
+  "name_ar": "بنادول إكسترا 500 مجم",
+  "generic_name": "Paracetamol / Caffeine",
+  "category_id": null,
+  "dosage_form": "Tablet",
+  "official_price": {
+    "amountInMinorUnits": 4500,
+    "amount_minor_units": 4500,
+    "currency": "EGP",
+    "decimalString": "45.00"
+  },
+  "is_price_regulated": true,
+  "requires_prescription": false,
+  "storage_type": "RoomTemperature",
+  "packages": [
+    {
+      "tier_name": "Box",
+      "conversion_factor_to_base": 24,
+      "is_default_dispensing_unit": true
+    },
+    {
+      "tier_name": "Strip",
+      "conversion_factor_to_base": 12,
+      "is_default_dispensing_unit": false
+    },
+    {
+      "tier_name": "Unit",
+      "conversion_factor_to_base": 1,
+      "is_default_dispensing_unit": false
+    }
+  ],
+  "active_ingredients": [
+    {
+      "name": "Paracetamol",
+      "strength": "500 mg"
+    },
+    {
+      "name": "Caffeine",
+      "strength": "65 mg"
+    }
+  ],
+  "status": "Active",
+  "catalog_revision": 1
+}

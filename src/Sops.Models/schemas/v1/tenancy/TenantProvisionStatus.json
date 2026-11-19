@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/tenancy/TenantProvisionStatus.json",
+  "title": "TenantProvisionStatus",
+  "description": "Lifecycle state of a tenant chain database and services.",
+  "type": "string",
+  "enum": [
+    "Pending",
+    "Provisioning",
+    "Active",
+    "Suspended",
+    "Decommissioned"
+  ]
+}

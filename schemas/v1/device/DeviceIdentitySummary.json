@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/device/DeviceIdentitySummary.json",
+  "title": "DeviceIdentitySummary",
+  "description": "Safe, non-sensitive device registration summary for administrative and licensing APIs.",
+  "type": "object",
+  "required": [
+    "device_id",
+    "device_code",
+    "chain_id",
+    "pharmacy_id",
+    "platform",
+    "device_name",
+    "status",
+    "registered_at_utc"
+  ],
+  "properties": {
+    "device_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "device_code": {
+      "type": "string",
+      "description": "Human-friendly Crockford Base32 device code."
+    },
+    "chain_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "Windows",
+        "Linux",
+        "OSX",
+        "Android",
+        "iOS",
+        "Unknown"
+      ]
+    },
+    "device_name": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "DeviceStatus.json"
+    },
+    "registered_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_heartbeat_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

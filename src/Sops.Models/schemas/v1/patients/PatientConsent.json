@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/patients/PatientConsent.json",
+  "title": "PatientConsent",
+  "description": "Explicit authorization granted by a patient for sharing or viewing clinical records.",
+  "type": "object",
+  "required": [
+    "consent_id",
+    "patient_id",
+    "granted_scope",
+    "granted_at_utc",
+    "expires_at_utc"
+  ],
+  "properties": {
+    "consent_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "patient_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "authorized_chain_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "authorized_pharmacy_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "granted_scope": {
+      "type": "string",
+      "enum": [
+        "ViewMedicationHistory",
+        "RecordDispense",
+        "FullClinicalProfile"
+      ]
+    },
+    "granted_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_revoked": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

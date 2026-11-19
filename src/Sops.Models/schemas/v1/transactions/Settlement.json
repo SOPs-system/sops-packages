@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/transactions/Settlement.json",
+  "title": "Settlement",
+  "description": "Daily or shift accounting financial summary.",
+  "type": "object",
+  "required": [
+    "settlement_id",
+    "pharmacy_id",
+    "business_date",
+    "total_sales",
+    "total_returns",
+    "net_sales",
+    "cash_total",
+    "card_total",
+    "settled_at_utc"
+  ],
+  "properties": {
+    "settlement_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "business_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "total_sales": {
+      "$ref": "../common/Money.json"
+    },
+    "total_returns": {
+      "$ref": "../common/Money.json"
+    },
+    "net_sales": {
+      "$ref": "../common/Money.json"
+    },
+    "cash_total": {
+      "$ref": "../common/Money.json"
+    },
+    "card_total": {
+      "$ref": "../common/Money.json"
+    },
+    "settled_by_user_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "settled_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

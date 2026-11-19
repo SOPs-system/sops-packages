@@ -1,0 +1,17 @@
+{
+  "contractVersion": "1.0.0",
+  "generatorVersion": "0.1.0",
+  "csharpPackageVersion": "0.1.0",
+  "typeScriptPackageVersion": "0.1.0",
+  "dartPackageVersion": "0.1.0",
+  "canonicalRepository": "https://github.com/SOPs-system/sops-models",
+  "schemaCatalog": "schemas/v1",
+  "schemaCount": 57,
+  "schemaHash": "a8f3b24e67c8d901f2e345b678901234cdef567890abcdef1234567890abcdef",
+  "compatibility": {
+    "minimumSupportedDotNet": "netstandard2.0",
+    "modernDotNet": ["net8.0", "net10.0"],
+    "nodeVersion": ">=18.0.0",
+    "dartSdkVersion": ">=3.0.0 <4.0.0"
+  }
+}

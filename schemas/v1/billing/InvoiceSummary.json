@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/billing/InvoiceSummary.json",
+  "title": "InvoiceSummary",
+  "description": "Subscription invoice record.",
+  "type": "object",
+  "required": [
+    "invoice_id",
+    "invoice_number",
+    "tenant_id",
+    "total_due",
+    "issue_date",
+    "due_date",
+    "is_settled"
+  ],
+  "properties": {
+    "invoice_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "invoice_number": {
+      "type": "string"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "total_due": {
+      "$ref": "../common/Money.json"
+    },
+    "issue_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_settled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

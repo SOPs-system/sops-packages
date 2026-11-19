@@ -1,0 +1,219 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ============================================================
+         Theme-independent tokens: type faces, the type ramp, radii,
+         touch targets, spacing, durations. Colours and shadows live in
+         Tokens.Light.xaml / Tokens.Dark.xaml (they change per theme).
+
+         Mirrors src/ui/theme.css of the web app — keep the two in step.
+         ============================================================ -->
+
+    <!-- ========== Type faces ==========
+         English: Inter · Arabic: IBM Plex Sans Arabic · Mono: JetBrains Mono.
+         The pack URI picks the face up when its .ttf is dropped into Fonts/;
+         otherwise WPF walks the fallback list (Segoe UI ships on Windows 7+,
+         Tahoma covers Arabic on Windows 7 where Segoe UI does not). -->
+    <FontFamily x:Key="Font.En">pack://application:,,,/Sop.Ui;component/Fonts/#Inter, Segoe UI, Tahoma, Arial</FontFamily>
+    <FontFamily x:Key="Font.Ar">pack://application:,,,/Sop.Ui;component/Fonts/#IBM Plex Sans Arabic, Segoe UI, Tahoma, Arial</FontFamily>
+    <FontFamily x:Key="Font.Mono">pack://application:,,,/Sop.Ui;component/Fonts/#JetBrains Mono, Consolas, Courier New</FontFamily>
+    <!-- Font.App is re-pointed at Font.En / Font.Ar by Theme.IsRtl at runtime. -->
+    <FontFamily x:Key="Font.App">pack://application:,,,/Sop.Ui;component/Fonts/#Inter, Segoe UI, Tahoma, Arial</FontFamily>
+
+    <!-- ========== SOP type ramp (12/14/16/18/22/28/36) ==========
+         WPF font sizes are device-independent pixels, same as the CSS px. -->
+    <sys:Double x:Key="Text.2Xs">10</sys:Double>
+    <sys:Double x:Key="Text.Xs">12</sys:Double>
+    <sys:Double x:Key="Text.Sm">14</sys:Double>
+    <sys:Double x:Key="Text.Md">16</sys:Double>
+    <sys:Double x:Key="Text.Lg">18</sys:Double>
+    <sys:Double x:Key="Text.Xl">22</sys:Double>
+    <sys:Double x:Key="Text.2Xl">28</sys:Double>
+    <sys:Double x:Key="Text.3Xl">36</sys:Double>
+
+    <!-- ========== Radii: micro 6 / standard 8 / comfortable 12 / large 16 ==========
+         The *Ring variants are radius + 3, for the focus ring drawn 3px outside. -->
+    <CornerRadius x:Key="Radius.None">0</CornerRadius>
+    <CornerRadius x:Key="Radius.Xs">5</CornerRadius>
+    <CornerRadius x:Key="Radius.Sm">6</CornerRadius>
+    <CornerRadius x:Key="Radius.Md">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Lg">12</CornerRadius>
+    <CornerRadius x:Key="Radius.Xl">16</CornerRadius>
+    <!-- SQUARE boxes only (avatars, icon circles). WPF scales an oversized
+         radius to width/2 AND height/2, so on a wide box this draws an ellipse
+         rather than a pill — bind CornerRadius to ActualHeight through
+         HalfHeightToCornerRadiusConverter for those. -->
+    <CornerRadius x:Key="Radius.Full">9999</CornerRadius>
+    <CornerRadius x:Key="Radius.SmRing">9</CornerRadius>
+    <CornerRadius x:Key="Radius.MdRing">11</CornerRadius>
+    <CornerRadius x:Key="Radius.LgRing">15</CornerRadius>
+    <CornerRadius x:Key="Radius.FullRing">9999</CornerRadius>
+    <!-- Circular pill radii (height / 2): avoids WPF 9999 corner radius squashing into ellipses -->
+    <CornerRadius x:Key="Radius.Switch">11</CornerRadius>
+    <CornerRadius x:Key="Radius.SwitchRing">14</CornerRadius>
+    <CornerRadius x:Key="Radius.SwitchThumb">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Badge">11</CornerRadius>
+    <CornerRadius x:Key="Radius.ScrollbarThumb">3</CornerRadius>
+    <Thickness x:Key="Ring.Margin">-3</Thickness>
+    <Thickness x:Key="Ring.Thickness">3</Thickness>
+
+    <!-- ========== Touch targets (POS = finger-first) ========== -->
+    <sys:Double x:Key="Size.HitSm">36</sys:Double>
+    <sys:Double x:Key="Size.Hit">44</sys:Double>
+    <sys:Double x:Key="Size.HitLg">56</sys:Double>
+
+    <!-- ========== Control paddings (horizontal), per size ========== -->
+    <Thickness x:Key="Pad.ButtonSm">12,0</Thickness>
+    <Thickness x:Key="Pad.Button">16,0</Thickness>
+    <Thickness x:Key="Pad.ButtonLg">24,0</Thickness>
+    <Thickness x:Key="Pad.InputSm">12,0</Thickness>
+    <Thickness x:Key="Pad.Input">14,0</Thickness>
+    <Thickness x:Key="Pad.InputLg">16,0</Thickness>
+    <Thickness x:Key="Pad.None">0</Thickness>
+    <!-- Affixes live inside the frame: the input drops the padding on that side. -->
+    <Thickness x:Key="Pad.InputAfterPrefix">0,0,14,0</Thickness>
+    <Thickness x:Key="Pad.InputBeforeSuffix">14,0,0,0</Thickness>
+    <Thickness x:Key="Pad.Affix.Start">14,0,8,0</Thickness>
+    <Thickness x:Key="Pad.Affix.End">8,0,14,0</Thickness>
+    <sys:Double x:Key="Size.SelectChevronSlot">36</sys:Double>
+    <Thickness x:Key="Pad.SelectInput">14,0,36,0</Thickness>
+
+    <!-- ========== Spacing scale (Tailwind's 4px grid) ========== -->
+    <sys:Double x:Key="Space.1">4</sys:Double>
+    <sys:Double x:Key="Space.2">8</sys:Double>
+    <sys:Double x:Key="Space.3">12</sys:Double>
+    <sys:Double x:Key="Space.4">16</sys:Double>
+    <sys:Double x:Key="Space.5">20</sys:Double>
+    <sys:Double x:Key="Space.6">24</sys:Double>
+    <sys:Double x:Key="Space.8">32</sys:Double>
+
+    <!-- ========== Component metrics ========== -->
+    <sys:Double x:Key="Size.Checkbox">20</sys:Double>
+    <sys:Double x:Key="Size.SwitchWidth">38</sys:Double>
+    <sys:Double x:Key="Size.SwitchHeight">22</sys:Double>
+    <sys:Double x:Key="Size.SwitchThumb">16</sys:Double>
+    <Thickness x:Key="Pad.SwitchThumb">3</Thickness>
+    <sys:Double x:Key="Size.SpinnerSm">14</sys:Double>
+    <sys:Double x:Key="Size.Spinner">18</sys:Double>
+    <sys:Double x:Key="Size.SpinnerLg">24</sys:Double>
+    <sys:Double x:Key="Size.SpinnerStroke">2</sys:Double>
+    <sys:Double x:Key="Size.ToastWidth">320</sys:Double>
+    <sys:Double x:Key="Size.ToastDot">8</sys:Double>
+    <sys:Double x:Key="Size.MenuMinWidth">160</sys:Double>
+    <sys:Double x:Key="Size.MenuMaxHeight">320</sys:Double>
+    <sys:Double x:Key="Size.MenuCheckColumn">14</sys:Double>
+    <sys:Double x:Key="Size.MenuGap">6</sys:Double>
+    <sys:Double x:Key="Size.MenuEdge">8</sys:Double>
+    <!-- Room around a popover card for its drop shadow (the popup is a
+         separate surface, so the shadow needs space inside it). -->
+    <sys:Double x:Key="Size.MenuShadowBleed">20</sys:Double>
+    <Thickness x:Key="Pad.MenuShadowBleed">20</Thickness>
+    <!-- The filter box beside a section heading (the web's w-64). -->
+    <sys:Double x:Key="Size.FilterBox">256</sys:Double>
+    <sys:Double x:Key="Size.ResizeBand">16</sys:Double>
+    <sys:Double x:Key="Size.ResizeBar">2</sys:Double>
+    <sys:Double x:Key="Size.MinColumnWidth">56</sys:Double>
+    <sys:Double x:Key="Size.IconSm">14</sys:Double>
+    <sys:Double x:Key="Size.Icon">16</sys:Double>
+    <sys:Double x:Key="Size.ScrollbarGutter">12</sys:Double>
+    <sys:Double x:Key="Size.ScrollbarArrow">12</sys:Double>
+    <sys:Double x:Key="Size.ScrollbarArrowGlyph">7</sys:Double>
+    <Thickness x:Key="Pad.ScrollbarInset">3</Thickness>
+
+    <!-- Modal widths: sm 384 · md 512 · lg 768; margin from the window edge. -->
+    <sys:Double x:Key="Size.ModalSm">384</sys:Double>
+    <sys:Double x:Key="Size.ModalMd">512</sys:Double>
+    <sys:Double x:Key="Size.ModalLg">768</sys:Double>
+    <sys:Double x:Key="Size.ModalEdgeX">16</sys:Double>
+    <sys:Double x:Key="Size.ModalEdgeY">32</sys:Double>
+    <Thickness x:Key="Pad.ModalEdge">16,32</Thickness>
+    <!-- "No cap" for a full-window modal. -->
+    <sys:Double x:Key="Size.Unbounded">Infinity</sys:Double>
+
+    <!-- Shell chrome (the web's w-56 / w-16 / h-14 / h-8 / w-96 …). -->
+    <sys:Double x:Key="Size.Sidebar">224</sys:Double>
+    <sys:Double x:Key="Size.SidebarRail">64</sys:Double>
+    <sys:Double x:Key="Size.TopBar">56</sys:Double>
+    <!-- The window's own caption bar, above the app's top bar. -->
+    <sys:Double x:Key="Size.TitleBar">40</sys:Double>
+    <sys:Double x:Key="Size.CaptionButton">46</sys:Double>
+    <sys:Double x:Key="Size.TitleMark">22</sys:Double>
+    <sys:Double x:Key="Size.StatusBar">32</sys:Double>
+    <sys:Double x:Key="Size.Avatar">36</sys:Double>
+    <sys:Double x:Key="Size.AvatarSm">32</sys:Double>
+    <sys:Double x:Key="Size.Dot">6</sys:Double>
+    <sys:Double x:Key="Size.IconXs">13</sys:Double>
+    <sys:Double x:Key="Size.IconMd">16</sys:Double>
+    <sys:Double x:Key="Size.IconLg">18</sys:Double>
+    <sys:Double x:Key="Size.IconNav">19</sys:Double>
+    <sys:Double x:Key="Size.LogoLg">88</sys:Double>
+    <sys:Double x:Key="Size.LogoLogin">82</sys:Double>
+    <sys:Double x:Key="Size.LogoSm">30</sys:Double>
+    <sys:Double x:Key="Size.Panel">384</sys:Double>
+    <sys:Double x:Key="Size.PanelTop">64</sys:Double>
+    <!-- The help assistant is a conversation, so its panel is tall (the web's
+         80dvh, at the register's own window height). -->
+    <sys:Double x:Key="Size.HelpPanel">610</sys:Double>
+    <sys:Double x:Key="Size.Edge">16</sys:Double>
+    <sys:Double x:Key="Size.EdgeLg">24</sys:Double>
+    <sys:Double x:Key="Size.ToastBottom">48</sys:Double>
+    <sys:Double x:Key="Size.LoginBrandMax">448</sys:Double>
+    <sys:Double x:Key="Size.LoginForm">384</sys:Double>
+    <sys:Double x:Key="Size.CardMd">448</sys:Double>
+    <sys:Double x:Key="Size.CardLg">576</sys:Double>
+    <sys:Double x:Key="Size.Breakpoint">768</sys:Double>
+    <sys:Double x:Key="Size.TableMaxHeight">288</sys:Double>
+    <sys:Double x:Key="Size.BadgeMin">16</sys:Double>
+
+    <!--
+      Screen chrome (features/common/chrome.tsx).
+
+      A panel nobody has dragged yet opens at its MAXIMUM width, matching
+      useResizablePanel: these panels are where the work is read, and a
+      first-run default that hid half of one was the thing people were
+      dragging every time.
+    -->
+    <sys:Double x:Key="Size.DetailPanel">720</sys:Double>
+    <sys:Double x:Key="Size.DetailPanelMin">280</sys:Double>
+    <sys:Double x:Key="Size.DetailPanelMax">720</sys:Double>
+    <sys:Double x:Key="Size.KpiMin">160</sys:Double>
+    <sys:Double x:Key="Size.SearchMin">224</sys:Double>
+    <sys:Double x:Key="Size.FilterSelect">256</sys:Double>
+    <sys:Double x:Key="Size.RefundListMaxHeight">288</sys:Double>
+    <sys:Double x:Key="Size.ReceiveCatalog">440</sys:Double>
+    <sys:Double x:Key="Size.SettingsColumn">768</sys:Double>
+    <sys:Double x:Key="Size.CaptureBox">64</sys:Double>
+    <sys:Double x:Key="Size.ProgressTrack">8</sys:Double>
+    <sys:Double x:Key="Size.JsonEditor">200</sys:Double>
+    <sys:Double x:Key="Size.PosDropdown">384</sys:Double>
+    <!-- The cart opens at its maximum too — see Size.DetailPanel. -->
+    <sys:Double x:Key="Size.Cart">620</sys:Double>
+    <sys:Double x:Key="Size.CartMin">320</sys:Double>
+    <sys:Double x:Key="Size.CartMax">800</sys:Double>
+    <sys:Double x:Key="Size.CartBadge">32</sys:Double>
+    <sys:Double x:Key="Size.RefundQty">96</sys:Double>
+    <sys:Double x:Key="Size.AvatarMd">40</sys:Double>
+    <sys:Double x:Key="Size.AvatarLg">56</sys:Double>
+    <sys:Double x:Key="Size.HeaderBadge">40</sys:Double>
+    <sys:Double x:Key="Size.PagerButton">28</sys:Double>
+    <sys:Double x:Key="Size.StepButton">32</sys:Double>
+    <sys:Double x:Key="Size.StepInput">64</sys:Double>
+    <!-- An amount box inline with a label (the web's w-28): room for the
+         currency prefix AND the figure, which 64 truncates. -->
+    <sys:Double x:Key="Size.MoneyInput">112</sys:Double>
+    <!-- A file path shown inline. Trimmed rather than wrapped: a mapped drive
+         can be longer than the card, and the full path is on the tooltip. -->
+    <sys:Double x:Key="Size.PathChip">280</sys:Double>
+    <sys:Double x:Key="Size.GripHeight">56</sys:Double>
+    <Thickness x:Key="Pad.Screen">24,20</Thickness>
+    <Thickness x:Key="Pad.Panel">20</Thickness>
+    <sys:Double x:Key="Space.Screen">16</sys:Double>
+
+    <!-- ========== Motion ========== -->
+    <Duration x:Key="Motion.Fast">0:0:0.15</Duration>
+    <sys:Double x:Key="Motion.EnterScale">0.97</sys:Double>
+    <sys:Double x:Key="Motion.EnterOffsetY">2</sys:Double>
+
+</ResourceDictionary>

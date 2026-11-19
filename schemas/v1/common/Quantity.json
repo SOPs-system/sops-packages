@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/common/Quantity.json",
+  "title": "Quantity",
+  "description": "Represents a physical inventory or dosage quantity with a unit of measure.",
+  "type": "object",
+  "required": [
+    "value",
+    "unit"
+  ],
+  "properties": {
+    "value": {
+      "type": "number",
+      "description": "Numerical measurement or count."
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Unit name (e.g., 'tablets', 'boxes', 'ml', 'vials')."
+    }
+  },
+  "additionalProperties": false
+}

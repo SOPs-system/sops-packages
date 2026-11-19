@@ -1,0 +1,126 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- The presented dialog surface: dimmed backdrop + floating panel. -->
+    <Style TargetType="{x:Type ui:ModalPanel}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.App}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:ModalPanel}">
+                    <Grid>
+                        <Border x:Name="PART_Backdrop" Background="{DynamicResource Brush.Overlay}" />
+                        <Grid x:Name="Frame" Margin="{DynamicResource Pad.ModalEdge}">
+                            <Border x:Name="Panel"
+                                    MaxWidth="{DynamicResource Size.ModalMd}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource Brush.SurfaceRaised}"
+                                    BorderBrush="{DynamicResource Brush.Line}"
+                                    BorderThickness="1"
+                                    CornerRadius="{DynamicResource Radius.Xl}"
+                                    Effect="{DynamicResource Shadow.Deep}"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    SnapsToDevicePixels="True">
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="Slide" />
+                                </Border.RenderTransform>
+                                <DockPanel>
+                                    <Border x:Name="Header" DockPanel.Dock="Top" Padding="20,16,20,8" BorderBrush="{DynamicResource Brush.Line}" BorderThickness="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter x:Name="Title"
+                                                              Content="{TemplateBinding Title}"
+                                                              VerticalAlignment="Center"
+                                                              TextBlock.FontSize="{DynamicResource Text.Lg}"
+                                                              TextBlock.FontWeight="SemiBold" />
+                                            <ui:IconButton x:Name="PART_Close"
+                                                           Grid.Column="1"
+                                                           Size="Sm"
+                                                           Margin="12,0,-8,0"
+                                                           AutomationProperties.Name="Close">
+                                                <Path Width="14"
+                                                      Height="14"
+                                                      Data="{DynamicResource Icon.Close}"
+                                                      Stretch="Uniform"
+                                                      Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ui:IconButton}}}"
+                                                      StrokeThickness="2"
+                                                      StrokeStartLineCap="Round"
+                                                      StrokeEndLineCap="Round" />
+                                            </ui:IconButton>
+                                        </Grid>
+                                    </Border>
+                                    <Border x:Name="FooterRule"
+                                            DockPanel.Dock="Bottom"
+                                            BorderBrush="{DynamicResource Brush.Line}"
+                                            BorderThickness="0,1,0,0"
+                                            Padding="20,16">
+                                        <ContentPresenter x:Name="PART_Footer"
+                                                          Content="{TemplateBinding Footer}"
+                                                          HorizontalAlignment="Right" />
+                                    </Border>
+                                    <ScrollViewer x:Name="PART_Body"
+                                                  Padding="20,16"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  Focusable="False">
+                                        <ContentPresenter Content="{TemplateBinding Body}" />
+                                    </ScrollViewer>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Title" Value="{x:Null}">
+                            <Setter TargetName="Title" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Footer" Value="{x:Null}">
+                            <Setter TargetName="FooterRule" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="WideFooter" Value="True">
+                            <Setter TargetName="PART_Footer" Property="HorizontalAlignment" Value="Stretch" />
+                        </Trigger>
+                        <Trigger Property="Size" Value="Sm">
+                            <Setter TargetName="Panel" Property="MaxWidth" Value="{DynamicResource Size.ModalSm}" />
+                        </Trigger>
+                        <Trigger Property="Size" Value="Lg">
+                            <Setter TargetName="Panel" Property="MaxWidth" Value="{DynamicResource Size.ModalLg}" />
+                        </Trigger>
+                        <!-- Full fills the window: the content owns the canvas, so the
+                             radius, border and body padding go, and a rule separates the title. -->
+                        <Trigger Property="Size" Value="Full">
+                            <Setter TargetName="Frame" Property="Margin" Value="0" />
+                            <Setter TargetName="Panel" Property="MaxWidth" Value="{DynamicResource Size.Unbounded}" />
+                            <Setter TargetName="Panel" Property="VerticalAlignment" Value="Stretch" />
+                            <Setter TargetName="Panel" Property="CornerRadius" Value="{DynamicResource Radius.None}" />
+                            <Setter TargetName="Panel" Property="BorderThickness" Value="0" />
+                            <Setter TargetName="Panel" Property="Effect" Value="{x:Null}" />
+                            <Setter TargetName="Header" Property="BorderThickness" Value="0,0,0,1" />
+                            <Setter TargetName="Header" Property="Padding" Value="20,16,20,12" />
+                            <Setter TargetName="PART_Body" Property="Padding" Value="0" />
+                            <Setter TargetName="PART_Body" Property="VerticalScrollBarVisibility" Value="Disabled" />
+                        </Trigger>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Backdrop" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.12" />
+                                    <DoubleAnimation Storyboard.TargetName="Panel" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.12" />
+                                    <DoubleAnimation Storyboard.TargetName="Slide" Storyboard.TargetProperty="Y" From="10" To="0" Duration="0:0:0.12">
+                                        <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

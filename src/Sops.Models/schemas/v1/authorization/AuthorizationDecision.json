@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/authorization/AuthorizationDecision.json",
+  "title": "AuthorizationDecision",
+  "description": "Evaluation outcome determining if an action is permitted.",
+  "type": "object",
+  "required": [
+    "is_authorized",
+    "permission_code",
+    "evaluated_at_utc"
+  ],
+  "properties": {
+    "is_authorized": {
+      "type": "boolean"
+    },
+    "permission_code": {
+      "type": "string"
+    },
+    "denial_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evaluated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

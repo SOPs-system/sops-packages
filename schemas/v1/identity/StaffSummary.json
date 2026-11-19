@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/identity/StaffSummary.json",
+  "title": "StaffSummary",
+  "description": "Pharmacy staff profile including professional role and assigned branch.",
+  "type": "object",
+  "required": [
+    "user_id",
+    "full_name",
+    "role",
+    "branch_id",
+    "is_pharmacist"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "is_pharmacist": {
+      "type": "boolean"
+    },
+    "license_number": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,300 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls"
+    xmlns:root="clr-namespace:Sop.Ui">
+
+    <!-- The button template derives an Icon style from the base one, and a
+         theme dictionary resolves StaticResource only inside ITS OWN scope —
+         merging Icon.xaml here is what puts that key in reach. Dictionaries
+         are cached by URI, so Generic.xaml merging it too costs nothing. -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Icon.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- The one button. Variants live HERE and nowhere else.
+
+         Hover and pressed tints are overlay borders that fade in over the base
+         fill (a DynamicResource brush cannot be colour-animated), which gives
+         the web's `transition-colors` cross-fade. -->
+    <Style TargetType="{x:Type ui:Button}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.App}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Height" Value="{DynamicResource Size.Hit}" />
+        <Setter Property="Padding" Value="{DynamicResource Pad.Button}" />
+        <Setter Property="Background" Value="{DynamicResource Brush.Primary}" />
+        <Setter Property="HoverBackground" Value="{DynamicResource Brush.PrimaryHover}" />
+        <Setter Property="PressedBackground" Value="{DynamicResource Brush.PrimaryActive}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Md}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <!-- A label sits in the middle of its button. Control's own default is
+             Left, so this has to be said: the template honours these, and
+             without them every button would left-align its content. -->
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:Button}">
+                    <ControlTemplate.Resources>
+                        <!-- An icon inside a button is drawn in the BUTTON's
+                             colour — white on a primary fill, ink on a
+                             secondary one — the way the web's `currentColor`
+                             stroke behaves. Without this the Icon style's own
+                             Foreground setter wins over the inherited value
+                             (a style setter outranks inheritance), and every
+                             glyph came out ink-dark on a green button. -->
+                        <Style TargetType="{x:Type ui:Icon}" BasedOn="{StaticResource {x:Type ui:Icon}}">
+                            <Setter Property="Foreground"
+                                    Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ui:Button}}}" />
+                        </Style>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <Border x:Name="Ring"
+                                Margin="{DynamicResource Ring.Margin}"
+                                BorderThickness="{DynamicResource Ring.Thickness}"
+                                BorderBrush="{DynamicResource Brush.FocusRing}"
+                                CornerRadius="{DynamicResource Radius.MdRing}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}" />
+                        <Border x:Name="Hover"
+                                Background="{TemplateBinding HoverBackground}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+                        <Border x:Name="Pressed"
+                                Background="{TemplateBinding PressedBackground}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+                        <!-- Carries the border thickness so the frame counts toward the
+                             width, like the web's border-box sizing. -->
+                        <Border Padding="{TemplateBinding Padding}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="Transparent"
+                                Background="Transparent">
+                            <!-- Aligned by the caller's ContentAlignment rather
+                                 than always centred. A Grid, not a StackPanel,
+                                 so the content column can be starred: measured
+                                 centred (the default) a star column takes its
+                                 content's width, so every ordinary button is
+                                 unchanged — but a card-shaped button asking to
+                                 Stretch hands its content the real width, which
+                                 is what lets a long name wrap inside the tile
+                                 instead of spilling out of it. -->
+                            <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ui:Spinner x:Name="Spinner" Grid.Column="0" Size="Sm" Margin="0,0,8,0" VerticalAlignment="Center" Visibility="Collapsed" />
+                                <ContentPresenter x:Name="Icon"
+                                                  Grid.Column="1"
+                                                  Content="{TemplateBinding Icon}"
+                                                  Margin="0,0,8,0"
+                                                  VerticalAlignment="Center" />
+                                <ContentPresenter x:Name="Content"
+                                                  Grid.Column="2"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  RecognizesAccessKey="True" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="CornerRadius" Value="0">
+                            <Setter TargetName="Ring" Property="CornerRadius" Value="0" />
+                        </Trigger>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Loading" Value="True">
+                            <Setter TargetName="Spinner" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="Icon" Property="Margin" Value="0" />
+                            <Setter TargetName="Spinner" Property="Margin" Value="0" />
+                            <Setter TargetName="Content" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Pressed" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.08" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Pressed" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="True" />
+                                <Condition Binding="{Binding (root:Theme.KeyboardMode), RelativeSource={RelativeSource Self}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Ring" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiDataTrigger.EnterActions>
+                            <MultiDataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Ring" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiDataTrigger.ExitActions>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!-- ========== sizes: 36 / 44 / 56px touch targets ========== -->
+            <Trigger Property="Size" Value="Sm">
+                <Setter Property="Height" Value="{DynamicResource Size.HitSm}" />
+                <Setter Property="Padding" Value="{DynamicResource Pad.ButtonSm}" />
+                <Setter Property="FontSize" Value="{DynamicResource Text.Xs}" />
+            </Trigger>
+            <Trigger Property="Size" Value="Lg">
+                <Setter Property="Height" Value="{DynamicResource Size.HitLg}" />
+                <Setter Property="Padding" Value="{DynamicResource Pad.ButtonLg}" />
+                <Setter Property="FontSize" Value="{DynamicResource Text.Md}" />
+            </Trigger>
+            <Trigger Property="IconOnly" Value="True">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Width" Value="{DynamicResource Size.Hit}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IconOnly" Value="True" />
+                    <Condition Property="Size" Value="Sm" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Width" Value="{DynamicResource Size.HitSm}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IconOnly" Value="True" />
+                    <Condition Property="Size" Value="Lg" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Width" Value="{DynamicResource Size.HitLg}" />
+            </MultiTrigger>
+            <Trigger Property="FullWidth" Value="True">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Trigger>
+
+            <!-- ========== variants: base fill, hover tint, pressed tint ========== -->
+            <Trigger Property="Variant" Value="Secondary">
+                <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.SurfaceSunken}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.LineStrong}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Soft">
+                <Setter Property="Background" Value="{DynamicResource Brush.PrimarySoft}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.PrimarySoftHover}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.Primary}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.PrimarySoftBorder}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Ghost">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.SurfaceSunken}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.InkMuted}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Success">
+                <Setter Property="Background" Value="{DynamicResource Brush.Success}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.SuccessHover}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.InkInverse}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Danger">
+                <Setter Property="Background" Value="{DynamicResource Brush.Danger}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.DangerHover}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.InkInverse}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="DangerSoft">
+                <Setter Property="Background" Value="{DynamicResource Brush.DangerSoft}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.DangerSoftHover}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.DangerSoftText}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="Warning">
+                <Setter Property="Background" Value="{DynamicResource Brush.Warning}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.WarningHover}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.InkInverse}" />
+            </Trigger>
+            <Trigger Property="Variant" Value="WarningSoft">
+                <Setter Property="Background" Value="{DynamicResource Brush.WarningSoft}" />
+                <Setter Property="HoverBackground" Value="{DynamicResource Brush.WarningSoftHover}" />
+                <Setter Property="PressedBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush.WarningSoftText}" />
+            </Trigger>
+            <!-- Ghost also lifts its text on hover. -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Variant" Value="Ghost" />
+                    <Condition Property="IsMouseOver" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+            </MultiTrigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+                <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+
+            <Trigger Property="FullWidth" Value="True">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/common/ResultEnvelope.json",
+  "title": "ResultEnvelope",
+  "description": "Universal outcome wrapper for API and communication endpoints.",
+  "type": "object",
+  "required": [
+    "is_success",
+    "correlation_id"
+  ],
+  "properties": {
+    "is_success": {
+      "type": "boolean"
+    },
+    "correlation_id": {
+      "type": "string"
+    },
+    "data": {},
+    "error": {
+      "$ref": "ErrorContract.json"
+    }
+  },
+  "additionalProperties": false
+}

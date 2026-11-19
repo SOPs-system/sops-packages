@@ -1,0 +1,105 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Stroke icons. Two sets:
+
+         1. The glyphs the primitives draw in their own templates (close,
+            check, chevron) — small, drawn with Stroke="{Binding Foreground}"
+            StrokeThickness="2" inside a Viewbox sized by Size.Icon*.
+            Asymmetric glyphs (Check) are pinned to FlowDirection="LeftToRight"
+            so RTL does not mirror them.
+
+         2. The app icon set, `Icon.<Name>`: the lucide-style 24×24 outlines of
+            the web app's app/icons.tsx, path data verbatim — WPF's path
+            mini-language is a superset of the SVG `d` syntax. Draw them with
+            <ui:Icon Glyph="Bell" Size="17" />, which scales the 2px stroke
+            with the box the way an SVG viewBox does. -->
+
+    <!-- ===== template glyphs ===== -->
+    <!-- 14×14 -->
+    <Geometry x:Key="Icon.Close">M1,1 L13,13 M13,1 L1,13</Geometry>
+    <!-- 12×10 -->
+    <!-- Every glyph is drawn on the same 24×24 canvas. This one was written
+         against a 12×12 box, so it rendered half-size in the top-left corner
+         of its slot — the tick beside "Complete sale" sat above its label. -->
+    <Geometry x:Key="Icon.Check">M20 6 9 17l-5-5</Geometry>
+    <!-- 12×8 -->
+    <Geometry x:Key="Icon.Chevron">M1,1 L6,6 L11,1</Geometry>
+
+    <!-- ===== app icon set, 24×24 ===== -->
+    <Geometry x:Key="Icon.Plus">M12,5 V19 M5,12 H19</Geometry>
+    <Geometry x:Key="Icon.Search">M18,11 A7,7 0 1 1 4,11 A7,7 0 1 1 18,11 M21,21 L16.65,16.65</Geometry>
+    <Geometry x:Key="Icon.Settings">M15,12 A3,3 0 1 1 9,12 A3,3 0 1 1 15,12 M19.4,15 a1.65,1.65 0 0 0 .33,1.82 l.06,.06 a2,2 0 1 1 -2.83,2.83 l-.06,-.06 a1.65,1.65 0 0 0 -1.82,-.33 a1.65,1.65 0 0 0 -1,1.51 V21 a2,2 0 1 1 -4,0 v-.09 A1.65,1.65 0 0 0 8.6,19.4 a1.65,1.65 0 0 0 -1.82,.33 l-.06,.06 a2,2 0 1 1 -2.83,-2.83 l.06,-.06 a1.65,1.65 0 0 0 .33,-1.82 a1.65,1.65 0 0 0 -1.51,-1 H3 a2,2 0 1 1 0,-4 h.09 A1.65,1.65 0 0 0 4.6,8.6 a1.65,1.65 0 0 0 -.33,-1.82 l-.06,-.06 a2,2 0 1 1 2.83,-2.83 l.06,.06 a1.65,1.65 0 0 0 1.82,.33 H9 a1.65,1.65 0 0 0 1,-1.51 V3 a2,2 0 1 1 4,0 v.09 a1.65,1.65 0 0 0 1,1.51 a1.65,1.65 0 0 0 1.82,-.33 l.06,-.06 a2,2 0 1 1 2.83,2.83 l-.06,.06 a1.65,1.65 0 0 0 -.33,1.82 V9 a1.65,1.65 0 0 0 1.51,1 H21 a2,2 0 1 1 0,4 h-.09 a1.65,1.65 0 0 0 -1.51,1 z</Geometry>
+    <Geometry x:Key="Icon.Scan">M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10</Geometry>
+    <Geometry x:Key="Icon.Cart">M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12M8.5 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM18.5 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z</Geometry>
+    <Geometry x:Key="Icon.Receipt">M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1ZM8 7h8M8 11h8M12 15h4</Geometry>
+    <Geometry x:Key="Icon.Users">M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75</Geometry>
+    <Geometry x:Key="Icon.Pill">m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7ZM8.5 8.5l7 7</Geometry>
+    <Geometry x:Key="Icon.Boxes">M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42ZM7 16.5l-4.74-2.85M7 16.5l5-3M7 16.5v5.17M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3ZM17 16.5l-5-3M17 16.5l4.74-2.85M17 16.5v5.17M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8ZM12 8 7.26 5.15M12 8l4.74-2.85M12 13.5V8</Geometry>
+    <Geometry x:Key="Icon.Warehouse">M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35ZM6 18h12M6 14h12M6 22V10h12v12</Geometry>
+    <Geometry x:Key="Icon.Logout">M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9</Geometry>
+    <Geometry x:Key="Icon.PanelLeft">M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM9 3v18</Geometry>
+    <Geometry x:Key="Icon.Building">M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18ZM6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4</Geometry>
+    <Geometry x:Key="Icon.Languages">m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6</Geometry>
+    <Geometry x:Key="Icon.Sun">M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42</Geometry>
+    <Geometry x:Key="Icon.Moon">M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z</Geometry>
+    <Geometry x:Key="Icon.Bell">M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0</Geometry>
+    <Geometry x:Key="Icon.X">M18 6 6 18M6 6l12 12</Geometry>
+    <Geometry x:Key="Icon.Minus">M5 12h14</Geometry>
+
+    <!-- Caption glyphs. Thin and square, the way Windows draws its own, rather
+         than the app's rounder icon set. -->
+    <Geometry x:Key="Icon.CaptionMinimise">M2 12h20</Geometry>
+    <Geometry x:Key="Icon.CaptionMaximise">M3 3h18v18H3Z</Geometry>
+    <Geometry x:Key="Icon.CaptionRestore">M7 7V3h14v14h-4M3 7h14v14H3Z</Geometry>
+    <Geometry x:Key="Icon.CaptionClose">M4 4l16 16M20 4L4 20</Geometry>
+    <Geometry x:Key="Icon.Trash">M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6</Geometry>
+    <Geometry x:Key="Icon.Tick">M20 6 9 17l-5-5</Geometry>
+    <Geometry x:Key="Icon.ChevronDown">m6 9 6 6 6-6</Geometry>
+    <Geometry x:Key="Icon.ChevronUp">m18 15-6-6-6 6</Geometry>
+    <Geometry x:Key="Icon.ChevronLeft">m15 18-6-6 6-6</Geometry>
+    <Geometry x:Key="Icon.ChevronRight">m9 18 6-6-6-6</Geometry>
+    <Geometry x:Key="Icon.SearchX">M13.5 8.5 8.5 13.5M8.5 8.5l5 5M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM21 21l-4.35-4.35</Geometry>
+    <Geometry x:Key="Icon.UserPlus">M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM19 8v6M22 11h-6</Geometry>
+    <Geometry x:Key="Icon.Wallet">M21 12V7H5a2 2 0 0 1 0-4h14v4M3 5v14a2 2 0 0 0 2 2h16v-5M18 12a2 2 0 0 0 0 4h4v-4Z</Geometry>
+    <Geometry x:Key="Icon.Percent">M19 5 5 19M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z</Geometry>
+    <Geometry x:Key="Icon.Banknote">M2 6h20v12H2zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 12h.01M18 12h.01</Geometry>
+    <Geometry x:Key="Icon.Card">M2 5h20v14H2zM2 10h20</Geometry>
+    <Geometry x:Key="Icon.Smartphone">M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2ZM12 18h.01</Geometry>
+    <Geometry x:Key="Icon.AlertTriangle">m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3ZM12 9v4M12 17h.01</Geometry>
+    <Geometry x:Key="Icon.Clock">M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 6v6l4 2</Geometry>
+    <Geometry x:Key="Icon.Calendar">M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z</Geometry>
+    <Geometry x:Key="Icon.Printer">M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z</Geometry>
+    <Geometry x:Key="Icon.RotateCcw">M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5</Geometry>
+    <Geometry x:Key="Icon.Pencil">M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5ZM15 5l4 4</Geometry>
+    <Geometry x:Key="Icon.Package">m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16ZM3.3 7 12 12l8.7-5M12 22V12</Geometry>
+    <Geometry x:Key="Icon.Keyboard">M2 6h20v12H2zM6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M10 14h4</Geometry>
+    <Geometry x:Key="Icon.Lock">M5 11h14v10H5zM7 11V7a5 5 0 0 1 10 0v4</Geometry>
+    <Geometry x:Key="Icon.Info">M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 16v-4M12 8h.01</Geometry>
+    <Geometry x:Key="Icon.Database">M12 8c4.97 0 9-1.34 9-3s-4.03-3-9-3-9 1.34-9 3 4.03 3 9 3ZM21 5v14c0 1.66-4.03 3-9 3s-9-1.34-9-3V5M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3</Geometry>
+    <Geometry x:Key="Icon.Download">M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3</Geometry>
+    <Geometry x:Key="Icon.Upload">M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12</Geometry>
+    <Geometry x:Key="Icon.Save">M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2ZM17 21v-8H7v8M7 3v5h8</Geometry>
+    <Geometry x:Key="Icon.ArrowDown">M12 5v14M19 12l-7 7-7-7</Geometry>
+    <Geometry x:Key="Icon.ArrowUp">M12 19V5M5 12l7-7 7 7</Geometry>
+    <Geometry x:Key="Icon.Shield">M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z</Geometry>
+    <Geometry x:Key="Icon.Eye">M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z</Geometry>
+    <Geometry x:Key="Icon.Sort">m21 16-4 4-4-4M17 20V4M3 8l4-4 4 4M7 4v16</Geometry>
+    <Geometry x:Key="Icon.User">M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z</Geometry>
+    <Geometry x:Key="Icon.EyeOff">M9.88 9.88a3 3 0 1 0 4.24 4.24M10.73 5.08A10.43 10.43 0 0 1 12 5c6.5 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68M6.61 6.61A13.53 13.53 0 0 0 2 12s3.5 7 10 7a9.74 9.74 0 0 0 5.39-1.61M2 2l20 20</Geometry>
+    <Geometry x:Key="Icon.Enter">M9 10 4 15l5 5M20 4v7a4 4 0 0 1-4 4H4</Geometry>
+    <Geometry x:Key="Icon.Key">M21 2l-9.6 9.6M15.5 7.5l3 3L22 7l-3-3M11.6 11.6a4.5 4.5 0 1 0-6.4 6.4 4.5 4.5 0 0 0 6.4-6.4Z</Geometry>
+    <Geometry x:Key="Icon.Wifi">M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.86a10 10 0 0 1 14 0M8.5 16.43a5 5 0 0 1 7 0</Geometry>
+    <Geometry x:Key="Icon.Copy">M10 8h11v13H10zM6 16H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1</Geometry>
+    <Geometry x:Key="Icon.Star">M12 2.7l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.5l6.5-.9L12 2.7Z</Geometry>
+    <!-- The help assistant: its button, its heading, and its send key. -->
+    <Geometry x:Key="Icon.HelpCircle">M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01</Geometry>
+    <Geometry x:Key="Icon.Sparkles">M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3ZM5 19l.7 1.8L7.5 21.5l-1.8.7L5 24l-.7-1.8-1.8-.7 1.8-.7L5 19ZM19 17l.6 1.4 1.4.6-1.4.6L19 21l-.6-1.4-1.4-.6 1.4-.6L19 17Z</Geometry>
+    <Geometry x:Key="Icon.Send">M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z</Geometry>
+
+    <!-- The SOP (Smart Operating Pharmacy) logo mark — a FILLED shape, drawn
+         with Fill="{Binding Foreground}" (see ui:BrandLogo). 436.37×192.66. -->
+    <Geometry x:Key="Logo.Sop">M6.94,191.15l-.04-47.97,101.51-.09c3.49,0,6.64-1.67,8.92-3.98,4.19-4.25,3.95-10.82.17-15.3-2.83-3.35-6.95-5.18-11.49-5.18h-44.55c-22.18-.02-43.04-10.87-54.13-30.22C3.25,81.3.61,73.43.11,65.27-1.98,31.2,25.17,2.51,59.28,1.55l34.43-.17,26.63-.03,18.63.09c6.73-.64,13.29-.21,19.58,1.51-16.81,11.01-29.72,25.84-38.72,43.55l-61.34.23c-4.28.02-8.03,2.71-10.06,5.38-2.63,3.45-3.53,7.65-2.01,11.76,1.79,4.84,6.78,8.85,12.38,8.89l49.08.36c5.94.04,11.38,1.58,17.29,3.18,7.81-34.53,31.46-61.35,65.22-71.99C198.88,1.63,207.22-.01,216.33,0l156.27.21c34.75.05,62.49,28.51,63.75,62.62v4.73c-.69,13.58-4.88,26.48-13.32,37.16-11.69,14.8-28.57,23.63-47.4,24.86l-22.81.24v61.05s-11.99.22-11.99.22l-35.44-.1-.04-26.36c17.29-22.75,25.48-51.04,22.11-79.59l44.28-.26c10.34-.06,18.25-8.28,19.43-18.31.8-11.71-8.05-22.14-20.11-22.17l-73.47-.16c10.34,16.69,15.84,34.67,15.77,53.72-.13,34.99-19.57,66.85-50.18,83.36-35.08,19.12-78.72,13.92-108.76-12.99-10.6,13.52-26.71,22.58-44.71,22.63l-102.77.28ZM268.15,96.65c0-27.94-22.65-50.59-50.59-50.59s-50.59,22.65-50.59,50.59,22.65,50.59,50.59,50.59,50.59-22.65,50.59-50.59Z</Geometry>
+
+</ResourceDictionary>

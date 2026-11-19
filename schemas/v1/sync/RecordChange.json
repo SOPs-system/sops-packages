@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/sync/RecordChange.json",
+  "title": "RecordChange",
+  "description": "Granular row-level change descriptor for delta synchronization.",
+  "type": "object",
+  "required": [
+    "table_name",
+    "record_id",
+    "change_type",
+    "changed_at_utc"
+  ],
+  "properties": {
+    "table_name": {
+      "type": "string"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "change_type": {
+      "type": "string",
+      "enum": [
+        "Insert",
+        "Update",
+        "Delete"
+      ]
+    },
+    "data_json": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "changed_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/transactions/TransactionItem.json",
+  "title": "TransactionItem",
+  "description": "Line item in a retail sales or return transaction.",
+  "type": "object",
+  "required": [
+    "item_id",
+    "drug_id",
+    "drug_name",
+    "package_tier",
+    "quantity",
+    "unit_price",
+    "discount_amount",
+    "total_line_amount"
+  ],
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_name": {
+      "type": "string"
+    },
+    "package_tier": {
+      "type": "string",
+      "default": "Unit"
+    },
+    "quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "unit_price": {
+      "$ref": "../common/Money.json",
+      "description": "Authorized transaction-time unit price."
+    },
+    "discount_amount": {
+      "$ref": "../common/Money.json"
+    },
+    "tax_rate": {
+      "type": "number",
+      "default": 0
+    },
+    "total_line_amount": {
+      "$ref": "../common/Money.json"
+    },
+    "lot_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false
+}

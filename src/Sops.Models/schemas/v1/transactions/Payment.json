@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/transactions/Payment.json",
+  "title": "Payment",
+  "description": "Retail point-of-sale customer tender payment (Cash, Card, Voucher). Strictly separate from SaaS BillingPayment.",
+  "type": "object",
+  "required": [
+    "payment_id",
+    "method",
+    "amount",
+    "status"
+  ],
+  "properties": {
+    "payment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "Cash",
+        "CreditCard",
+        "DebitCard",
+        "Voucher",
+        "InsuranceClaim",
+        "Split",
+        "LoyaltyPoints"
+      ]
+    },
+    "amount": {
+      "$ref": "../common/Money.json"
+    },
+    "tendered_amount": {
+      "$ref": "../common/Money.json",
+      "description": "Actual physical cash handed by customer (for change calculation)."
+    },
+    "change_returned": {
+      "$ref": "../common/Money.json",
+      "description": "Change handed back to customer."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Completed",
+        "Failed",
+        "Refunded"
+      ],
+      "default": "Completed"
+    },
+    "card_reference": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Authorization code or masked card digits (last 4 only)."
+    }
+  },
+  "additionalProperties": false
+}

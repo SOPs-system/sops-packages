@@ -1,0 +1,92 @@
+{
+  "id": "c71a396e-5264-42f0-98d0-e189dca3bc68",
+  "invoice_number": "INV-2026-0042",
+  "pharmacy_id": "893c5d61-39e2-45e0-8a71-6c2e36b8e192",
+  "terminal_id": "41a123e4-567b-489c-a123-456789abcdef",
+  "cashier_user_id": "7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+  "shift_id": "5f6e7d8c-9b0a-1b2c-3d4e-5f6a7b8c9d0e",
+  "patient_id": null,
+  "type": "Sale",
+  "status": "Completed",
+  "subtotal": {
+    "amountInMinorUnits": 10000,
+    "amount_minor_units": 10000,
+    "currency": "EGP",
+    "decimalString": "100.00"
+  },
+  "discount_amount": {
+    "amountInMinorUnits": 0,
+    "amount_minor_units": 0,
+    "currency": "EGP",
+    "decimalString": "0.00"
+  },
+  "tax_amount": {
+    "amountInMinorUnits": 0,
+    "amount_minor_units": 0,
+    "currency": "EGP",
+    "decimalString": "0.00"
+  },
+  "total_amount": {
+    "amountInMinorUnits": 10000,
+    "amount_minor_units": 10000,
+    "currency": "EGP",
+    "decimalString": "100.00"
+  },
+  "items": [
+    {
+      "item_id": "3b2a1c0d-e9f8-4a5b-6c7d-8e9f0a1b2c3d",
+      "drug_id": "e3b0c442-98fc-1c14-9afb-f4c8996fb924",
+      "drug_name": "Panadol Extra 500mg",
+      "package_tier": "Box",
+      "quantity": {
+        "value": 2,
+        "unit": "boxes"
+      },
+      "unit_price": {
+        "amountInMinorUnits": 5000,
+        "amount_minor_units": 5000,
+        "currency": "EGP",
+        "decimalString": "50.00"
+      },
+      "discount_amount": {
+        "amountInMinorUnits": 0,
+        "amount_minor_units": 0,
+        "currency": "EGP",
+        "decimalString": "0.00"
+      },
+      "tax_rate": 0,
+      "total_line_amount": {
+        "amountInMinorUnits": 10000,
+        "amount_minor_units": 10000,
+        "currency": "EGP",
+        "decimalString": "100.00"
+      }
+    }
+  ],
+  "payments": [
+    {
+      "payment_id": "9a8b7c6d-5e4f-3a2b-1c0d-e9f8a7b6c5d4",
+      "method": "Cash",
+      "amount": {
+        "amountInMinorUnits": 10000,
+        "amount_minor_units": 10000,
+        "currency": "EGP",
+        "decimalString": "100.00"
+      },
+      "tendered_amount": {
+        "amountInMinorUnits": 10000,
+        "amount_minor_units": 10000,
+        "currency": "EGP",
+        "decimalString": "100.00"
+      },
+      "change_returned": {
+        "amountInMinorUnits": 0,
+        "amount_minor_units": 0,
+        "currency": "EGP",
+        "decimalString": "0.00"
+      },
+      "status": "Completed"
+    }
+  ],
+  "created_at_utc": "2026-11-19T08:30:00Z"
+}

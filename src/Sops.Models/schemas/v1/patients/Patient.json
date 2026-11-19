@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/patients/Patient.json",
+  "title": "Patient",
+  "description": "Authoritative global patient profile with protected medical and allergy alerts.",
+  "type": "object",
+  "required": [
+    "id",
+    "full_name",
+    "phone_number",
+    "gender",
+    "created_at_utc"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "national_id_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Blind HMAC hash of national identity for search without storing plaintext ID."
+    },
+    "full_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "phone_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "date_of_birth": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "Male",
+        "Female",
+        "Unspecified"
+      ]
+    },
+    "blood_group": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "chronic_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allergies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

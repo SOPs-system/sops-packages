@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/sync/SyncEventEnvelope.json",
+  "title": "SyncEventEnvelope",
+  "description": "Universal domain mutation event envelope for offline-first replication.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "aggregate_type",
+    "aggregate_id",
+    "event_type",
+    "mutation_kind",
+    "occurred_at_utc",
+    "tenant_id",
+    "branch_id",
+    "payload_json",
+    "schema_version"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "aggregate_type": {
+      "type": "string",
+      "description": "Aggregate root (e.g. 'Transaction', 'StockLot', 'TransferRequest')."
+    },
+    "aggregate_id": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string",
+      "description": "Domain event name (e.g. 'TransactionCompleted', 'StockAdjusted')."
+    },
+    "mutation_kind": {
+      "type": "string",
+      "enum": [
+        "Created",
+        "Updated",
+        "Deleted",
+        "ActionExecuted"
+      ]
+    },
+    "occurred_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "payload_json": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string",
+      "default": "v1"
+    }
+  },
+  "additionalProperties": false
+}

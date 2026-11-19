@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/tenancy/Pharmacy.json",
+  "title": "Pharmacy",
+  "description": "Globally registered pharmacy license entity.",
+  "type": "object",
+  "required": [
+    "id",
+    "chain_id",
+    "name",
+    "license_number",
+    "is_active"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "chain_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "license_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "supervising_pharmacist": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}

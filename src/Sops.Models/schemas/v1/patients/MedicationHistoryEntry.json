@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/patients/MedicationHistoryEntry.json",
+  "title": "MedicationHistoryEntry",
+  "description": "Historical dispensing record for a patient.",
+  "type": "object",
+  "required": [
+    "dispense_id",
+    "patient_id",
+    "drug_id",
+    "drug_name",
+    "quantity_dispensed",
+    "dispensed_at_utc"
+  ],
+  "properties": {
+    "dispense_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "patient_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_name": {
+      "type": "string"
+    },
+    "quantity_dispensed": {
+      "$ref": "../common/Quantity.json"
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "dispensed_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

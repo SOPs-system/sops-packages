@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/chain/BranchFinanceDaily.json",
+  "title": "BranchFinanceDaily",
+  "description": "Daily aggregated financial summary reported by a branch to chain management.",
+  "type": "object",
+  "required": [
+    "branch_id",
+    "business_date",
+    "gross_sales",
+    "returns",
+    "net_sales",
+    "transaction_count"
+  ],
+  "properties": {
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "business_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "gross_sales": {
+      "$ref": "../common/Money.json"
+    },
+    "returns": {
+      "$ref": "../common/Money.json"
+    },
+    "net_sales": {
+      "$ref": "../common/Money.json"
+    },
+    "transaction_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

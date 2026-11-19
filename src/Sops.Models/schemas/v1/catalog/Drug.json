@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/catalog/Drug.json",
+  "title": "Drug",
+  "description": "Master drug catalogue contract with embedded packages and pricing.",
+  "type": "object",
+  "required": [
+    "id",
+    "sku",
+    "barcode",
+    "name_en",
+    "name_ar",
+    "generic_name",
+    "dosage_form",
+    "official_price",
+    "is_price_regulated",
+    "requires_prescription",
+    "storage_type",
+    "packages",
+    "status",
+    "catalog_revision"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sku": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "barcode": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Authoritative primary barcode on the drug package."
+    },
+    "name_en": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "name_ar": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "generic_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "category_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "dosage_form": {
+      "type": "string",
+      "enum": [
+        "Tablet",
+        "Capsule",
+        "Syrup",
+        "Suspension",
+        "Sachet",
+        "Injection",
+        "Drop",
+        "Cream",
+        "Ointment",
+        "Gel",
+        "Inhaler",
+        "Patch",
+        "Suppository",
+        "Spray",
+        "Lotion",
+        "Other"
+      ]
+    },
+    "official_price": {
+      "$ref": "../common/Money.json"
+    },
+    "is_price_regulated": {
+      "type": "boolean",
+      "default": true
+    },
+    "requires_prescription": {
+      "type": "boolean",
+      "default": false
+    },
+    "storage_type": {
+      "type": "string",
+      "enum": [
+        "RoomTemperature",
+        "Refrigerated",
+        "Frozen",
+        "ControlledSubstance"
+      ],
+      "default": "RoomTemperature"
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "$ref": "DrugPackage.json"
+      },
+      "minItems": 1
+    },
+    "active_ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "strength"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Suspended",
+        "Discontinued",
+        "Recalled"
+      ],
+      "default": "Active"
+    },
+    "catalog_revision": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false
+}

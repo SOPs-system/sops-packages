@@ -1,0 +1,35 @@
+name: Security
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: read
+jobs:
+  audit:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            11.0.x
+      - name: Configure private feed
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dotnet nuget update source github-sops --username "${{ github.actor }}" --password "$env:GH_TOKEN" --store-password-in-clear-text --configfile NuGet.Config
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Restore and audit transitive dependencies
+        shell: pwsh
+        run: |
+          dotnet restore SOPs.Packages.sln --configfile NuGet.Config -p:NuGetAudit=true -p:NuGetAuditMode=all -p:NuGetAuditLevel=low --force-evaluate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify strict Release build
+        run: dotnet build SOPs.Packages.sln -c Release --no-restore

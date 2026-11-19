@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/authorization/PermissionDefinition.json",
+  "title": "PermissionDefinition",
+  "description": "Discrete granular permission in the pharmacy system.",
+  "type": "object",
+  "required": [
+    "code",
+    "name",
+    "module"
+  ],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Permission key (e.g. 'pos.sales.execute', 'pos.discounts.apply', 'inventory.adjust')."
+    },
+    "name": {
+      "type": "string"
+    },
+    "module": {
+      "type": "string",
+      "description": "System module (e.g. 'POS', 'Inventory', 'Patients', 'Admin')."
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

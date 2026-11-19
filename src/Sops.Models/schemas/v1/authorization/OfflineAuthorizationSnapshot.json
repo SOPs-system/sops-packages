@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/authorization/OfflineAuthorizationSnapshot.json",
+  "title": "OfflineAuthorizationSnapshot",
+  "description": "Cryptographically signed snapshot of staff roles and permissions for offline policy enforcement.",
+  "type": "object",
+  "required": [
+    "snapshot_id",
+    "branch_id",
+    "issued_at_utc",
+    "expires_at_utc",
+    "user_permissions"
+  ],
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "issued_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "user_permissions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/transactions/Transaction.json",
+  "title": "Transaction",
+  "description": "Authoritative point-of-sale retail transaction, line items, and payment split.",
+  "type": "object",
+  "required": [
+    "id",
+    "invoice_number",
+    "pharmacy_id",
+    "terminal_id",
+    "cashier_user_id",
+    "shift_id",
+    "type",
+    "status",
+    "subtotal",
+    "discount_amount",
+    "tax_amount",
+    "total_amount",
+    "items",
+    "payments",
+    "created_at_utc"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "invoice_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "pharmacy_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "terminal_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "cashier_user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "shift_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "patient_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid",
+      "description": "Optional patient identity. Null for anonymous walk-in sales."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Sale",
+        "Return",
+        "Exchange",
+        "Void"
+      ],
+      "default": "Sale"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Completed",
+        "Voided",
+        "Suspended"
+      ],
+      "default": "Completed"
+    },
+    "subtotal": {
+      "$ref": "../common/Money.json"
+    },
+    "discount_amount": {
+      "$ref": "../common/Money.json"
+    },
+    "tax_amount": {
+      "$ref": "../common/Money.json"
+    },
+    "total_amount": {
+      "$ref": "../common/Money.json"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "TransactionItem.json"
+      },
+      "minItems": 1
+    },
+    "payments": {
+      "type": "array",
+      "items": {
+        "$ref": "Payment.json"
+      }
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

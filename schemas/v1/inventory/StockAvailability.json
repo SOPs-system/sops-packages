@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/inventory/StockAvailability.json",
+  "title": "StockAvailability",
+  "description": "Calculated inventory availability projection for checkout and dispensing.",
+  "type": "object",
+  "required": [
+    "drug_id",
+    "total_physical_quantity",
+    "total_reserved_quantity",
+    "available_quantity",
+    "earliest_expiry_date"
+  ],
+  "properties": {
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "total_physical_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "total_reserved_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "available_quantity": {
+      "$ref": "../common/Quantity.json"
+    },
+    "earliest_expiry_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "lot_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

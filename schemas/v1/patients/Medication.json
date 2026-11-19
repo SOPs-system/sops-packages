@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/patients/Medication.json",
+  "title": "Medication",
+  "description": "Patient's active or recurring prescription medication regimen.",
+  "type": "object",
+  "required": [
+    "medication_id",
+    "patient_id",
+    "drug_id",
+    "drug_name",
+    "dosage_instructions",
+    "start_date"
+  ],
+  "properties": {
+    "medication_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "patient_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_name": {
+      "type": "string"
+    },
+    "dosage_instructions": {
+      "type": "string"
+    },
+    "prescribing_doctor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}

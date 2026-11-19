@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/catalog/DrugSearchResult.json",
+  "title": "DrugSearchResult",
+  "description": "Optimized lightweight search projection for rapid POS drug lookup.",
+  "type": "object",
+  "required": [
+    "drug_id",
+    "sku",
+    "barcode",
+    "name_en",
+    "name_ar",
+    "dosage_form",
+    "official_price",
+    "is_in_stock"
+  ],
+  "properties": {
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "barcode": {
+      "type": "string"
+    },
+    "name_en": {
+      "type": "string"
+    },
+    "name_ar": {
+      "type": "string"
+    },
+    "dosage_form": {
+      "type": "string"
+    },
+    "official_price": {
+      "$ref": "../common/Money.json"
+    },
+    "is_in_stock": {
+      "type": "boolean"
+    },
+    "available_base_units": {
+      "type": "number",
+      "default": 0
+    },
+    "shelf_location": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

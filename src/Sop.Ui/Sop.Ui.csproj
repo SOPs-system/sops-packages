@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The canonical SOPs design system: theme tokens (Themes/Tokens.*.xaml) and
+    primitive controls (Controls/). Nothing visual lives outside this assembly —
+    screens compose these controls and never name a colour or a font size.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Sop.Ui</RootNamespace>
+    <AssemblyName>Sop.Ui</AssemblyName>
+    
+    <!-- Package identity -->
+    <PackageId>Sops.UI.Wpf</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Smart Operating Pharmacy</Authors>
+    <Company>Smart Operating Pharmacy</Company>
+    <Description>Canonical WPF Design System for the Smart Operating Pharmacies (SOPs) ecosystem.</Description>
+    <PackageTags>wpf;xaml;design-system;sops;controls</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="all" />
+    <PackageReference Include="System.ValueTuple" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Drop Inter / IBM Plex Sans Arabic / JetBrains Mono .ttf files into
+         Fonts/ and they are embedded; until then the token font families
+         fall back to Segoe UI / Tahoma / Consolas (see Themes/Tokens.Base.xaml). -->
+    <Resource Include="Fonts\*.ttf" />
+  </ItemGroup>
+
+</Project>

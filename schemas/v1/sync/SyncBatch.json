@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/sync/SyncBatch.json",
+  "title": "SyncBatch",
+  "description": "Compressed, ordered transmission of sync events from a branch to cloud.",
+  "type": "object",
+  "required": [
+    "batch_id",
+    "branch_id",
+    "client_sequence_start",
+    "client_sequence_end",
+    "events",
+    "sent_at_utc"
+  ],
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "client_sequence_start": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "client_sequence_end": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "SyncEventEnvelope.json"
+      }
+    },
+    "sent_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

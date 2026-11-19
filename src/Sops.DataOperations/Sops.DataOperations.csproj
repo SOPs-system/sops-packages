@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <RootNamespace>Sops.DataOperations</RootNamespace>
+    <AssemblyName>Sops.DataOperations</AssemblyName>
+    <PackageId>Sops.DataOperations</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>SOPs Architecture Team</Authors>
+    <Company>SOPs Systems</Company>
+    <Description>Unified offline-first sync coordinator, change approval workflows, encrypted SQLCipher backup, safe restoration, and cloud reconciliation engine for Smart Operating Pharmacies (SOPs).</Description>
+    <PackageTags>sops;pharmacy;pos;sync;offline-first;backup;restore;sqlcipher;approvals;reconciliation</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sops.Configuration\Sops.Configuration.csproj" />
+    <ProjectReference Include="..\Sops.Logging\Sops.Logging.csproj" />
+    <ProjectReference Include="..\Sops.Database\Sops.Database.csproj" />
+    <ProjectReference Include="..\Sops.Models\packages\csharp\Sops.Models\Sops.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sops.DataOperations.Tests" />
+  </ItemGroup>
+
+</Project>

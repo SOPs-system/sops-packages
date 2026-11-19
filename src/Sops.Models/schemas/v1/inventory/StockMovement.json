@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/inventory/StockMovement.json",
+  "title": "StockMovement",
+  "description": "Ledger entry recording physical changes in inventory (sales, receipts, adjustments, returns, write-offs).",
+  "type": "object",
+  "required": [
+    "movement_id",
+    "lot_id",
+    "drug_id",
+    "movement_type",
+    "quantity_delta",
+    "timestamp_utc"
+  ],
+  "properties": {
+    "movement_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "lot_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "drug_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "movement_type": {
+      "type": "string",
+      "enum": [
+        "Receipt",
+        "Sale",
+        "CustomerReturn",
+        "SupplierReturn",
+        "AdjustmentPositive",
+        "AdjustmentNegative",
+        "TransferOut",
+        "TransferIn",
+        "ExpiredWriteOff"
+      ]
+    },
+    "quantity_delta": {
+      "$ref": "../common/Quantity.json"
+    },
+    "reference_document_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "user_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

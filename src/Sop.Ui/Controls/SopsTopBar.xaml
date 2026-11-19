@@ -1,0 +1,117 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <Style TargetType="{x:Type ui:SopsTopBar}">
+        <Setter Property="Height" Value="{DynamicResource Size.TopBar}" />
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.App}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:SopsTopBar}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="16,0">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left: Store Identity & Status Pill -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Width="36" Height="36" CornerRadius="{DynamicResource Radius.Md}"
+                                        Background="{DynamicResource Brush.PrimarySoft}" Margin="0,0,12,0">
+                                    <ui:Icon Glyph="Building" Size="18" Foreground="{DynamicResource Brush.Primary}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                                    <TextBlock Text="{TemplateBinding StoreName}" FontWeight="Bold" FontSize="{DynamicResource Text.Sm}" />
+                                    <TextBlock Text="{TemplateBinding StoreBranch}" FontSize="{DynamicResource Text.Xs}" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                </StackPanel>
+
+                                <!-- Status Pill with 8px dot gap -->
+                                <Border Padding="10,4" CornerRadius="{DynamicResource Radius.Badge}" Background="{DynamicResource Brush.SuccessSoft}" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Ellipse Width="{DynamicResource Size.ToastDot}" Height="{DynamicResource Size.ToastDot}"
+                                                 Margin="0,0,8,0" Fill="{DynamicResource Brush.Success}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{TemplateBinding OnlineText}" FontSize="{DynamicResource Text.Xs}" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource Brush.SuccessSoftText}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Center: Search Input -->
+                            <Grid Grid.Column="1" HorizontalAlignment="Center" Width="360" Margin="16,0">
+                                <ui:Input x:Name="SearchBox"
+                                          Placeholder="{TemplateBinding SearchPlaceholder}"
+                                          Text="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                    <ui:Input.Prefix>
+                                        <ui:Icon Glyph="Search" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                    </ui:Input.Prefix>
+                                    <ui:Input.Suffix>
+                                        <ui:Kbd>/</ui:Kbd>
+                                    </ui:Input.Suffix>
+                                </ui:Input>
+                            </Grid>
+
+                            <!-- Right: Actions, Notifications Bell & User Profile -->
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                <!-- Help button -->
+                                <ui:IconButton x:Name="PART_HelpButton" Size="Sm" Margin="0,0,6,0">
+                                    <ui:Icon Glyph="Info" Size="16" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                </ui:IconButton>
+
+                                <!-- Notifications Bell button with Counter Badge -->
+                                <Grid Margin="0,0,12,0">
+                                    <ui:IconButton x:Name="PART_NotificationsButton" Size="Sm">
+                                        <ui:Icon Glyph="Bell" Size="16" Foreground="{DynamicResource Brush.Ink}" />
+                                    </ui:IconButton>
+                                    <Border x:Name="NotificationBadge" MinWidth="18" Height="18" CornerRadius="{DynamicResource Radius.Full}"
+                                            Background="{DynamicResource Brush.Danger}" Padding="4,0"
+                                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                                            Margin="0,-4,-6,0" IsHitTestVisible="False">
+                                        <TextBlock Text="{Binding NotificationsCount, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   FontSize="{DynamicResource Text.2Xs}" FontWeight="Bold"
+                                                   Foreground="{DynamicResource Brush.InkInverse}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   Margin="0,-1,0,0" />
+                                    </Border>
+                                </Grid>
+
+                                <!-- Divider -->
+                                <Rectangle Width="1" Height="24" Margin="0,0,12,0" Fill="{DynamicResource Brush.Line}" />
+
+                                <!-- User Avatar Circle -->
+                                <Border Width="{DynamicResource Size.Avatar}" Height="{DynamicResource Size.Avatar}"
+                                        CornerRadius="{DynamicResource Radius.Full}"
+                                        Background="{DynamicResource Brush.PrimarySoft}" Margin="0,0,10,0">
+                                    <TextBlock Text="{TemplateBinding UserInitials}" FontSize="{DynamicResource Text.Xs}"
+                                               FontWeight="Bold" Foreground="{DynamicResource Brush.Primary}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{TemplateBinding UserName}" FontWeight="SemiBold" FontSize="{DynamicResource Text.Sm}" />
+                                    <TextBlock Text="{TemplateBinding UserRole}" FontSize="{DynamicResource Text.Xs}" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="NotificationsCount" Value="0">
+                            <Setter TargetName="NotificationBadge" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

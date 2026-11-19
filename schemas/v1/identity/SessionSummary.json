@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/identity/SessionSummary.json",
+  "title": "SessionSummary",
+  "description": "Active workstation login session without revealing tokens or session keys.",
+  "type": "object",
+  "required": [
+    "session_id",
+    "user_id",
+    "username",
+    "terminal_id",
+    "branch_id",
+    "logged_in_at_utc"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "username": {
+      "type": "string"
+    },
+    "terminal_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "branch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "logged_in_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_activity_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

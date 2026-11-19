@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/billing/SubscriptionPlan.json",
+  "title": "SubscriptionPlan",
+  "description": "SaaS software tier and pricing package for pharmacy tenants.",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "name",
+    "price_per_month",
+    "max_branches",
+    "max_seats_per_branch"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "price_per_month": {
+      "$ref": "../common/Money.json"
+    },
+    "max_branches": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_seats_per_branch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "has_analytics": {
+      "type": "boolean",
+      "default": false
+    },
+    "has_whatsapp_notifications": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

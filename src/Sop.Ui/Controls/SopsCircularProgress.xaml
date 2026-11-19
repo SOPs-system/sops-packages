@@ -1,0 +1,49 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- ====================================================================
+         SopsCircularProgress: Material 3-style Circular Progress Spinner
+         - Circular progress indicator
+         - 4px stroke thickness by default
+         - Fully rounded ends on all visible arcs (round line caps)
+         - Two visible gaps, one at each end of the active arc (TrackGapAngle, default: 8°)
+         - Track does NOT extend underneath the active arc or fill the gaps
+         - Smooth clockwise rotation in indeterminate mode
+         - Light and dark theme support via Brush.Primary & Brush.SurfaceSunken
+         ==================================================================== -->
+    <Style TargetType="{x:Type ui:SopsCircularProgress}">
+        <Setter Property="Width" Value="{Binding Size, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Height" Value="{Binding Size, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Size" Value="40" />
+        <Setter Property="StrokeThickness" Value="4" />
+        <Setter Property="TrackGapAngle" Value="8" />
+        <Setter Property="ActiveBrush" Value="{DynamicResource Brush.Primary}" />
+        <Setter Property="TrackBrush" Value="{DynamicResource Brush.SurfaceSunken}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:SopsCircularProgress}">
+                    <Grid Width="{TemplateBinding Size}" Height="{TemplateBinding Size}">
+                        <!-- Optional centered percentage indicator -->
+                        <TextBlock x:Name="PART_PercentageLabel"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="{DynamicResource Text.Xs}"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource Brush.Ink}"
+                                   Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ShowPercentage" Value="True">
+                            <Setter TargetName="PART_PercentageLabel" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

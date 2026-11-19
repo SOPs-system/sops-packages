@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/device/DeviceStatus.json",
+  "title": "DeviceStatus",
+  "description": "Lifecycle registration status of an authorized hardware workstation.",
+  "type": "string",
+  "enum": [
+    "PendingActivation",
+    "Active",
+    "Suspended",
+    "Revoked",
+    "Decommissioned"
+  ]
+}

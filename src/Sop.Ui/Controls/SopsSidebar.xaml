@@ -1,0 +1,134 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- SopsSidebarItem Style -->
+    <Style TargetType="{x:Type ui:SopsSidebarItem}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Margin" Value="0,2" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:SopsSidebarItem}">
+                    <Border x:Name="ItemRoot"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{DynamicResource Radius.Md}"
+                            Padding="12,0">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="ColIcon" Width="24" />
+                                <ColumnDefinition x:Name="ColText" Width="*" />
+                                <ColumnDefinition x:Name="ColBadge" Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ui:Icon x:Name="ItemIcon" Grid.Column="0" Glyph="{TemplateBinding Icon}" Size="18"
+                                     Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                            <TextBlock x:Name="ItemText" Grid.Column="1" Text="{TemplateBinding Text}" Margin="12,0,0,0"
+                                       FontWeight="Medium" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" />
+
+                            <!-- Badge -->
+                            <Border x:Name="BadgeBorder" Grid.Column="2" Padding="6,1" CornerRadius="{DynamicResource Radius.Full}"
+                                    Background="{DynamicResource Brush.PrimarySoft}"
+                                    Visibility="{Binding Badge, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:PresentToVisibilityConverter.Instance}}"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{TemplateBinding Badge}" FontSize="{DynamicResource Text.2Xs}" FontWeight="Bold"
+                                           Foreground="{DynamicResource Brush.Primary}" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ItemRoot" Property="Background" Value="{DynamicResource Brush.SurfaceSunken}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemRoot" Property="Background" Value="{DynamicResource Brush.PrimarySoft}" />
+                            <Setter TargetName="ItemIcon" Property="Foreground" Value="{DynamicResource Brush.Primary}" />
+                            <Setter TargetName="ItemText" Property="Foreground" Value="{DynamicResource Brush.Primary}" />
+                            <Setter TargetName="ItemText" Property="FontWeight" Value="SemiBold" />
+                        </Trigger>
+                        <Trigger Property="ui:SopsSidebar.IsCollapsed" Value="True">
+                            <Setter TargetName="ItemRoot" Property="Padding" Value="0" />
+                            <Setter TargetName="ItemRoot" Property="Width" Value="40" />
+                            <Setter TargetName="ItemRoot" Property="HorizontalAlignment" Value="Center" />
+                            <Setter TargetName="ItemText" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="BadgeBorder" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="ColText" Property="Width" Value="0" />
+                            <Setter TargetName="ColBadge" Property="Width" Value="0" />
+                            <Setter TargetName="ColIcon" Property="Width" Value="*" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- SopsSidebar Style -->
+    <Style TargetType="{x:Type ui:SopsSidebar}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="Width" Value="{DynamicResource Size.Sidebar}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:SopsSidebar}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="8">
+                        <DockPanel>
+                            <!-- Header: Brand Logo & Collapse Toggle -->
+                            <Grid x:Name="HeaderRow" DockPanel.Dock="Top" Height="48" Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ui:BrandLogo x:Name="Logo" Grid.Column="0" Width="72" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="{DynamicResource Brush.Primary}" />
+                                
+                                <ui:IconButton x:Name="PART_Toggle" Grid.Column="1" Size="Sm" VerticalAlignment="Center">
+                                    <ui:Icon Glyph="PanelLeft" Size="18" Foreground="{DynamicResource Brush.InkSubtle}" />
+                                </ui:IconButton>
+                            </Grid>
+
+                            <!-- Bottom: Sign Out Button -->
+                            <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource Brush.LineSubtle}" BorderThickness="0,1,0,0" Padding="0,8,0,0">
+                                <ui:Button x:Name="PART_SignOut" Variant="Ghost" FullWidth="True" Height="40" Padding="12,0" HorizontalContentAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <ui:Icon Glyph="Logout" Size="18" Foreground="{DynamicResource Brush.InkMuted}" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="SignOutLabel" Text="{TemplateBinding SignOutText}" Margin="12,0,0,0"
+                                                   FontWeight="Medium" Foreground="{DynamicResource Brush.InkMuted}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </ui:Button>
+                            </Border>
+
+                            <!-- Navigation Items Container -->
+                            <ScrollViewer x:Name="PART_Scroller" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="False">
+                            <Setter Property="Width" Value="{DynamicResource Size.SidebarRail}" />
+                            <Setter TargetName="Logo" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Toggle" Property="Grid.Column" Value="0" />
+                            <Setter TargetName="PART_Toggle" Property="Grid.ColumnSpan" Value="2" />
+                            <Setter TargetName="PART_Toggle" Property="HorizontalAlignment" Value="Center" />
+                            <Setter TargetName="PART_SignOut" Property="Padding" Value="0" />
+                            <Setter TargetName="PART_SignOut" Property="Width" Value="40" />
+                            <Setter TargetName="PART_SignOut" Property="HorizontalAlignment" Value="Center" />
+                            <Setter TargetName="PART_SignOut" Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter TargetName="SignOutLabel" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Scroller" Property="VerticalScrollBarVisibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

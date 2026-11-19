@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/catalog/DrugCategory.json",
+  "title": "DrugCategory",
+  "description": "Therapeutic or commercial categorization of pharmaceutical products.",
+  "type": "object",
+  "required": [
+    "id",
+    "code",
+    "name_en",
+    "name_ar"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "parent_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "name_en": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "name_ar": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

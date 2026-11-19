@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/common/Address.json",
+  "title": "Address",
+  "description": "Physical postal address.",
+  "type": "object",
+  "required": [
+    "street_line1",
+    "city",
+    "state_or_governorate",
+    "country_code"
+  ],
+  "properties": {
+    "street_line1": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "street_line2": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 256
+    },
+    "city": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "state_or_governorate": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "postal_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 32
+    },
+    "country_code": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    }
+  },
+  "additionalProperties": false
+}

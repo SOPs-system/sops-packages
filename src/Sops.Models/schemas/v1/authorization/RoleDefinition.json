@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/authorization/RoleDefinition.json",
+  "title": "RoleDefinition",
+  "description": "Organizational role grouping a set of permissions.",
+  "type": "object",
+  "required": [
+    "role_id",
+    "name",
+    "permissions"
+  ],
+  "properties": {
+    "role_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

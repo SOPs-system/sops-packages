@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Sops.Models.Generator.Tool</RootNamespace>
+    <AssemblyName>sops-models-gen</AssemblyName>
+    <Description>.NET tool for canonical schema validation, cross-language model generation, and code drift checks in the SOPs ecosystem.</Description>
+    <PackageId>Sops.Models.Generator.Tool</PackageId>
+    <Version>0.1.0</Version>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>sops-models-gen</ToolCommandName>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sops.Models.Generator\Sops.Models.Generator.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sops.org/schemas/v1/licensing/LicenseClaims.json",
+  "title": "LicenseClaims",
+  "description": "Cryptographically signed entitlements and feature claims encoded in license certificates.",
+  "type": "object",
+  "required": [
+    "license_id",
+    "tenant_id",
+    "tier",
+    "issued_at_utc",
+    "expires_at_utc",
+    "max_branches",
+    "max_seats_per_branch",
+    "enabled_features"
+  ],
+  "properties": {
+    "license_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tenant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tier": {
+      "type": "string"
+    },
+    "issued_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "max_branches": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_seats_per_branch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "enabled_features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

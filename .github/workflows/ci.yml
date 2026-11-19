@@ -1,0 +1,135 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  # 1. Canonical Schema & Drift Validation Gate
+  schema-validation-and-drift:
+    name: Schema Validation & Zero Drift Check
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            11.0.x
+      - name: Validate All Canonical JSON Schemas
+        shell: pwsh
+        run: |
+          $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+          dotnet run --project src/Sops.Models/generator/Sops.Models.Generator.Tool/Sops.Models.Generator.Tool.csproj -c Release -- validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Verify Zero Schema-to-Code Drift (C# & TypeScript)
+        shell: pwsh
+        run: |
+          $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+          dotnet run --project src/Sops.Models/generator/Sops.Models.Generator.Tool/Sops.Models.Generator.Tool.csproj -c Release -- check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+  # 2. Node.js Cross-Language Fixtures Gate
+  cross-language-fixtures:
+    name: Cross-Language Fixtures (Node.js)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify JSON Fixtures & Unicode / Safe-Integer Precision
+        run: node src/Sops.Models/tests/CrossLanguage/verify-fixtures.mjs
+
+  # 3. Dart Contract Verification Gate
+  dart-contracts:
+    name: Dart Static Analysis & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Pub Get
+        run: |
+          cd src/Sops.Models/packages/dart
+          dart pub get
+      - name: Analyze Dart Models
+        run: |
+          cd src/Sops.Models/packages/dart
+          dart analyze --fatal-infos
+      - name: Run Dart Unit Tests
+        run: |
+          cd src/Sops.Models/packages/dart
+          dart test
+
+  # 4. Monorepo Discovery & C# Package Matrix
+  discover:
+    name: Discover Packages
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.packages.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: packages
+        run: python3 eng/packages.py discover --github-output "$GITHUB_OUTPUT"
+
+  validate:
+    name: Build, Test & Pack C# Packages
+    needs: [discover, schema-validation-and-drift]
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            11.0.x
+      - name: Configure GitHub Packages authentication
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dotnet nuget update source github-sops --username "${{ github.actor }}" --password "$env:GH_TOKEN" --store-password-in-clear-text --configfile NuGet.Config
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Restore
+        run: dotnet restore "${{ matrix.test }}" --configfile NuGet.Config
+      - name: Build
+        run: dotnet build "${{ matrix.test }}" -c Release --no-restore
+      - name: Test
+        run: dotnet test "${{ matrix.test }}" -c Release --no-build --no-restore
+      - name: Pack source package
+        run: dotnet pack "${{ matrix.project }}" -c Release --no-restore -p:PackageVersion=0.0.0-ci --output artifacts
+
+  # 5. Consumer Smoke Test Gate
+  consumer-smoke-test:
+    name: Consumer Smoke Test
+    needs: validate
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            11.0.x
+      - name: Pack Sops.Models
+        shell: pwsh
+        run: |
+          $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+          dotnet pack src/Sops.Models/packages/csharp/Sops.Models/Sops.Models.csproj -c Release -p:PackageVersion=0.1.0 --output artifacts
+      - name: Run Consumer Sample
+        shell: pwsh
+        run: |
+          $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+          dotnet run --project src/Sops.Models/samples/ModernDotNetConsumer/ModernDotNetConsumer.csproj -c Release
