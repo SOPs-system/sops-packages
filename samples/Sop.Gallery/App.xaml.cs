@@ -16,6 +16,7 @@ namespace Sop.Gallery
             DispatcherUnhandledException += (s, args) =>
             {
                 File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gallery_error.log"), args.Exception.ToString());
+                args.Handled = true;
             };
 
             base.OnStartup(e);

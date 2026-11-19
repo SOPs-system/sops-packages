@@ -43,6 +43,11 @@ namespace Sop.Ui.Controls
 
             if ((bool)e.NewValue)
             {
+                if (calendar.SelectionMode != CalendarSelectionMode.MultipleRange)
+                {
+                    calendar.SelectionMode = CalendarSelectionMode.MultipleRange;
+                }
+
                 calendar.PreviewMouseLeftButtonDown += OnCalendarPreviewMouseLeftButtonDown;
                 calendar.SelectedDatesChanged += OnCalendarSelectedDatesChanged;
                 calendar.DisplayDateChanged += OnCalendarDisplayDateChanged;
@@ -99,9 +104,19 @@ namespace Sop.Ui.Controls
         private static void OnCalendarPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is not Calendar calendar) return;
+            if (calendar.DisplayMode != CalendarMode.Month) return;
 
             var dayButton = FindVisualParent<CalendarDayButton>(e.OriginalSource as DependencyObject);
             if (dayButton?.DataContext is not DateTime clickedDate) return;
+
+            // Blackout dates cannot be selected
+            if (calendar.BlackoutDates.Contains(clickedDate)) return;
+
+            // Ensure selection mode allows multiple dates before modifying SelectedDates
+            if (calendar.SelectionMode != CalendarSelectionMode.MultipleRange)
+            {
+                calendar.SelectionMode = CalendarSelectionMode.MultipleRange;
+            }
 
             var isComplete = (bool)calendar.GetValue(IsRangeCompleteProperty);
             var rangeStart = (DateTime?)calendar.GetValue(RangeStartProperty);
@@ -122,12 +137,30 @@ namespace Sop.Ui.Controls
                 calendar.SetValue(IsRangeCompleteProperty, true);
 
                 calendar.SelectedDates.Clear();
-                calendar.SelectedDates.AddRange(start, end);
+                try
+                {
+                    calendar.SelectedDates.AddRange(start, end);
+                }
+                catch
+                {
+                    for (var d = start; d <= end; d = d.AddDays(1))
+                    {
+                        if (!calendar.BlackoutDates.Contains(d))
+                        {
+                            calendar.SelectedDates.Add(d);
+                        }
+                    }
+                }
             }
 
             if (clickedDate.Month != calendar.DisplayDate.Month || clickedDate.Year != calendar.DisplayDate.Year)
             {
                 calendar.DisplayDate = clickedDate;
+            }
+
+            if (Mouse.Captured != null)
+            {
+                Mouse.Capture(null);
             }
 
             calendar.Focus();
@@ -137,6 +170,8 @@ namespace Sop.Ui.Controls
 
         public static void UpdateRangeButtons(Calendar calendar)
         {
+            if (calendar.DisplayMode != CalendarMode.Month) return;
+
             var selected = calendar.SelectedDates;
             DateTime? min = null;
             DateTime? max = null;

@@ -483,6 +483,7 @@
                         <StackPanel Style="{StaticResource Cell}" VerticalAlignment="Top">
                             <TextBlock Style="{StaticResource SectionTitle}" Text="SOP CALENDAR (AUTHENTIC BETA STYLE — TWO-CLICK RANGE)" />
                             <ui:Calendar x:Name="DemoCalendar"
+                                         SelectionMode="MultipleRange"
                                          ui:CalendarAssist.EnableTwoClickRange="True"
                                          HorizontalAlignment="Left" />
                         </StackPanel>

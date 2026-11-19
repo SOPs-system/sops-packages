@@ -116,6 +116,29 @@ namespace Sop.Ui.Tests
             });
         }
 
+        [Fact]
+        public void CalendarAssist_EnableTwoClickRange_SwitchesToMultipleRange_AndSelectsWithoutException()
+        {
+            ExecuteInSta(() =>
+            {
+                var cal = new Sop.Ui.Controls.Calendar();
+                Assert.Equal(CalendarSelectionMode.SingleDate, cal.SelectionMode);
+
+                // Enabling two-click range automatically switches to MultipleRange
+                CalendarAssist.SetEnableTwoClickRange(cal, true);
+                Assert.Equal(CalendarSelectionMode.MultipleRange, cal.SelectionMode);
+
+                // Range add does not throw
+                var start = new DateTime(2026, 11, 10);
+                var end = new DateTime(2026, 11, 15);
+                cal.SelectedDates.Clear();
+                cal.SelectedDates.AddRange(start, end);
+
+                Assert.Equal(6, cal.SelectedDates.Count);
+                Assert.Contains(new DateTime(2026, 11, 12), cal.SelectedDates);
+            });
+        }
+
         private static void ExecuteInSta(Action action)
         {
             Exception? caught = null;
