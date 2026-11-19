@@ -189,7 +189,10 @@ public sealed class PropertyDefinition
 
         if (!IsRequired || IsNullable)
         {
-            type += "?";
+            if (type != "dynamic")
+            {
+                type += "?";
+            }
         }
 
         return type;

@@ -761,7 +761,7 @@ class ErrorContract {
   final String code;
   final String message;
   final String? target;
-  final dynamic? details;
+  final dynamic details;
 
   const ErrorContract({
     required this.code,
@@ -774,7 +774,7 @@ class ErrorContract {
     code: json['code'] as String,
     message: json['message'] as String,
     target: json['target'] as String?,
-    details: json['details'] as dynamic?,
+    details: json['details'] as dynamic,
   );
 
   Map<String, dynamic> toJson() => {
@@ -905,7 +905,7 @@ class Quantity {
 class ResultEnvelope {
   final bool isSuccess;
   final String correlationId;
-  final dynamic? data;
+  final dynamic data;
   final ErrorContract? error;
 
   const ResultEnvelope({
@@ -918,7 +918,7 @@ class ResultEnvelope {
   factory ResultEnvelope.fromJson(Map<String, dynamic> json) => ResultEnvelope(
     isSuccess: json['is_success'] as bool,
     correlationId: json['correlation_id'] as String,
-    data: json['data'] as dynamic?,
+    data: json['data'] as dynamic,
     error: json['error'] as ErrorContract?,
   );
 
