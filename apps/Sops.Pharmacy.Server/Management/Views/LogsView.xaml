@@ -1,0 +1,84 @@
+<UserControl x:Class="Sops.Pharmacy.Server.Management.Views.LogsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="https://sops.dev/ui">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Audit Trail &amp; System Event Logs" 
+                           FontSize="{DynamicResource Text.Xl}" 
+                           FontWeight="Bold" 
+                           Foreground="{DynamicResource Brush.Ink}" />
+                <TextBlock Text="Immutable security logs recording local logins, transaction commits, inventory movements, and exceptions." 
+                           FontSize="{DynamicResource Text.Sm}" 
+                           Foreground="{DynamicResource Brush.InkSubtle}" 
+                           Margin="0,4,0,0" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:Button Content="Refresh Logs" 
+                           Variant="secondary" 
+                           Size="sm" 
+                           Click="OnRefreshClicked" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Filter bar -->
+        <Border Grid.Row="1" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource Radius.Md}" 
+                Padding="12,10" 
+                Margin="0,0,0,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:Input x:Name="TxtSearch" 
+                          Placeholder="Filter by action, user ID, or entity..." 
+                          Grid.Column="0" 
+                          Margin="0,0,12,0" 
+                          TextChanged="OnSearchTextChanged" />
+                <ui:Badge Grid.Column="1" 
+                          Content="Tamper-Resistant Storage" 
+                          Variant="neutral" 
+                          VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <!-- Logs list -->
+        <Border Grid.Row="2" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource Radius.Md}">
+            <ListView x:Name="LstLogs" 
+                      BorderThickness="0" 
+                      Background="Transparent" 
+                      Foreground="{DynamicResource Brush.Ink}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Timestamp (UTC)" Width="170" DisplayMemberBinding="{Binding Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
+                        <GridViewColumn Header="Action" Width="130" DisplayMemberBinding="{Binding Action}" />
+                        <GridViewColumn Header="Entity Type" Width="120" DisplayMemberBinding="{Binding EntityType}" />
+                        <GridViewColumn Header="User ID" Width="130" DisplayMemberBinding="{Binding UserId}" />
+                        <GridViewColumn Header="Client IP" Width="110" DisplayMemberBinding="{Binding IpAddress}" />
+                        <GridViewColumn Header="Diagnostic JSON Details" Width="360" DisplayMemberBinding="{Binding DetailsJson}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </Grid>
+</UserControl>

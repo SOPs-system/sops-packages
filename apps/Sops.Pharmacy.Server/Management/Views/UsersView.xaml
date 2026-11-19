@@ -1,0 +1,80 @@
+<UserControl x:Class="Sops.Pharmacy.Server.Management.Views.UsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="https://sops.dev/ui">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Local Users, Roles &amp; Shifts" 
+                           FontSize="{DynamicResource Text.Xl}" 
+                           FontWeight="Bold" 
+                           Foreground="{DynamicResource Brush.Ink}" />
+                <TextBlock Text="Manage cashier credentials, pharmacist authorizations, and active terminal assignments." 
+                           FontSize="{DynamicResource Text.Sm}" 
+                           Foreground="{DynamicResource Brush.InkSubtle}" 
+                           Margin="0,4,0,0" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:Button Content="Reload Users" 
+                           Variant="secondary" 
+                           Size="sm" 
+                           Click="OnReloadClicked" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Action Bar -->
+        <Border Grid.Row="1" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource Radius.Md}" 
+                Padding="12,10" 
+                Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal">
+                <ui:Button Content="Add New Cashier" 
+                           Variant="primary" 
+                           Size="sm" 
+                           Margin="0,0,8,0" 
+                           Click="OnAddUserClicked" />
+                <TextBlock Text="Passwords are salt-hashed and stored in local SQLCipher. Validated offline during shift operations." 
+                           FontSize="{DynamicResource Text.Xs}" 
+                           Foreground="{DynamicResource Brush.InkMuted}" 
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <!-- Users List -->
+        <Border Grid.Row="2" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource Radius.Md}">
+            <ListView x:Name="LstUsers" 
+                      BorderThickness="0" 
+                      Background="Transparent" 
+                      Foreground="{DynamicResource Brush.Ink}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="User ID" Width="140" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Username" Width="140" DisplayMemberBinding="{Binding Username}" />
+                        <GridViewColumn Header="Full Name" Width="200" DisplayMemberBinding="{Binding DisplayName}" />
+                        <GridViewColumn Header="Role" Width="120" DisplayMemberBinding="{Binding Role}" />
+                        <GridViewColumn Header="Active" Width="100" DisplayMemberBinding="{Binding IsActive}" />
+                        <GridViewColumn Header="Created Date" Width="180" DisplayMemberBinding="{Binding CreatedAt, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </Grid>
+</UserControl>

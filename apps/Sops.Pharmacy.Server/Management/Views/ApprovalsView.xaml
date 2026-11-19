@@ -1,0 +1,85 @@
+<UserControl x:Class="Sops.Pharmacy.Server.Management.Views.ApprovalsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="https://sops.dev/ui">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Sensitive Change Approvals" 
+                           FontSize="{DynamicResource Text.Xl}" 
+                           FontWeight="Bold" 
+                           Foreground="{DynamicResource Brush.Ink}" />
+                <TextBlock Text="Review pending supervisor authorizations for custom discounts, manual inventory adjustments, and invoice cancellations." 
+                           FontSize="{DynamicResource Text.Sm}" 
+                           Foreground="{DynamicResource Brush.InkSubtle}" 
+                           Margin="0,4,0,0" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:Button Content="Refresh Requests" 
+                           Variant="secondary" 
+                           Size="sm" 
+                           Click="OnRefreshClicked" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Actions -->
+        <Border Grid.Row="1" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource Radius.Md}" 
+                Padding="12,10" 
+                Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal">
+                <ui:Button Content="Approve Selected" 
+                           Variant="primary" 
+                           Size="sm" 
+                           Margin="0,0,8,0" 
+                           Click="OnApproveClicked" />
+                <ui:Button Content="Reject Selected" 
+                           Variant="danger" 
+                           Size="sm" 
+                           Margin="0,0,16,0" 
+                           Click="OnRejectClicked" />
+                <TextBlock Text="Approved actions are signed and durably committed to the local SQLCipher ledger." 
+                           FontSize="{DynamicResource Text.Xs}" 
+                           Foreground="{DynamicResource Brush.InkMuted}" 
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <!-- List -->
+        <Border Grid.Row="2" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource Radius.Md}">
+            <ListView x:Name="LstApprovals" 
+                      BorderThickness="0" 
+                      Background="Transparent" 
+                      Foreground="{DynamicResource Brush.Ink}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Request ID" Width="140" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Type" Width="140" DisplayMemberBinding="{Binding ChangeType}" />
+                        <GridViewColumn Header="Requested By" Width="130" DisplayMemberBinding="{Binding Requester}" />
+                        <GridViewColumn Header="Reason / Details" Width="360" DisplayMemberBinding="{Binding Reason}" />
+                        <GridViewColumn Header="Status" Width="100" DisplayMemberBinding="{Binding Status}" />
+                        <GridViewColumn Header="Date" Width="160" DisplayMemberBinding="{Binding CreatedAt, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </Grid>
+</UserControl>

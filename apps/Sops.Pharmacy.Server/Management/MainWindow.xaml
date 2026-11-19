@@ -1,0 +1,173 @@
+<Window x:Class="Sops.Pharmacy.Server.Management.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="https://sops.dev/ui"
+        xmlns:views="clr-namespace:Sops.Pharmacy.Server.Management.Views"
+        Title="SOPs Pharmacy Local Server — Management Console"
+        Width="1280"
+        Height="860"
+        MinWidth="1024"
+        MinHeight="700"
+        Background="{DynamicResource Brush.Bg}"
+        FontFamily="{DynamicResource Font.App}"
+        FontSize="{DynamicResource Text.Sm}"
+        Foreground="{DynamicResource Brush.Ink}"
+        TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar Navigation -->
+        <Border Grid.Column="0" 
+                Background="{DynamicResource Brush.Surface}" 
+                BorderBrush="{DynamicResource Brush.Line}" 
+                BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- App Header -->
+                <Border Grid.Row="0" Padding="20,16" BorderBrush="{DynamicResource Brush.Line}" BorderThickness="0,0,0,1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="SOPs Server" 
+                                       FontSize="{DynamicResource Text.Lg}" 
+                                       FontWeight="Bold" 
+                                       Foreground="{DynamicResource Brush.Ink}" />
+                            <ui:Badge Content="v1.0" 
+                                      Variant="neutral" 
+                                      VerticalAlignment="Center" 
+                                      Margin="8,0,0,0" />
+                        </StackPanel>
+                        <TextBlock Text="Local Pharmacy Console" 
+                                   FontSize="{DynamicResource Text.Xs}" 
+                                   Foreground="{DynamicResource Brush.InkSubtle}" 
+                                   Margin="0,2,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Navigation Links List -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="PnlNavigation" Margin="12,16,12,16">
+                        <Button x:Name="BtnNavOverview" Content="Overview" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Overview" />
+                        <Button x:Name="BtnNavServerControl" Content="Server Control" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="ServerControl" />
+                        <Button x:Name="BtnNavDevices" Content="Terminals &amp; Devices" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Devices" />
+                        <Button x:Name="BtnNavDatabase" Content="SQLCipher Database" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Database" />
+                        <Button x:Name="BtnNavSync" Content="Cloud Sync &amp; Outbox" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Sync" />
+                        <Button x:Name="BtnNavBackup" Content="Backup &amp; Restore" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="BackupRestore" />
+                        <Button x:Name="BtnNavApprovals" Content="Change Approvals" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Approvals" />
+                        <Button x:Name="BtnNavLicensing" Content="Licensing &amp; Seats" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Licensing" />
+                        <Button x:Name="BtnNavUsers" Content="Users &amp; Shifts" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Users" />
+                        <Button x:Name="BtnNavLogs" Content="Audit Trail &amp; Logs" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Logs" />
+                        <Button x:Name="BtnNavSettings" Content="Settings" Style="{DynamicResource Sop.Ui.Styles.GhostButton}" HorizontalContentAlignment="Left" Height="36" Margin="0,0,0,4" Click="OnNavClicked" Tag="Settings" />
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Sidebar Footer Controls -->
+                <Border Grid.Row="2" Padding="16" BorderBrush="{DynamicResource Brush.Line}" BorderThickness="0,1,0,0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ui:Button Content="Theme" 
+                                       Variant="secondary" 
+                                       Size="sm" 
+                                       Grid.Column="0" 
+                                       Margin="0,0,4,0" 
+                                       Click="OnThemeToggleClicked" />
+                            <ui:Button Content="RTL / LTR" 
+                                       Variant="secondary" 
+                                       Size="sm" 
+                                       Grid.Column="1" 
+                                       Margin="4,0,0,0" 
+                                       Click="OnRtlToggleClicked" />
+                        </Grid>
+                        <TextBlock Text="Smart Operating Pharmacies" 
+                                   FontSize="{DynamicResource Text.Xs}" 
+                                   Foreground="{DynamicResource Brush.InkMuted}" 
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Workspace -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Top Application Bar -->
+            <Border Grid.Row="0" 
+                    Background="{DynamicResource Brush.Surface}" 
+                    BorderBrush="{DynamicResource Brush.Line}" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="24,12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Branch #001 — Downtown Pharmacy" 
+                                   FontSize="{DynamicResource Text.Base}" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="{DynamicResource Brush.Ink}" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,16,0" />
+                        <ui:Badge Content="{Binding ServerStatusText}" 
+                                  Variant="success" 
+                                  VerticalAlignment="Center" 
+                                  Margin="0,0,8,0" />
+                        <ui:Badge Content="{Binding Uptime, StringFormat='Up: {0}'}" 
+                                  Variant="neutral" 
+                                  VerticalAlignment="Center" 
+                                  Margin="0,0,8,0" />
+                        <ui:Badge Content="{Binding DatabaseSizeFormatted, StringFormat='DB: {0}'}" 
+                                  Variant="neutral" 
+                                  VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding LastUpdatedText, StringFormat='Updated: {0}'}" 
+                                   FontSize="{DynamicResource Text.Xs}" 
+                                   Foreground="{DynamicResource Brush.InkMuted}" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,12,0" />
+                        <ui:Button Content="Refresh" 
+                                   Variant="secondary" 
+                                   Size="sm" 
+                                   Click="OnGlobalRefreshClicked" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Content Container -->
+            <Grid Grid.Row="1">
+                <views:OverviewView x:Name="ViewOverview" Visibility="Visible" />
+                <views:ServerControlView x:Name="ViewServerControl" Visibility="Collapsed" />
+                <views:DevicesView x:Name="ViewDevices" Visibility="Collapsed" />
+                <views:DatabaseView x:Name="ViewDatabase" Visibility="Collapsed" />
+                <views:SyncView x:Name="ViewSync" Visibility="Collapsed" />
+                <views:BackupRestoreView x:Name="ViewBackupRestore" Visibility="Collapsed" />
+                <views:ApprovalsView x:Name="ViewApprovals" Visibility="Collapsed" />
+                <views:LicensingView x:Name="ViewLicensing" Visibility="Collapsed" />
+                <views:UsersView x:Name="ViewUsers" Visibility="Collapsed" />
+                <views:LogsView x:Name="ViewLogs" Visibility="Collapsed" />
+                <views:SettingsView x:Name="ViewSettings" Visibility="Collapsed" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

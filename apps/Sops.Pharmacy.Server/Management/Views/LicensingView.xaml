@@ -1,0 +1,124 @@
+<UserControl x:Class="Sops.Pharmacy.Server.Management.Views.LicensingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="https://sops.dev/ui">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="24">
+            <TextBlock Text="Licensing, Seats &amp; Cryptographic Certificates" 
+                       FontSize="{DynamicResource Text.Xl}" 
+                       FontWeight="Bold" 
+                       Foreground="{DynamicResource Brush.Ink}" />
+            <TextBlock Text="Authoritative local server entitlement verification, seat limits, and offline grace tracking." 
+                       FontSize="{DynamicResource Text.Sm}" 
+                       Foreground="{DynamicResource Brush.InkSubtle}" 
+                       Margin="0,4,0,24" />
+
+            <!-- Active License Details Card -->
+            <Border Background="{DynamicResource Brush.Surface}" 
+                    BorderBrush="{DynamicResource Brush.Line}" 
+                    BorderThickness="1" 
+                    CornerRadius="{DynamicResource Radius.Md}" 
+                    Padding="20" 
+                    Margin="0,0,0,24">
+                <StackPanel>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Smart Operating Pharmacies (SOPs) Enterprise Edition" 
+                                       FontSize="{DynamicResource Text.Lg}" 
+                                       FontWeight="Bold" 
+                                       Foreground="{DynamicResource Brush.Ink}" />
+                            <TextBlock Text="Certificate Subject: Pharmacy ID 001 — Branch Downtown" 
+                                       FontSize="{DynamicResource Text.Sm}" 
+                                       Foreground="{DynamicResource Brush.InkSubtle}" 
+                                       Margin="0,2,0,0" />
+                        </StackPanel>
+                        <ui:Badge Grid.Column="1" 
+                                  Content="Active &amp; Licensed" 
+                                  Variant="success" 
+                                  VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Terminal Seat Limit:" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Ink}" />
+                        <TextBlock Grid.Column="1" Text="5 POS / Mobile Client Seats (1 currently allocated)" Foreground="{DynamicResource Brush.InkSubtle}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Offline Grace Period:" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Ink}" />
+                        <TextBlock Grid.Column="1" Text="30 Days Offline Autonomy (Clock rollback defense enabled)" Foreground="{DynamicResource Brush.InkSubtle}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Features Entitled:" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Ink}" />
+                        <TextBlock Grid.Column="1" Text="pos.sales, pos.fefo_inventory, pos.discounts, sync.cloud, backup.encrypted" Foreground="{DynamicResource Brush.InkSubtle}" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Expiration / Renewal:" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Ink}" />
+                        <TextBlock Grid.Column="1" Text="2027-12-31 (Annual Perpetual Support)" Foreground="{DynamicResource Brush.InkSubtle}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- License Activation / Refresh Card -->
+            <Border Background="{DynamicResource Brush.Surface}" 
+                    BorderBrush="{DynamicResource Brush.Line}" 
+                    BorderThickness="1" 
+                    CornerRadius="{DynamicResource Radius.Md}" 
+                    Padding="20">
+                <StackPanel>
+                    <TextBlock Text="Activate New License or Seat Package" 
+                               FontSize="{DynamicResource Text.Base}" 
+                               FontWeight="SemiBold" 
+                               Foreground="{DynamicResource Brush.Ink}" />
+                    <TextBlock Text="Enter a customer activation key or signed offline license file string." 
+                               FontSize="{DynamicResource Text.Sm}" 
+                               Foreground="{DynamicResource Brush.InkSubtle}" 
+                               Margin="0,2,0,16" />
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ui:Input x:Name="TxtLicenseKey" 
+                                  Placeholder="XXXX-XXXX-XXXX-XXXX-XXXX" 
+                                  Grid.Column="0" 
+                                  Margin="0,0,12,0" />
+                        <ui:Button Content="Apply Activation Code" 
+                                   Variant="primary" 
+                                   Size="md" 
+                                   Grid.Column="1" 
+                                   Click="OnActivateClicked" />
+                    </Grid>
+
+                    <TextBlock x:Name="TxtActivationResult" 
+                               FontSize="{DynamicResource Text.Xs}" 
+                               FontFamily="{DynamicResource Font.Mono}" 
+                               Foreground="{DynamicResource Brush.InkSubtle}" 
+                               Text="Activation status: Ready" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
