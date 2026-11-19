@@ -4,6 +4,7 @@
 
     <Style TargetType="{x:Type ui:ShortcutOverlay}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ui:ShortcutOverlay}">
@@ -143,6 +144,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsOpen" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

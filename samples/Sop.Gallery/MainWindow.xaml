@@ -844,8 +844,9 @@
             </StackPanel>
         </ScrollViewer>
 
+        <ui:ShortcutOverlay x:Name="DemoShortcutOverlay" />
+
         <!-- Modals present here, over everything. -->
         <ui:ModalHost x:Name="Modals" />
-        <ui:ShortcutOverlay x:Name="DemoShortcutOverlay" />
     </Grid>
 </Window>

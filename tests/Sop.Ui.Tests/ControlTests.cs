@@ -240,6 +240,31 @@ namespace Sop.Ui.Tests
         }
 
         [WpfFact]
+        public void DateInput_calendar_popup_selection_sets_date()
+        {
+            EnsureApp();
+            var input = new DateInput();
+            var window = Show(input);
+            try
+            {
+                window.UpdateLayout();
+                input.IsDropDownOpen = true;
+                window.UpdateLayout();
+
+                var target = new DateTime(2026, 11, 20);
+                input.SelectedDate = target;
+                Assert.Equal(target, input.SelectedDate);
+                Assert.Equal("2026", ((TextBox)input.Template.FindName("PART_YearBox", input)).Text);
+                Assert.Equal("11", ((TextBox)input.Template.FindName("PART_MonthBox", input)).Text);
+                Assert.Equal("20", ((TextBox)input.Template.FindName("PART_DayBox", input)).Text);
+            }
+            finally
+            {
+                window.Close();
+            }
+        }
+
+        [WpfFact]
         public void Modal_presents_in_the_host_and_closes_on_escape()
         {
             EnsureApp();
@@ -268,6 +293,31 @@ namespace Sop.Ui.Tests
                     RoutedEvent = Keyboard.KeyDownEvent,
                 });
                 Assert.Equal(1, closeRequests);
+                Assert.False(modal.IsOpen);
+                Assert.Empty(host.Children);
+
+                // Test close button
+                modal.IsOpen = true;
+                window.UpdateLayout();
+                Assert.Single(host.Children);
+                panel = (ModalPanel)host.Children[0];
+                var closeButton = (ButtonBase)panel.Template.FindName("PART_Close", panel);
+                Assert.NotNull(closeButton);
+                closeButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                Assert.False(modal.IsOpen);
+                Assert.Empty(host.Children);
+
+                // Test backdrop click (click at origin 0,0 which is outside the centered panel)
+                modal.IsOpen = true;
+                window.UpdateLayout();
+                Assert.Single(host.Children);
+                panel = (ModalPanel)host.Children[0];
+                var backdrop = (FrameworkElement)panel.Template.FindName("PART_Backdrop", panel);
+                Assert.NotNull(backdrop);
+                backdrop.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left)
+                {
+                    RoutedEvent = UIElement.MouseLeftButtonDownEvent
+                });
                 Assert.False(modal.IsOpen);
                 Assert.Empty(host.Children);
             }

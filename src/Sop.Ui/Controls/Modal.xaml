@@ -43,16 +43,10 @@
                                             <ui:IconButton x:Name="PART_Close"
                                                            Grid.Column="1"
                                                            Size="Sm"
-                                                           Margin="12,0,-8,0"
+                                                           VerticalAlignment="Center"
+                                                           Margin="12,0,0,0"
                                                            AutomationProperties.Name="Close">
-                                                <Path Width="14"
-                                                      Height="14"
-                                                      Data="{DynamicResource Icon.Close}"
-                                                      Stretch="Uniform"
-                                                      Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ui:IconButton}}}"
-                                                      StrokeThickness="2"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeEndLineCap="Round" />
+                                                <ui:Icon Glyph="Close" Size="14" Foreground="{DynamicResource Brush.InkSubtle}" />
                                             </ui:IconButton>
                                         </Grid>
                                     </Border>

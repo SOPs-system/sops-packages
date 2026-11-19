@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -304,6 +305,23 @@ namespace Sop.Ui.Controls
         private FrameworkElement? _footer;
         private FrameworkElement? _body;
 
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonDown(e);
+
+            var panel = GetTemplateChild("Panel") as FrameworkElement;
+            if (panel != null)
+            {
+                var pos = e.GetPosition(panel);
+                // If clicked outside the dialog card (Panel), it's an overlay / backdrop dismiss!
+                if (pos.X < 0 || pos.Y < 0 || pos.X > panel.ActualWidth || pos.Y > panel.ActualHeight)
+                {
+                    e.Handled = true;
+                    Owner.RequestClose();
+                }
+            }
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -314,10 +332,11 @@ namespace Sop.Ui.Controls
             {
                 _backdrop.MouseLeftButtonDown += (s, e) =>
                 {
-                    if (ReferenceEquals(e.OriginalSource, _backdrop)) { e.Handled = true; Owner.RequestClose(); }
+                    e.Handled = true;
+                    Owner.RequestClose();
                 };
             }
-            if (GetTemplateChild("PART_Close") is System.Windows.Controls.Button close)
+            if (GetTemplateChild("PART_Close") is ButtonBase close)
             {
                 close.Click += (_, __) => Owner.RequestClose();
                 close.PreviewMouseLeftButtonDown += (s, e) =>

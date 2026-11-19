@@ -187,10 +187,12 @@ namespace Sop.Ui.Controls
             if (_popup != null)
             {
                 _popup.Closed -= OnPopupClosed;
+                _popup.Opened -= OnPopupOpened;
             }
             if (_calendar != null)
             {
                 _calendar.SelectedDatesChanged -= OnCalendarSelectedDatesChanged;
+                _calendar.PreviewMouseUp -= OnCalendarPreviewMouseUp;
             }
 
             _border = GetTemplateChild("PART_Border") as Border;
@@ -202,7 +204,6 @@ namespace Sop.Ui.Controls
             _monthPlaceholder = GetTemplateChild("PART_MonthPlaceholder") as TextBlock;
             _dayPlaceholder = GetTemplateChild("PART_DayPlaceholder") as TextBlock;
             _popup = GetTemplateChild("PART_Popup") as Popup;
-            _calendar = GetTemplateChild("PART_Calendar") as Calendar;
 
             if (_calendarButton != null)
             {
@@ -211,17 +212,85 @@ namespace Sop.Ui.Controls
             if (_popup != null)
             {
                 _popup.Closed += OnPopupClosed;
+                _popup.Opened += OnPopupOpened;
             }
-            if (_calendar != null)
-            {
-                _calendar.SelectedDatesChanged += OnCalendarSelectedDatesChanged;
-            }
+
+            EnsureCalendar();
 
             HookSegmentBox(_yearBox, OnYearKeyDown);
             HookSegmentBox(_monthBox, OnMonthKeyDown);
             HookSegmentBox(_dayBox, OnDayKeyDown);
 
             SyncTextFromSelectedDate();
+        }
+
+        private void OnPopupOpened(object? sender, EventArgs e)
+        {
+            EnsureCalendar();
+            if (_calendar != null)
+            {
+                _isSyncingCalendar = true;
+                try
+                {
+                    _calendar.SelectedDate = SelectedDate;
+                    _calendar.DisplayDate = SelectedDate ?? DisplayDate;
+                }
+                finally
+                {
+                    _isSyncingCalendar = false;
+                }
+            }
+        }
+
+        private void EnsureCalendar()
+        {
+            if (_calendar == null)
+            {
+                _calendar = GetTemplateChild("PART_Calendar") as Calendar;
+                if (_calendar == null && _popup != null)
+                {
+                    if (_popup.Child is Border b && b.Child is Calendar c)
+                    {
+                        _calendar = c;
+                    }
+                    else if (_popup.Child != null)
+                    {
+                        _calendar = FindVisualChild<Calendar>(_popup.Child);
+                    }
+                }
+            }
+
+            if (_calendar != null)
+            {
+                _calendar.SelectedDatesChanged -= OnCalendarSelectedDatesChanged;
+                _calendar.SelectedDatesChanged += OnCalendarSelectedDatesChanged;
+                _calendar.PreviewMouseUp -= OnCalendarPreviewMouseUp;
+                _calendar.PreviewMouseUp += OnCalendarPreviewMouseUp;
+            }
+        }
+
+        private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T typedChild) return typedChild;
+                var descendant = FindVisualChild<T>(child);
+                if (descendant != null) return descendant;
+            }
+            return null;
+        }
+
+        private void OnCalendarPreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var dayButton = CalendarAssist.FindVisualParent<CalendarDayButton>(e.OriginalSource as DependencyObject);
+            if (dayButton?.DataContext is DateTime clickedDate)
+            {
+                SelectedDate = clickedDate;
+                IsDropDownOpen = false;
+                _yearBox?.Focus();
+            }
         }
 
         private void HookSegmentBox(TextBox? box, KeyEventHandler keyHandler)
@@ -252,9 +321,19 @@ namespace Sop.Ui.Controls
         private void OnCalendarSelectedDatesChanged(object? sender, SelectionChangedEventArgs e)
         {
             if (_isSyncingCalendar) return;
-            if (_calendar?.SelectedDate.HasValue == true)
+            DateTime? chosen = null;
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is DateTime dt)
             {
-                SelectedDate = _calendar.SelectedDate.Value;
+                chosen = dt;
+            }
+            else if (_calendar?.SelectedDate.HasValue == true)
+            {
+                chosen = _calendar.SelectedDate.Value;
+            }
+
+            if (chosen.HasValue)
+            {
+                SelectedDate = chosen.Value;
                 IsDropDownOpen = false;
                 _yearBox?.Focus();
             }
