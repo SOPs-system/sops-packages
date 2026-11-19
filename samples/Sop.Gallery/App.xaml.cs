@@ -11,11 +11,11 @@ namespace Sop.Gallery
         {
             AppDomain.CurrentDomain.UnhandledException += (s, args) =>
             {
-                File.WriteAllText("D:\\SOPs-system\\sops-packages\\samples\\Sop.Gallery\\gallery_error.log", args.ExceptionObject.ToString());
+                File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gallery_error.log"), args.ExceptionObject.ToString());
             };
             DispatcherUnhandledException += (s, args) =>
             {
-                File.WriteAllText("D:\\SOPs-system\\sops-packages\\samples\\Sop.Gallery\\gallery_error.log", args.Exception.ToString());
+                File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gallery_error.log"), args.Exception.ToString());
             };
 
             base.OnStartup(e);
