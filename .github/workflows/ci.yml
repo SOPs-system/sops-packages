@@ -103,10 +103,21 @@ jobs:
           dotnet nuget update source github-sops --username "${{ github.actor }}" --password "$env:GH_TOKEN" --store-password-in-clear-text --configfile NuGet.Config
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Restore
-        run: dotnet restore "${{ matrix.test }}" --configfile NuGet.Config
+        shell: pwsh
+        run: |
+          dotnet restore "${{ matrix.project }}" --configfile NuGet.Config
+          if ("${{ matrix.test }}" -ne "") {
+            dotnet restore "${{ matrix.test }}" --configfile NuGet.Config
+          }
       - name: Build
-        run: dotnet build "${{ matrix.test }}" -c Release --no-restore
+        shell: pwsh
+        run: |
+          dotnet build "${{ matrix.project }}" -c Release --no-restore
+          if ("${{ matrix.test }}" -ne "") {
+            dotnet build "${{ matrix.test }}" -c Release --no-restore
+          }
       - name: Test
+        if: matrix.test != ''
         run: dotnet test "${{ matrix.test }}" -c Release --no-build --no-restore
       - name: Pack source package
         run: dotnet pack "${{ matrix.project }}" -c Release --no-restore -p:PackageVersion=0.0.0-ci --output artifacts
