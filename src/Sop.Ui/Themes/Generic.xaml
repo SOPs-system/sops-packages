@@ -41,6 +41,9 @@
         <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsSidePanel.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsStatusBar.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/SopsAppShell.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/Calendar.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/DateInput.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/NumericInput.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

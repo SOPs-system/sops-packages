@@ -1,0 +1,185 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- Step RepeatButton Style for NumericInput Stepper -->
+    <Style x:Key="NumericInput.StepButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Interval" Value="80" />
+        <Setter Property="Delay" Value="350" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.LineSubtle}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Line}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Main NumericInput Control Style -->
+    <Style TargetType="{x:Type ui:NumericInput}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="{DynamicResource Size.Hit}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Mono}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Padding" Value="12,0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:NumericInput}">
+                    <Grid>
+                        <!-- Focus Ring -->
+                        <Border x:Name="FocusRingBorder"
+                                Margin="{DynamicResource Ring.Margin}"
+                                BorderThickness="{DynamicResource Ring.Thickness}"
+                                BorderBrush="{DynamicResource Brush.FocusRing}"
+                                CornerRadius="{DynamicResource Radius.MdRing}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+
+                        <!-- Outer Input Frame -->
+                        <Border x:Name="PART_Frame"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource Radius.Md}"
+                                Height="{TemplateBinding Height}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Prefix (e.g. currency symbol E£, $, €) -->
+                                <TextBlock x:Name="PrefixText"
+                                           Grid.Column="0"
+                                           Text="{TemplateBinding Prefix}"
+                                           Foreground="{DynamicResource Brush.InkSubtle}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontFamily="{DynamicResource Font.App}"
+                                           FontWeight="Medium"
+                                           VerticalAlignment="Center"
+                                           Margin="10,0,0,0"
+                                           Visibility="{Binding Prefix, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:PresentToVisibilityConverter.Instance}}" />
+
+                                <!-- Value TextBox -->
+                                <TextBox x:Name="PART_TextBox"
+                                         Grid.Column="1"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="{TemplateBinding Foreground}"
+                                         FontFamily="{TemplateBinding FontFamily}"
+                                         FontSize="{TemplateBinding FontSize}"
+                                         FontWeight="SemiBold"
+                                         VerticalAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         TextAlignment="Right"
+                                         Typography.NumeralAlignment="Tabular"
+                                         Padding="{TemplateBinding Padding}"
+                                         CaretBrush="{DynamicResource Brush.Ink}"
+                                         SelectionBrush="{DynamicResource Brush.Primary}"
+                                         FocusVisualStyle="{x:Null}"
+                                         IsReadOnly="{TemplateBinding IsReadOnly}" />
+
+                                <!-- Suffix (e.g. %, units, kg) -->
+                                <TextBlock x:Name="SuffixText"
+                                           Grid.Column="2"
+                                           Text="{TemplateBinding Suffix}"
+                                           Foreground="{DynamicResource Brush.InkSubtle}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontFamily="{DynamicResource Font.App}"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,0"
+                                           Visibility="{Binding Suffix, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ui:PresentToVisibilityConverter.Instance}}" />
+
+                                <!-- Stepper Separator -->
+                                <Border Grid.Column="3"
+                                        Width="1"
+                                        VerticalAlignment="Stretch"
+                                        Margin="0,4"
+                                        Background="{DynamicResource Brush.Line}" />
+
+                                <!-- Stepper Buttons (Up / Down) -->
+                                <Grid Grid.Column="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Step Up Button -->
+                                    <RepeatButton x:Name="PART_StepUp"
+                                                  Grid.Row="0"
+                                                  Style="{StaticResource NumericInput.StepButton}">
+                                        <Path Data="M 0 4 L 4 0 L 8 4"
+                                              Stroke="{DynamicResource Brush.InkMuted}"
+                                              StrokeThickness="1.5"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True" />
+                                    </RepeatButton>
+
+                                    <!-- Step Down Button -->
+                                    <RepeatButton x:Name="PART_StepDown"
+                                                  Grid.Row="1"
+                                                  Style="{StaticResource NumericInput.StepButton}">
+                                        <Path Data="M 0 0 L 4 4 L 8 0"
+                                              Stroke="{DynamicResource Brush.InkMuted}"
+                                              StrokeThickness="1.5"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True" />
+                                    </RepeatButton>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Hover state -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Frame" Property="BorderBrush" Value="{DynamicResource Brush.LineStrong}" />
+                        </Trigger>
+                        <!-- Focus states -->
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="PART_Frame" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
+                            <Setter TargetName="FocusRingBorder" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_Frame" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,215 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:Sop.Ui.Controls">
+
+    <!-- Calendar Icon Trigger Button inside DateInput -->
+    <Style x:Key="DateInput.TriggerButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Width" Value="38" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{DynamicResource Radius.Md}"
+                            SnapsToDevicePixels="True">
+                        <ui:Icon Glyph="Calendar"
+                                 Size="16"
+                                 Foreground="{DynamicResource Brush.InkSubtle}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.LineSubtle}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Line}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Segment Inner TextBox Style -->
+    <Style x:Key="DateInput.SegmentBox" TargetType="{x:Type TextBox}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Mono}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
+
+    <!-- Main DateInput Control Style -->
+    <Style TargetType="{x:Type ui:DateInput}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="{DynamicResource Size.Hit}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.App}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Sm}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:DateInput}">
+                    <Grid>
+                        <!-- Focus Ring -->
+                        <Border x:Name="FocusRingBorder"
+                                Margin="{DynamicResource Ring.Margin}"
+                                BorderThickness="{DynamicResource Ring.Thickness}"
+                                BorderBrush="{DynamicResource Brush.FocusRing}"
+                                CornerRadius="{DynamicResource Radius.MdRing}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+
+                        <!-- Outer Input Frame -->
+                        <Border x:Name="PART_Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource Radius.Md}"
+                                Height="{TemplateBinding Height}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1" />
+                                    <ColumnDefinition Width="2*" MinWidth="52" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1.2*" MinWidth="36" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1.2*" MinWidth="36" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Calendar Icon Trigger Button -->
+                                <Button x:Name="PART_CalendarButton"
+                                        Grid.Column="0"
+                                        Style="{StaticResource DateInput.TriggerButton}" />
+
+                                <!-- Divider -->
+                                <Border Grid.Column="1"
+                                        Width="1"
+                                        VerticalAlignment="Stretch"
+                                        Margin="0,6"
+                                        Background="{DynamicResource Brush.Line}" />
+
+                                <!-- Year segment (YYYY) -->
+                                <Grid Grid.Column="2" VerticalAlignment="Center" Margin="4,0">
+                                    <TextBlock x:Name="PART_YearPlaceholder"
+                                               Text="{TemplateBinding YearPlaceholder}"
+                                               Foreground="{DynamicResource Brush.InkSubtle}"
+                                               FontSize="{DynamicResource Text.Sm}"
+                                               FontFamily="{DynamicResource Font.Mono}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               IsHitTestVisible="False" />
+                                    <TextBox x:Name="PART_YearBox"
+                                             MaxLength="4"
+                                             TextAlignment="Center"
+                                             Style="{StaticResource DateInput.SegmentBox}" />
+                                </Grid>
+
+                                <!-- Dash / Slash Divider -->
+                                <TextBlock Grid.Column="3"
+                                           Text="—"
+                                           Foreground="{DynamicResource Brush.InkSubtle}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Opacity="0.6"
+                                           IsHitTestVisible="False" />
+
+                                <!-- Month segment (MM) -->
+                                <Grid Grid.Column="4" VerticalAlignment="Center" Margin="4,0">
+                                    <TextBlock x:Name="PART_MonthPlaceholder"
+                                               Text="{TemplateBinding MonthPlaceholder}"
+                                               Foreground="{DynamicResource Brush.InkSubtle}"
+                                               FontSize="{DynamicResource Text.Sm}"
+                                               FontFamily="{DynamicResource Font.Mono}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               IsHitTestVisible="False" />
+                                    <TextBox x:Name="PART_MonthBox"
+                                             MaxLength="2"
+                                             TextAlignment="Center"
+                                             Style="{StaticResource DateInput.SegmentBox}" />
+                                </Grid>
+
+                                <!-- Dash / Slash Divider -->
+                                <TextBlock Grid.Column="5"
+                                           Text="—"
+                                           Foreground="{DynamicResource Brush.InkSubtle}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Opacity="0.6"
+                                           IsHitTestVisible="False" />
+
+                                <!-- Day segment (DD) -->
+                                <Grid Grid.Column="6" VerticalAlignment="Center" Margin="4,0">
+                                    <TextBlock x:Name="PART_DayPlaceholder"
+                                               Text="{TemplateBinding DayPlaceholder}"
+                                               Foreground="{DynamicResource Brush.InkSubtle}"
+                                               FontSize="{DynamicResource Text.Sm}"
+                                               FontFamily="{DynamicResource Font.Mono}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               IsHitTestVisible="False" />
+                                    <TextBox x:Name="PART_DayBox"
+                                             MaxLength="2"
+                                             TextAlignment="Center"
+                                             Style="{StaticResource DateInput.SegmentBox}" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <!-- Dropdown Popup Calendar -->
+                        <Popup x:Name="PART_Popup"
+                               PlacementTarget="{Binding ElementName=PART_Border}"
+                               Placement="Bottom"
+                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                               StaysOpen="False"
+                               AllowsTransparency="True">
+                            <Border Margin="4,8,4,4">
+                                <Calendar x:Name="PART_Calendar"
+                                          Style="{DynamicResource Calendar.Popup}"
+                                          DisplayMode="Month"
+                                          SelectionMode="SingleDate" />
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Hover state -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource Brush.LineStrong}" />
+                        </Trigger>
+                        <!-- Focus states -->
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource Brush.Primary}" />
+                            <Setter TargetName="FocusRingBorder" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_Border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
