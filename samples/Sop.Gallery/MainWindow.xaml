@@ -403,6 +403,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <ui:Field Grid.Row="0" Grid.Column="0" Margin="0,0,8,16" Label="Drug name" Required="True" Hint="English or Arabic — one is enough">
                             <ui:Input Placeholder="Panadol Extra" />
@@ -428,11 +429,17 @@
                                 </ui:Input.Suffix>
                             </ui:Input>
                         </ui:Field>
-                        <ui:Field Grid.Row="2" Grid.Column="0" Margin="0,0,8,0" Label="Security PIN / Password" Hint="Click eye icon to reveal">
+                        <ui:Field Grid.Row="2" Grid.Column="0" Margin="0,0,8,16" Label="Security PIN / Password" Hint="Click eye icon to reveal">
                             <ui:PasswordInput Placeholder="Enter manager PIN..." />
                         </ui:Field>
-                        <ui:Field Grid.Row="2" Grid.Column="1" Margin="8,0,0,0" Label="License / Device Key">
+                        <ui:Field Grid.Row="2" Grid.Column="1" Margin="8,0,0,16" Label="License / Device Key">
                             <ui:Input Placeholder="LIC-2026-DEV-001" IsReadOnly="True" Text="LIC-2026-DEV-001" />
+                        </ui:Field>
+                        <ui:Field Grid.Row="3" Grid.Column="0" Margin="0,0,8,0" Label="Cashier PIN (4 Digits — Segmented)" Hint="Masked bullets, auto-advances">
+                            <ui:PinInput Length="4" IsMasked="True" />
+                        </ui:Field>
+                        <ui:Field Grid.Row="3" Grid.Column="1" Margin="8,0,0,0" Label="Supervisor OTP (6 Digits — Clear)" Hint="Discrete numeric cells, auto-focus">
+                            <ui:PinInput Length="6" IsMasked="False" />
                         </ui:Field>
                     </Grid>
                 </StackPanel>

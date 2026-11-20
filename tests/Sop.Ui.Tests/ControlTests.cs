@@ -98,6 +98,8 @@ namespace Sop.Ui.Tests
                 new SopsSegmentedProgressBar { Value = 45, Maximum = 100 },
                 new SopsCircularProgressBar { Value = 60, Maximum = 100 },
                 new SopsCircularProgress { Value = 75, Maximum = 100 },
+                new PinInput(),
+                new PinDigitBox(),
                 new MenuItem { Content = "Name" },
                 new MenuSeparator(),
                 new MenuPanel(),

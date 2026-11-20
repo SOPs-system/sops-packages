@@ -1,0 +1,176 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Sop.Ui.Controls"
+    xmlns:root="clr-namespace:Sop.Ui">
+
+    <!-- Individual segmented PIN digit box style -->
+    <Style TargetType="{x:Type ui:PinDigitBox}">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Mono}" />
+        <Setter Property="FontSize" Value="{DynamicResource Text.Lg}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CaretBrush" Value="{DynamicResource Brush.Primary}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Brush.PrimarySoft}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:PinDigitBox}">
+                    <Grid>
+                        <!-- Focus Ring drawn 3px outside -->
+                        <Border x:Name="Ring"
+                                Margin="{DynamicResource Ring.Margin}"
+                                BorderThickness="{DynamicResource Ring.Thickness}"
+                                BorderBrush="{DynamicResource Brush.FocusRing}"
+                                CornerRadius="{DynamicResource Radius.MdRing}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+
+                        <!-- Main digit box with Radius.Md -->
+                        <Border x:Name="Frame"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource Radius.Md}"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Focusable="False"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center" />
+                        </Border>
+
+                        <!-- The focused border fades in over the resting one -->
+                        <Border x:Name="FocusFrame"
+                                BorderBrush="{DynamicResource Brush.Primary}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource Radius.Md}"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource Brush.LineStrong}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="FocusFrame" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="FocusFrame" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <!-- Focus ring in keyboard navigation mode -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="True" />
+                                <Condition Binding="{Binding (root:Theme.KeyboardMode), RelativeSource={RelativeSource Self}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Ring" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiDataTrigger.EnterActions>
+                            <MultiDataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Ring" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiDataTrigger.ExitActions>
+                        </MultiDataTrigger>
+                        <!-- Field invalid state (danger border) -->
+                        <Trigger Property="ui:Field.IsInvalid" Value="True">
+                            <Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource Brush.Danger}" />
+                            <Setter TargetName="FocusFrame" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Ring" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter TargetName="Frame" Property="Background" Value="{DynamicResource Brush.SurfaceSunken}" />
+                            <Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.InkSubtle}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Frame" Property="Background" Value="{DynamicResource Brush.SurfaceSunken}" />
+                            <Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource Brush.Line}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.InkSubtle}" />
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Size" Value="Sm">
+                <Setter Property="Width" Value="36" />
+                <Setter Property="Height" Value="{DynamicResource Size.HitSm}" />
+                <Setter Property="FontSize" Value="{DynamicResource Text.Md}" />
+                <Setter Property="Margin" Value="0,0,6,0" />
+            </Trigger>
+            <Trigger Property="Size" Value="Lg">
+                <Setter Property="Width" Value="52" />
+                <Setter Property="Height" Value="{DynamicResource Size.HitLg}" />
+                <Setter Property="FontSize" Value="{DynamicResource Text.Xl}" />
+                <Setter Property="Margin" Value="0,0,10,0" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Keyed alias for backward compatibility -->
+    <Style x:Key="Sop.Ui.PinDigitBox" TargetType="{x:Type ui:PinDigitBox}" BasedOn="{StaticResource {x:Type ui:PinDigitBox}}" />
+
+    <!-- Default style for PinInput -->
+    <Style TargetType="{x:Type ui:PinInput}">
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:PinInput}">
+                    <StackPanel x:Name="PART_BoxesPanel"
+                                Orientation="Horizontal"
+                                FlowDirection="LeftToRight"
+                                VerticalAlignment="Center" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Size" Value="Sm">
+                <Setter Property="FontSize" Value="{DynamicResource Text.Md}" />
+            </Trigger>
+            <Trigger Property="Size" Value="Lg">
+                <Setter Property="FontSize" Value="{DynamicResource Text.Xl}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.6" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

@@ -45,6 +45,7 @@
         <ResourceDictionary Source="/Sop.Ui;component/Controls/DateInput.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/NumericInput.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/BarcodeInput.xaml" />
+        <ResourceDictionary Source="/Sop.Ui;component/Controls/PinInput.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/EmptyState.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/AsyncLookup.xaml" />
         <ResourceDictionary Source="/Sop.Ui;component/Controls/NumericKeypad.xaml" />
