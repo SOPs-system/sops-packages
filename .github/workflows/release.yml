@@ -1,5 +1,10 @@
 name: Release private NuGet packages
 on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: [main]
+    types:
+      - completed
   workflow_dispatch:
 permissions:
   contents: write
@@ -9,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   plan:
-    if: github.ref == 'refs/heads/main'
+    if: (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
@@ -17,6 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
           fetch-depth: 0
       - id: plan
         run: python3 eng/packages.py plan --github-output "$GITHUB_OUTPUT"
@@ -32,6 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
           fetch-depth: 0
           persist-credentials: true
       - uses: actions/setup-dotnet@v4
@@ -68,10 +75,12 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Tag successful publication
         shell: pwsh
+        env:
+          TARGET_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git tag "${{ matrix.tag }}" "$env:GITHUB_SHA"
+          git tag "${{ matrix.tag }}" "$env:TARGET_SHA"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git push origin "refs/tags/${{ matrix.tag }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -6,7 +6,7 @@ Copy `.github/` and `eng/` into the root of `D:\SOPs-system\sops-packages`.
 
 - **CI:** validates every discovered publishable project and its matching test project on pushes and pull requests.
 - **Security:** weekly and on push/PR, restores with NuGet vulnerability auditing and builds the solution.
-- **Release:** manually triggered on `main`, computes independent versions, builds/tests, packs and publishes each eligible package to private GitHub Packages, then tags the published commit.
+- **Release:** automatically triggered on `main` when CI completes successfully (or manually triggered via `workflow_dispatch`), computes independent versions, builds/tests, packs and publishes each eligible package to private GitHub Packages, then tags the published commit.
 
 ## Discovery
 
